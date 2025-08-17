@@ -1,13 +1,14 @@
 ﻿using CSharpFunctionalExtensions;
 using DirectoryService.Domain.Entities.DepartmentEntity;
 using DirectoryService.Domain.Entities.LocationEntity.ValueObjects;
+using DirectoryService.Domain.Entities.Relationships;
 using TimeZone = DirectoryService.Domain.Entities.LocationEntity.ValueObjects.TimeZone;
 
 namespace DirectoryService.Domain.Entities.LocationEntity;
 
 public class Location
 {
-    private readonly List<Department> _departments = [];
+    private readonly List<DepartmentLocation> _departments = [];
     
     private bool _isActive = true;
     
@@ -28,9 +29,9 @@ public class Location
     public Address Address { get; private set; }
     public TimeZone TimeZone { get; private set; }
     
-    public IReadOnlyList<Department> Departments => _departments;
+    public IReadOnlyList<DepartmentLocation> Departments => _departments;
     
-    public DateTime CreatedAt { get; private set; } = DateTime.Now;
+    public DateTime CreatedAt { get; } = DateTime.Now;
     public DateTime UpdatedAt { get; private set; }
 
     public static Result<Location> Create(

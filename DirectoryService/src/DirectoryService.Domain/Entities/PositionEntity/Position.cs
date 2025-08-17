@@ -1,12 +1,12 @@
 ﻿using CSharpFunctionalExtensions;
-using DirectoryService.Domain.Entities.DepartmentEntity;
 using DirectoryService.Domain.Entities.PositionEntity.ValueObjects;
+using DirectoryService.Domain.Entities.Relationships;
 
 namespace DirectoryService.Domain.Entities.PositionEntity;
 
 public class Position
 {
-    private readonly List<Department> _departments = [];
+    private readonly List<DepartmentPosition> _departments = [];
     
     private bool _isActive = true;
     
@@ -24,9 +24,9 @@ public class Position
     public PositionName Name { get; private set; }
     public string? Description { get; private set; }
     
-    public IReadOnlyList<Department> Departments => _departments;
+    public IReadOnlyList<DepartmentPosition> Departments => _departments;
     
-    public DateTime CreatedAt { get; private set; } = DateTime.Now;
+    public DateTime CreatedAt { get; } = DateTime.Now;
     public DateTime UpdatedAt { get; private set; }
 
     public static Result<Position> Create(

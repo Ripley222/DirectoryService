@@ -2,14 +2,16 @@
 using DirectoryService.Domain.Entities.DepartmentEntity.ValueObjects;
 using DirectoryService.Domain.Entities.LocationEntity;
 using DirectoryService.Domain.Entities.PositionEntity;
+using DirectoryService.Domain.Entities.Relationships;
 using Path = DirectoryService.Domain.Entities.DepartmentEntity.ValueObjects.Path;
 
 namespace DirectoryService.Domain.Entities.DepartmentEntity;
 
 public class Department
 {
-    private readonly List<Location> _locations = [];
-    private readonly List<Position> _positions = [];
+    private readonly List<Department> _departments = [];
+    private readonly List<DepartmentLocation> _locations = [];
+    private readonly List<DepartmentPosition> _positions = [];
     
     private bool _isActive = true;
     
@@ -36,10 +38,11 @@ public class Department
     public Path Path { get; private set; }
     public short Depth { get; private set; }
     
-    public IReadOnlyList<Location> Locations => _locations;
-    public IReadOnlyList<Position> Positions => _positions;
+    public IReadOnlyList<Department> Departments => _departments;
+    public IReadOnlyList<DepartmentLocation> Locations => _locations;
+    public IReadOnlyList<DepartmentPosition> Positions => _positions;
     
-    public DateTime CreatedAt { get; private set; } = DateTime.Now;
+    public DateTime CreatedAt { get; } = DateTime.Now;
     public DateTime UpdatedAt { get; private set; }
 
     public static Result<Department> Create(
