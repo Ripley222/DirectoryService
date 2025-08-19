@@ -1,13 +1,30 @@
-﻿namespace DirectoryService.Domain.Entities.Relationships;
+﻿using DirectoryService.Domain.Entities.DepartmentEntity;
+using DirectoryService.Domain.Entities.Ids;
+using DirectoryService.Domain.Entities.PositionEntity;
+
+namespace DirectoryService.Domain.Entities.Relationships;
 
 public class DepartmentPosition
 {
-    public DepartmentPosition(Guid departmentId, Guid positionId)
+    //ef core ctor
+    private DepartmentPosition()
+    {
+    }
+    
+    public DepartmentPosition(
+        DepartmentId departmentId, 
+        PositionId positionId,
+        Department department,
+        Position position)
     {
         DepartmentId = departmentId;
         PositionId = positionId;
+        Department = department;
+        Position = position;
     }
     
-    public Guid DepartmentId { get; private set; }
-    public Guid PositionId { get; private set; }
+    public DepartmentId DepartmentId { get; private set; }
+    public PositionId PositionId { get; private set; }
+    public Department Department { get; private set; }
+    public Position Position { get; private set; }
 }

@@ -1,44 +1,51 @@
 ﻿using CSharpFunctionalExtensions;
 using DirectoryService.Domain.Entities.DepartmentEntity.ValueObjects;
-using DirectoryService.Domain.Entities.LocationEntity;
-using DirectoryService.Domain.Entities.PositionEntity;
+using DirectoryService.Domain.Entities.Ids;
 using DirectoryService.Domain.Entities.Relationships;
+using DirectoryService.Domain.Shared;
 using Path = DirectoryService.Domain.Entities.DepartmentEntity.ValueObjects.Path;
 
 namespace DirectoryService.Domain.Entities.DepartmentEntity;
 
 public class Department
 {
-    private readonly List<Department> _departments = [];
+    private readonly List<Department> _childDepartments = [];
     private readonly List<DepartmentLocation> _locations = [];
     private readonly List<DepartmentPosition> _positions = [];
     
     private bool _isActive = true;
+
+    //ef core ctor
+    private Department()
+    {
+    }
     
     private Department(
-        Guid id, 
+        DepartmentId id, 
         DepartmentName departmentName, 
         Identifier identifier, 
-        Guid? parentId, 
+        Department? parent,
         Path path, 
         short depth)
     {
         Id = id;
         DepartmentName = departmentName;
         Identifier = identifier;
-        ParentId = parentId;
+        ParentId = parent?.ParentId;
+        Parent = parent;
         Path = path;
         Depth = depth;
     }
     
-    public Guid Id { get; }
+    public DepartmentId Id { get; }
     public DepartmentName DepartmentName { get; private set; }
     public Identifier Identifier { get; private set; }
-    public Guid? ParentId  { get; private set; }
+    public DepartmentId? ParentId  { get; private set; }
+    public Department? Parent { get; private set; }
     public Path Path { get; private set; }
     public short Depth { get; private set; }
     
-    public IReadOnlyList<Department> Departments => _departments;
+    public IReadOnlyList<Department> ChildDepartments => _childDepartments;
     public IReadOnlyList<DepartmentLocation> Locations => _locations;
     public IReadOnlyList<DepartmentPosition> Positions => _positions;
     
@@ -46,21 +53,21 @@ public class Department
     public DateTime UpdatedAt { get; private set; }
 
     public static Result<Department> Create(
-        Guid id,
+        DepartmentId id,
         DepartmentName departmentName,
-        Identifier identifier,
-        Guid? parentId,
+        Identifier identifier, 
+        Department? parent,
         Path path,
         short depth)
     {
-        if (depth < 0)
-            return Result.Failure<Department>("Invalid depth");
+        if (depth < LengthConstants.Length0)
+            return Result.Failure<Department>("The depth should not be less than 0");
         
         return new Department(
             id,
             departmentName,
             identifier,
-            parentId,
+            parent,
             path,
             depth);
     }
