@@ -1,5 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using DirectoryService.Domain.Entities.DepartmentEntity;
+using DirectoryService.Domain.Entities.Ids;
 using DirectoryService.Domain.Entities.LocationEntity.ValueObjects;
 using DirectoryService.Domain.Entities.Relationships;
 using TimeZone = DirectoryService.Domain.Entities.LocationEntity.ValueObjects.TimeZone;
@@ -11,21 +12,26 @@ public class Location
     private readonly List<DepartmentLocation> _departments = [];
     
     private bool _isActive = true;
+
+    //ef core ctor
+    private Location()
+    {
+    }
     
     private Location(
-        Guid id, 
-        LocationName name, 
+        LocationId id, 
+        LocationName locationName, 
         Address address, 
         TimeZone timeZone)
     {
         Id = id;
-        Name = name;
+        LocationName = locationName;
         Address = address;
         TimeZone = timeZone;
     }
     
-    public Guid Id { get; }
-    public LocationName Name { get; private set; }
+    public LocationId Id { get; }
+    public LocationName LocationName { get; private set; }
     public Address Address { get; private set; }
     public TimeZone TimeZone { get; private set; }
     
@@ -35,7 +41,7 @@ public class Location
     public DateTime UpdatedAt { get; private set; }
 
     public static Result<Location> Create(
-        Guid id,
+        LocationId id,
         LocationName name,
         Address address,
         TimeZone timeZone)

@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using DirectoryService.Domain.Shared;
 
 namespace DirectoryService.Domain.Entities.DepartmentEntity.ValueObjects;
 
@@ -16,7 +17,7 @@ public record DepartmentName
         if (string.IsNullOrWhiteSpace(value))
             return Result.Failure<DepartmentName>("DepartmentName is required");
         
-        if (value.Length < 3 || value.Length > 150)
+        if (value.Length < LengthConstants.Length3 || value.Length > LengthConstants.Length150)
             return Result.Failure<DepartmentName>("DepartmentName must be between 3 and 150 characters");
         
         return new DepartmentName(value);

@@ -1,6 +1,8 @@
 ﻿using CSharpFunctionalExtensions;
+using DirectoryService.Domain.Entities.Ids;
 using DirectoryService.Domain.Entities.PositionEntity.ValueObjects;
 using DirectoryService.Domain.Entities.Relationships;
+using DirectoryService.Domain.Shared;
 
 namespace DirectoryService.Domain.Entities.PositionEntity;
 
@@ -9,19 +11,24 @@ public class Position
     private readonly List<DepartmentPosition> _departments = [];
     
     private bool _isActive = true;
+
+    //ef core ctor
+    public Position()
+    {
+    }
     
     private Position(
-        Guid id, 
-        PositionName name, 
+        PositionId id, 
+        PositionName positionName, 
         string? description)
     {
         Id = id;
-        Name = name;
+        PositionName = positionName;
         Description = description;
     }
     
-    public Guid Id { get; }
-    public PositionName Name { get; private set; }
+    public PositionId Id { get; }
+    public PositionName PositionName { get; private set; }
     public string? Description { get; private set; }
     
     public IReadOnlyList<DepartmentPosition> Departments => _departments;
@@ -30,11 +37,11 @@ public class Position
     public DateTime UpdatedAt { get; private set; }
 
     public static Result<Position> Create(
-        Guid id,
+        PositionId id,
         PositionName name,
         string? description)
     {
-        if (description is not null && description.Length > 1000)
+        if (description is not null && description.Length > LengthConstants.Length1000)
             return Result.Failure<Position>("Description must be 1000 characters");
         
         return new Position(id, name, description);
