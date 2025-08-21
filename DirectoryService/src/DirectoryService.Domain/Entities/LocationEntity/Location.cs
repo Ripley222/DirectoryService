@@ -37,7 +37,7 @@ public class Location
     
     public IReadOnlyList<DepartmentLocation> Departments => _departments;
     
-    public DateTime CreatedAt { get; } = DateTime.Now;
+    public DateTime CreatedAt { get; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; private set; }
 
     public static Result<Location> Create(
