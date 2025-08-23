@@ -23,6 +23,7 @@ public class DirectoryServiceDbContext(IConfiguration configuration) : DbContext
         optionsBuilder.UseNpgsql(configuration.GetConnectionString(DATABASE));
         
         optionsBuilder.EnableSensitiveDataLogging();
+        optionsBuilder.EnableDetailedErrors();
         optionsBuilder.UseLoggerFactory(CreateLoggerFactory());
     }
 
