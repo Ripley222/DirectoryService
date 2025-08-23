@@ -17,9 +17,9 @@ public class LocationsRepositoryDapper(NpgsqlConnectionFactory connectionFactory
         try
         {
             const string sql = """
-                                INSERT INTO locations (id, name,city, house,street, room_number, time_zone, 
-                                                       created_at,updated_at, is_active)
-                                VALUES (@Id,@Name, @City, @House, @Street, @RoomNumber, @Timezone, 
+                                INSERT INTO locations (id, name, city, house, street, room_number, time_zone, 
+                                                       created_at, updated_at, is_active)
+                                VALUES (@Id, @Name, @City, @House, @Street, @RoomNumber, @Timezone, 
                                         @CreatedAt, @UpdatedAt, @IsActive)
                                """;
         
