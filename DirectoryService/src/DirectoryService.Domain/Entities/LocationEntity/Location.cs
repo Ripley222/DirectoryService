@@ -3,6 +3,7 @@ using DirectoryService.Domain.Entities.DepartmentEntity;
 using DirectoryService.Domain.Entities.Ids;
 using DirectoryService.Domain.Entities.LocationEntity.ValueObjects;
 using DirectoryService.Domain.Entities.Relationships;
+using DirectoryService.Domain.Shared;
 using TimeZone = DirectoryService.Domain.Entities.LocationEntity.ValueObjects.TimeZone;
 
 namespace DirectoryService.Domain.Entities.LocationEntity;
@@ -18,7 +19,7 @@ public class Location
     {
     }
     
-    private Location(
+    public Location(
         LocationId id, 
         LocationName locationName, 
         Address address, 
@@ -39,13 +40,4 @@ public class Location
     
     public DateTime CreatedAt { get; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; private set; }
-
-    public static Result<Location> Create(
-        LocationId id,
-        LocationName name,
-        Address address,
-        TimeZone timeZone)
-    {
-        return new Location(id, name, address, timeZone);
-    }
 }

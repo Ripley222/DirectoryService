@@ -52,7 +52,7 @@ public class Department
     public DateTime CreatedAt { get; } = DateTime.Now;
     public DateTime UpdatedAt { get; private set; }
 
-    public static Result<Department> Create(
+    public static Result<Department, Errors> Create(
         DepartmentId id,
         DepartmentName departmentName,
         Identifier identifier, 
@@ -61,7 +61,7 @@ public class Department
         short depth)
     {
         if (depth < LengthConstants.Length0)
-            return Result.Failure<Department>("The depth should not be less than 0");
+            return GeneralErrors.ValueIsInvalid("depth").ToErrors();
         
         return new Department(
             id,

@@ -1,5 +1,7 @@
 ﻿using DirectoryService.Application.LocationFeatures.Add;
+using DirectoryService.Presentation.Extensions;
 using DirectoryService.Presentation.Requests.Locations;
+using DirectoryService.Presentation.Response;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DirectoryService.Presentation.Controllers;
@@ -9,7 +11,7 @@ namespace DirectoryService.Presentation.Controllers;
 public class LocationsController : ControllerBase
 {
     [HttpPost]
-    public async Task<IActionResult> Add(
+    public async Task<ActionResult> Create(
         [FromBody] AddLocationsRequest request,
         [FromServices] CreateLocationsHandler handler)
     {
@@ -23,8 +25,10 @@ public class LocationsController : ControllerBase
         
         var result = await handler.Handle(command);
         if (result.IsFailure)
-            return BadRequest(result.Error);
+            return result.Error.ToResponse();
+
+        var envelope = Envelope.Ok(result.Value);
         
-        return Ok(result.Value);
+        return Ok(envelope);
     }
 }

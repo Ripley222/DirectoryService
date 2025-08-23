@@ -12,13 +12,13 @@ public record LocationName
         Value = value;
     }
 
-    public static Result<LocationName> Create(string value)
+    public static Result<LocationName, Errors> Create(string value)
     {
         if (string.IsNullOrWhiteSpace(value))
-            return Result.Failure<LocationName>("Location name cannot be empty");
+            return GeneralErrors.ValueIsRequired("LocationName").ToErrors();
         
         if (value.Length < LengthConstants.Length3 ||  value.Length > LengthConstants.Length120)
-            return Result.Failure<LocationName>("Location name must be between 3 and 120 characters");
+            return GeneralErrors.ValueIsInvalid("LocationName").ToErrors();
 
         return new LocationName(value);
     }

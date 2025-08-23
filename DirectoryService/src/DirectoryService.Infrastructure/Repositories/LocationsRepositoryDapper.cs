@@ -2,13 +2,14 @@
 using Dapper;
 using DirectoryService.Application.Repositories;
 using DirectoryService.Domain.Entities.LocationEntity;
+using DirectoryService.Domain.Shared;
 using DirectoryService.Infrastructure.Database;
 
 namespace DirectoryService.Infrastructure.Repositories;
 
 public class LocationsRepositoryDapper(NpgsqlConnectionFactory connectionFactory) : ILocationsRepository
 {
-    public async Task<Result<Guid, string>> Add(Location location, CancellationToken cancellationToken)
+    public async Task<Result<Guid, Errors>> Add(Location location, CancellationToken cancellationToken)
     {
         using var connection = await connectionFactory.CreateConnectionAsync(cancellationToken);
 
@@ -17,9 +18,9 @@ public class LocationsRepositoryDapper(NpgsqlConnectionFactory connectionFactory
         try
         {
             const string sql = """
-                                INSERT INTO locations (id, name,city, house,street, room_number, time_zone, 
-                                                       created_at,updated_at, is_active)
-                                VALUES (@Id,@Name, @City, @House, @Street, @RoomNumber, @Timezone, 
+                                INSERT INTO locations (id, name, city, house, street, room_number, time_zone, 
+                                                       created_at, updated_at, is_active)
+                                VALUES (@Id, @Name, @City, @House, @Street, @RoomNumber, @Timezone, 
                                         @CreatedAt, @UpdatedAt, @IsActive)
                                """;
         
@@ -48,7 +49,7 @@ public class LocationsRepositoryDapper(NpgsqlConnectionFactory connectionFactory
         {
             transaction.Rollback();
 
-            return "Error sql insert dapper";
+            return Error.Failure("location.create", "Failed to add location").ToErrors();
         }
     }
 }

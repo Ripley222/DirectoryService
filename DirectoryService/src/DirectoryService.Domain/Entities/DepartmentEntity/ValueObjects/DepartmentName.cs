@@ -12,13 +12,13 @@ public record DepartmentName
         Value = value;
     }
 
-    public static Result<DepartmentName> Create(string value)
+    public static Result<DepartmentName, Errors> Create(string value)
     {
         if (string.IsNullOrWhiteSpace(value))
-            return Result.Failure<DepartmentName>("DepartmentName is required");
+            return GeneralErrors.ValueIsRequired("DepartmentName").ToErrors();
         
         if (value.Length < LengthConstants.Length3 || value.Length > LengthConstants.Length150)
-            return Result.Failure<DepartmentName>("DepartmentName must be between 3 and 150 characters");
+            return GeneralErrors.ValueIsInvalid("DepartmentName").ToErrors();
         
         return new DepartmentName(value);
     }

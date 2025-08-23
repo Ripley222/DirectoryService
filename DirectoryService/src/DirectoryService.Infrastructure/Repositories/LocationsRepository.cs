@@ -1,12 +1,13 @@
 ﻿using CSharpFunctionalExtensions;
 using DirectoryService.Application.Repositories;
 using DirectoryService.Domain.Entities.LocationEntity;
+using DirectoryService.Domain.Shared;
 
 namespace DirectoryService.Infrastructure.Repositories;
 
 public class LocationsRepository(DirectoryServiceDbContext dbContext) : ILocationsRepository
 {
-    public async Task<Result<Guid, string>> Add(Location location, CancellationToken cancellationToken)
+    public async Task<Result<Guid, Errors>> Add(Location location, CancellationToken cancellationToken)
     {
         try
         {
@@ -18,7 +19,7 @@ public class LocationsRepository(DirectoryServiceDbContext dbContext) : ILocatio
         }
         catch (Exception ex)
         {
-            return "Error sql insert ef core";
+            return Error.Failure("location.create", "Failed to add location").ToErrors();
         }
     }
 }

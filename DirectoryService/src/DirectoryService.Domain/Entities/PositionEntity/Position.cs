@@ -36,13 +36,13 @@ public class Position
     public DateTime CreatedAt { get; } = DateTime.Now;
     public DateTime UpdatedAt { get; private set; }
 
-    public static Result<Position> Create(
+    public static Result<Position, Errors> Create(
         PositionId id,
         PositionName name,
         string? description)
     {
         if (description is not null && description.Length > LengthConstants.Length1000)
-            return Result.Failure<Position>("Description must be 1000 characters");
+            return GeneralErrors.ValueIsInvalid("description").ToErrors();
         
         return new Position(id, name, description);
     }
