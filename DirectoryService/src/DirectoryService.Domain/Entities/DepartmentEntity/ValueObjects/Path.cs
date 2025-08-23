@@ -1,5 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using CSharpFunctionalExtensions;
+using DirectoryService.Domain.Shared;
 
 namespace DirectoryService.Domain.Entities.DepartmentEntity.ValueObjects;
 
@@ -14,10 +15,10 @@ public record Path
         Value = value;
     }
 
-    public static Result<Path> Create(string value)
+    public static Result<Path, Errors> Create(string value)
     {
         if (DenormalizedPath.IsMatch(value) is false)
-            return Result.Failure<Path>("Invalid path");
+            return GeneralErrors.ValueIsInvalid(value).ToErrors();
 
         return new Path(value);
     }

@@ -15,16 +15,16 @@ public record Identifier
         Value = value;
     }
 
-    public static Result<Identifier> Create(string value)
+    public static Result<Identifier, Errors> Create(string value)
     {
         if (string.IsNullOrWhiteSpace(value))
-            return Result.Failure<Identifier>("Identifier is required");
+            return GeneralErrors.ValueIsRequired("Identifier").ToErrors();
         
         if (value.Length < LengthConstants.Length3 || value.Length > LengthConstants.Length150)
-            return Result.Failure<Identifier>("Identifier must be between 3 and 150 characters");
+            return GeneralErrors.ValueIsInvalid("Identifier").ToErrors();
 
         if (LatinOnlyRegex.IsMatch(value) is false)
-            return Result.Failure<Identifier>("Identifier must be only latin");
+            return GeneralErrors.ValueIsInvalid("Identifier").ToErrors();
 
         return new Identifier(value);
     }

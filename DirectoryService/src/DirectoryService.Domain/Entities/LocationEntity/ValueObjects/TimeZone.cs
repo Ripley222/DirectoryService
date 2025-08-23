@@ -1,5 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using CSharpFunctionalExtensions;
+using DirectoryService.Domain.Shared;
 
 namespace DirectoryService.Domain.Entities.LocationEntity.ValueObjects;
 
@@ -15,10 +16,10 @@ public record TimeZone
         Value = value;
     }
 
-    public static Result<TimeZone> Create(string value)
+    public static Result<TimeZone, Errors> Create(string value)
     {
         if (TimeZoneRegex.IsMatch(value) is false)
-            return Result.Failure<TimeZone>("Invalid timezone format");
+            return GeneralErrors.ValueIsInvalid("LocationName").ToErrors();
         
         return new TimeZone(value);
     }
