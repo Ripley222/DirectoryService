@@ -27,6 +27,8 @@ public class CreateLocationsHandler(
             timeZone.Value);
 
         var result = await repository.Add(location, cancellationToken);
+        if (result.IsFailure)
+            return result.Error;
 
         return result.Value;
     }
