@@ -4,12 +4,14 @@ using DirectoryService.Domain.Entities.Ids;
 using DirectoryService.Domain.Entities.LocationEntity;
 using DirectoryService.Domain.Entities.LocationEntity.ValueObjects;
 using DirectoryService.Domain.Shared;
+using Microsoft.Extensions.Logging;
 using TimeZone = DirectoryService.Domain.Entities.LocationEntity.ValueObjects.TimeZone;
 
 namespace DirectoryService.Application.LocationFeatures.Add;
 
 public class CreateLocationsHandler(
-    ILocationsRepository repository)
+    ILocationsRepository repository,
+    ILogger<CreateLocationsHandler> logger)
 {
     public async Task<Result<Guid, Errors>> Handle(
         CreateLocationsCommand command,
@@ -30,6 +32,8 @@ public class CreateLocationsHandler(
         if (result.IsFailure)
             return result.Error;
 
+        logger.LogInformation("Created Location with id {id}", locationId.Value);
+        
         return result.Value;
     }
 }
