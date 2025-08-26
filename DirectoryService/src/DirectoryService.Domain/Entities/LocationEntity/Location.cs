@@ -1,9 +1,6 @@
-﻿using CSharpFunctionalExtensions;
-using DirectoryService.Domain.Entities.DepartmentEntity;
-using DirectoryService.Domain.Entities.Ids;
+﻿using DirectoryService.Domain.Entities.Ids;
 using DirectoryService.Domain.Entities.LocationEntity.ValueObjects;
 using DirectoryService.Domain.Entities.Relationships;
-using DirectoryService.Domain.Shared;
 using TimeZone = DirectoryService.Domain.Entities.LocationEntity.ValueObjects.TimeZone;
 
 namespace DirectoryService.Domain.Entities.LocationEntity;
