@@ -1,6 +1,6 @@
 services:
     postgres:
-        container_name: postgresql
+        container_name: ds_postgres
         image: postgres
         restart: always
         environment:
@@ -11,6 +11,16 @@ services:
             - 5434:5432
         volumes:
             - postgres-data:/var/lib/postgresql/data
+    seq:
+        image: datalust/seq:latest
+        container_name: ds_seq
+        restart: always
+        environment:
+            - ACCEPT_EULA=Y
+            - SEQ_FIRSTRUN_ADMINPASSWORD=12345
+        ports:
+            - 5341:80
+            - 5342:5341
 
 volumes:
     postgres-data:

@@ -4,10 +4,13 @@ using DirectoryService.Application.Repositories;
 using DirectoryService.Domain.Entities.LocationEntity;
 using DirectoryService.Domain.Shared;
 using DirectoryService.Infrastructure.Database;
+using Microsoft.Extensions.Logging;
 
 namespace DirectoryService.Infrastructure.Repositories;
 
-public class LocationsRepositoryDapper(NpgsqlConnectionFactory connectionFactory) : ILocationsRepository
+public class LocationsRepositoryDapper(
+    NpgsqlConnectionFactory connectionFactory,
+    ILogger<LocationsRepositoryDapper> logger) : ILocationsRepository
 {
     public async Task<Result<Guid, Errors>> Add(Location location, CancellationToken cancellationToken)
     {
@@ -47,6 +50,8 @@ public class LocationsRepositoryDapper(NpgsqlConnectionFactory connectionFactory
         }
         catch (Exception ex)
         {
+            logger.LogError(ex, "Error adding location");
+            
             transaction.Rollback();
 
             return Error.Failure("location.create", "Failed to add location").ToErrors();
