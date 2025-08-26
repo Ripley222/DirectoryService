@@ -10,7 +10,7 @@ public class LocationsRepository(
     DirectoryServiceDbContext dbContext,
     ILogger<LocationsRepository> logger) : ILocationsRepository
 {
-    public async Task<Result<Guid, Errors>> Add(Location location, CancellationToken cancellationToken)
+    public async Task<Result<Guid, Error>> Add(Location location, CancellationToken cancellationToken)
     {
         try
         {
@@ -24,7 +24,7 @@ public class LocationsRepository(
         {
             logger.LogError(ex, "Error adding location");
             
-            return Error.Failure("location.create", "Failed to add location").ToErrors();
+            return Error.Failure("location.create", "Failed to add location");
         }
     }
 }

@@ -12,13 +12,13 @@ public record LocationName
         Value = value;
     }
 
-    public static Result<LocationName, Errors> Create(string value)
+    public static Result<LocationName, Error> Create(string value)
     {
         if (string.IsNullOrWhiteSpace(value))
-            return GeneralErrors.ValueIsRequired("LocationName").ToErrors();
-        
-        if (value.Length < LengthConstants.Length3 ||  value.Length > LengthConstants.Length120)
-            return GeneralErrors.ValueIsInvalid("LocationName").ToErrors();
+            return GeneralErrors.ValueIsRequired("LocationName");
+
+        if (value.Length < LengthConstants.Length3 || value.Length > LengthConstants.Length120)
+            return GeneralErrors.ValueIsInvalid("LocationName");
 
         return new LocationName(value);
     }

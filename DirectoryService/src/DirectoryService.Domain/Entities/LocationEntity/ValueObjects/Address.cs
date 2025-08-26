@@ -18,20 +18,20 @@ public record Address
         RoomNumber = roomNumber;
     }
 
-    public static Result<Address, Errors> Create(
+    public static Result<Address, Error> Create(
         string city,
         string street, 
         string house, 
         string roomNumber)
     {
         if (string.IsNullOrWhiteSpace(city))
-            return GeneralErrors.ValueIsRequired("City").ToErrors();
+            return GeneralErrors.ValueIsRequired("City");
         
         if (string.IsNullOrWhiteSpace(street))
-            return GeneralErrors.ValueIsRequired("Street").ToErrors();
+            return GeneralErrors.ValueIsRequired("Street");
         
         if (string.IsNullOrWhiteSpace(house))
-            return GeneralErrors.ValueIsRequired("House").ToErrors();
+            return GeneralErrors.ValueIsRequired("House");
 
         return new Address(city, street, house, roomNumber);
     }

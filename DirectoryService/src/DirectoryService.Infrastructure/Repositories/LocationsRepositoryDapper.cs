@@ -12,7 +12,7 @@ public class LocationsRepositoryDapper(
     NpgsqlConnectionFactory connectionFactory,
     ILogger<LocationsRepositoryDapper> logger) : ILocationsRepository
 {
-    public async Task<Result<Guid, Errors>> Add(Location location, CancellationToken cancellationToken)
+    public async Task<Result<Guid, Error>> Add(Location location, CancellationToken cancellationToken)
     {
         using var connection = await connectionFactory.CreateConnectionAsync(cancellationToken);
 
@@ -54,7 +54,7 @@ public class LocationsRepositoryDapper(
             
             transaction.Rollback();
 
-            return Error.Failure("location.create", "Failed to add location").ToErrors();
+            return Error.Failure("location.create", "Failed to add location");
         }
     }
 }

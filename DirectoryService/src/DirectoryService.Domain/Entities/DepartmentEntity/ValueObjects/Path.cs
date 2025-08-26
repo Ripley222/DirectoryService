@@ -15,10 +15,10 @@ public record Path
         Value = value;
     }
 
-    public static Result<Path, Errors> Create(string value)
+    public static Result<Path, Error> Create(string value)
     {
         if (DenormalizedPath.IsMatch(value) is false)
-            return GeneralErrors.ValueIsInvalid(value).ToErrors();
+            return GeneralErrors.ValueIsInvalid(value);
 
         return new Path(value);
     }
