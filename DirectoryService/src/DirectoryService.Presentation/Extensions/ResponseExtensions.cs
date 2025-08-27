@@ -6,9 +6,9 @@ namespace DirectoryService.Presentation.Extensions;
 
 public static class ResponseExtensions
 {
-    public static ActionResult ToResponse(this Errors errors)
+    public static ActionResult ToResponse(this ErrorList errorList)
     {
-        if (!errors.Any())
+        if (!errorList.Any())
         {
             return new ObjectResult(null)
             {
@@ -16,7 +16,7 @@ public static class ResponseExtensions
             };
         }
         
-        var distinctErrorTypes = errors
+        var distinctErrorTypes = errorList
             .Select(e => e.ErrorType)
             .Distinct()
             .ToList();
@@ -25,7 +25,7 @@ public static class ResponseExtensions
             ? StatusCodes.Status500InternalServerError
             : GetStatusCode(distinctErrorTypes.First());
 
-        var envelope = Envelope.Error(errors);
+        var envelope = Envelope.Error(errorList);
 
         return new ObjectResult(envelope)
         {

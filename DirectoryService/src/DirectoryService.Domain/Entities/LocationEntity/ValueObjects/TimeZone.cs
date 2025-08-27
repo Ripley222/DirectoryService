@@ -16,10 +16,10 @@ public record TimeZone
         Value = value;
     }
 
-    public static Result<TimeZone, Errors> Create(string value)
+    public static Result<TimeZone, Error> Create(string value)
     {
         if (TimeZoneRegex.IsMatch(value) is false)
-            return GeneralErrors.ValueIsInvalid("LocationName").ToErrors();
+            return Errors.General.ValueIsInvalid("TimeZone");
         
         return new TimeZone(value);
     }

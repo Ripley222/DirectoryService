@@ -9,10 +9,11 @@ public static class Inject
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services)
     {
-        //services.AddScoped<DirectoryServiceDbContext>();
-        services.AddSingleton<NpgsqlConnectionFactory>();
-        //services.AddScoped<ILocationsRepository, LocationsRepository>();
-        services.AddSingleton<ILocationsRepository, LocationsRepositoryDapper>();
+        services.AddScoped<DirectoryServiceDbContext>();
+        services.AddScoped<ILocationsRepository, LocationsRepository>();
+        
+        /*services.AddSingleton<NpgsqlConnectionFactory>();
+        services.AddSingleton<ILocationsRepository, LocationsRepositoryDapper>();*/
         
         return services;
     }

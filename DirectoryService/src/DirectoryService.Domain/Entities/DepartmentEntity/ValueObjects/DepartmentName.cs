@@ -12,13 +12,13 @@ public record DepartmentName
         Value = value;
     }
 
-    public static Result<DepartmentName, Errors> Create(string value)
+    public static Result<DepartmentName, Error> Create(string value)
     {
         if (string.IsNullOrWhiteSpace(value))
-            return GeneralErrors.ValueIsRequired("DepartmentName").ToErrors();
+            return Errors.General.ValueIsRequired("DepartmentName");
         
         if (value.Length < LengthConstants.Length3 || value.Length > LengthConstants.Length150)
-            return GeneralErrors.ValueIsInvalid("DepartmentName").ToErrors();
+            return Errors.General.ValueIsInvalid("DepartmentName");
         
         return new DepartmentName(value);
     }

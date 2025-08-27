@@ -45,6 +45,7 @@ CodeCoverage/
 *.binlog
 
 # Rider/Resharper user-specific settings
+.idea/
 *.DotSettings.user
 *.rej
 

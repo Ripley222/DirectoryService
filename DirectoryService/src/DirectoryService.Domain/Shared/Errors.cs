@@ -1,24 +1,38 @@
-using System.Collections;
+﻿namespace DirectoryService.Domain.Shared;
 
-namespace DirectoryService.Domain.Shared;
-
-public class Errors(IEnumerable<Error> errorsList) : IEnumerable<Error>
+public static class Errors
 {
-    private readonly List<Error> _errorsList = errorsList.ToList();
-
-    public IEnumerator<Error> GetEnumerator()
+    public static class General
     {
-        return _errorsList.GetEnumerator();
+        public static Error ValueIsInvalid(string? name = null)
+        {
+            var label = name == null ? "value " : $"{name} ";
+            return Error.Validation("value.is.invalid", $"{label}is invalid", name);
+        } 
+          
+        public static Error NotFound(Guid? id = null)
+        {
+            var forId = id == null ? "" : $" for id '{id}'";
+            return Error.Validation("record.not.found", $"record not found{forId}");
+        } 
+          
+        public static Error ValueIsRequired(string? name = null)
+        {
+            var label = name == null ? "value " : $"{name} ";
+            return Error.Validation("value.is.required", $"{label}is required", name);
+        }
     }
 
-    IEnumerator IEnumerable.GetEnumerator()
+    public static class Location
     {
-        return GetEnumerator();
+        public static Error NotFound()
+        {
+            return Error.Validation("record.not.found", $"Location not found");
+        }
+
+        public static Error AlreadyExist()
+        {
+            return Error.Validation("record.already.exist", "Location already exist");
+        }
     }
-
-    public static implicit operator Errors(List<Error> errorsList)
-        => new(errorsList);
-
-    public static implicit operator Errors(Error error)
-        => new([error]);
 }

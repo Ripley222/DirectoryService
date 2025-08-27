@@ -1,4 +1,4 @@
-﻿using DirectoryService.Application.LocationFeatures.Add;
+﻿using DirectoryService.Application.LocationFeatures.Create;
 using DirectoryService.Presentation.Extensions;
 using DirectoryService.Presentation.Requests.Locations;
 using DirectoryService.Presentation.Response;

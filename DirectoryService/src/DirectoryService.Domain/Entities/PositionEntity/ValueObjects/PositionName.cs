@@ -12,13 +12,13 @@ public class PositionName
         Value = value;
     }
 
-    public static Result<PositionName, Errors> Create(string value)
+    public static Result<PositionName, Error> Create(string value)
     {
         if (string.IsNullOrWhiteSpace(value))
-            return GeneralErrors.ValueIsRequired("PositionName").ToErrors();
+            return Errors.General.ValueIsRequired("PositionName");
         
         if (value.Length < LengthConstants.Length3 ||  value.Length > LengthConstants.Length100)
-            return GeneralErrors.ValueIsInvalid("LocationName").ToErrors();
+            return Errors.General.ValueIsInvalid("LocationName");
 
         return new PositionName(value);
     }
