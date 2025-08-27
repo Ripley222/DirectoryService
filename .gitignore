@@ -45,8 +45,7 @@ CodeCoverage/
 *.binlog
 
 # Rider/Resharper user-specific settings
-*.DotSettings.user
-*.rej
+.idea/
 
 # MSTest test Results
 [Tt]est[Rr]esult*/
