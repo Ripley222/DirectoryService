@@ -61,7 +61,7 @@ public class Department
         short depth)
     {
         if (depth < LengthConstants.Length0)
-            return GeneralErrors.ValueIsInvalid("depth");
+            return Errors.General.ValueIsInvalid("depth");
         
         return new Department(
             id,

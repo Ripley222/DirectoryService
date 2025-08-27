@@ -18,7 +18,7 @@ public record Path
     public static Result<Path, Error> Create(string value)
     {
         if (DenormalizedPath.IsMatch(value) is false)
-            return GeneralErrors.ValueIsInvalid(value);
+            return Errors.General.ValueIsInvalid(value);
 
         return new Path(value);
     }

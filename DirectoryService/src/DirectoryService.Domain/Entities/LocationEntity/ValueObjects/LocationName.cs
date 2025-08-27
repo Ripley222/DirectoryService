@@ -15,10 +15,10 @@ public record LocationName
     public static Result<LocationName, Error> Create(string value)
     {
         if (string.IsNullOrWhiteSpace(value))
-            return GeneralErrors.ValueIsRequired("LocationName");
+            return Errors.General.ValueIsRequired("LocationName");
 
         if (value.Length < LengthConstants.Length3 || value.Length > LengthConstants.Length120)
-            return GeneralErrors.ValueIsInvalid("LocationName");
+            return Errors.General.ValueIsInvalid("LocationName");
 
         return new LocationName(value);
     }

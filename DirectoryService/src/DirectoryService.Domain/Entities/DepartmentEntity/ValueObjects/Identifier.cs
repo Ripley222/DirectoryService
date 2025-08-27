@@ -18,13 +18,13 @@ public record Identifier
     public static Result<Identifier, Error> Create(string value)
     {
         if (string.IsNullOrWhiteSpace(value))
-            return GeneralErrors.ValueIsRequired("Identifier");
+            return Errors.General.ValueIsRequired("Identifier");
         
         if (value.Length < LengthConstants.Length3 || value.Length > LengthConstants.Length150)
-            return GeneralErrors.ValueIsInvalid("Identifier");
+            return Errors.General.ValueIsInvalid("Identifier");
 
         if (LatinOnlyRegex.IsMatch(value) is false)
-            return GeneralErrors.ValueIsInvalid("Identifier");
+            return Errors.General.ValueIsInvalid("Identifier");
 
         return new Identifier(value);
     }

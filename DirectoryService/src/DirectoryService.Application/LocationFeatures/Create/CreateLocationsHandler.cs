@@ -16,28 +16,32 @@ public class CreateLocationsHandler(
     IValidator<CreateLocationsCommand> validator,
     ILogger<CreateLocationsHandler> logger)
 {
-    public async Task<Result<Guid, Errors>> Handle(
+    public async Task<Result<Guid, ErrorList>> Handle(
         CreateLocationsCommand command,
         CancellationToken cancellationToken = default)
     {
         var validationResult = await validator.ValidateAsync(command, cancellationToken);
         if (validationResult.IsValid is false)
-        {
             return validationResult.GetErrors();
-        }
         
         var locationId = LocationId.New();
-        var locationName = LocationName.Create(command.Name);
-        var address = Address.Create(command.City, command.Street, command.House, command.RoomNumber);
-        var timeZone = TimeZone.Create(command.TimeZone);
+        var locationName = LocationName.Create(command.Name).Value;
+        var address = Address.Create(command.City, command.Street, command.House, command.RoomNumber).Value;
+        var timeZone = TimeZone.Create(command.TimeZone).Value;
+        
+        var locationTakesByNameResult = await repository.GetByName(locationName, cancellationToken);
+        if (locationTakesByNameResult.IsSuccess)
+            return Errors.Location.AlreadyExist().ToErrors();
+        
+        var locationTakesByAddressResult = await repository.GetByAddress(address, cancellationToken);
+        if (locationTakesByAddressResult.IsSuccess)
+            return Errors.Location.AlreadyExist().ToErrors();
         
         var location = new Location(
             locationId,
-            locationName.Value,
-            address.Value,
-            timeZone.Value);
-
-        //бизнес валидация
+            locationName,
+            address,
+            timeZone);
         
         var result = await repository.Add(location, cancellationToken);
         if (result.IsFailure)

@@ -42,7 +42,7 @@ public class Position
         string? description)
     {
         if (description is not null && description.Length > LengthConstants.Length1000)
-            return GeneralErrors.ValueIsInvalid("description");
+            return Errors.General.ValueIsInvalid("description");
         
         return new Position(id, name, description);
     }

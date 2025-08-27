@@ -19,7 +19,7 @@ public record TimeZone
     public static Result<TimeZone, Error> Create(string value)
     {
         if (TimeZoneRegex.IsMatch(value) is false)
-            return GeneralErrors.ValueIsInvalid("TimeZone");
+            return Errors.General.ValueIsInvalid("TimeZone");
         
         return new TimeZone(value);
     }

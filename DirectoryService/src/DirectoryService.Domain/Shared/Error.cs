@@ -31,5 +31,5 @@ public class Error
     public static Error Conflict(string errorCode, string errorMessage) =>
         new Error(errorCode, errorMessage, ErrorType.Conflict);
 
-    public Errors ToErrors() => new Errors([this]);
+    public ErrorList ToErrors() => new ErrorList([this]);
 }

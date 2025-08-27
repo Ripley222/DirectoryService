@@ -25,13 +25,13 @@ public record Address
         string roomNumber)
     {
         if (string.IsNullOrWhiteSpace(city))
-            return GeneralErrors.ValueIsRequired("City");
+            return Errors.General.ValueIsRequired("City");
         
         if (string.IsNullOrWhiteSpace(street))
-            return GeneralErrors.ValueIsRequired("Street");
+            return Errors.General.ValueIsRequired("Street");
         
         if (string.IsNullOrWhiteSpace(house))
-            return GeneralErrors.ValueIsRequired("House");
+            return Errors.General.ValueIsRequired("House");
 
         return new Address(city, street, house, roomNumber);
     }

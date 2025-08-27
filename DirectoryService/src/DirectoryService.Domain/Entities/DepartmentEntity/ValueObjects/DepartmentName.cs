@@ -15,10 +15,10 @@ public record DepartmentName
     public static Result<DepartmentName, Error> Create(string value)
     {
         if (string.IsNullOrWhiteSpace(value))
-            return GeneralErrors.ValueIsRequired("DepartmentName");
+            return Errors.General.ValueIsRequired("DepartmentName");
         
         if (value.Length < LengthConstants.Length3 || value.Length > LengthConstants.Length150)
-            return GeneralErrors.ValueIsInvalid("DepartmentName");
+            return Errors.General.ValueIsInvalid("DepartmentName");
         
         return new DepartmentName(value);
     }
