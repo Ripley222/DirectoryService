@@ -33,8 +33,18 @@ public class Position
     
     public IReadOnlyList<DepartmentPosition> Departments => _departments;
     
-    public DateTime CreatedAt { get; } = DateTime.Now;
+    public DateTime CreatedAt { get; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; private set; }
+
+    public bool IsActive()
+    {
+        return _isActive;
+    }
+
+    public void AddDepartment(DepartmentPosition departmentPosition)
+    {
+        _departments.Add(departmentPosition);
+    }
 
     public static Result<Position, Error> Create(
         PositionId id,
