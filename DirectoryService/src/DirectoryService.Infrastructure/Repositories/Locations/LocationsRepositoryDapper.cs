@@ -1,18 +1,26 @@
 ﻿using CSharpFunctionalExtensions;
 using Dapper;
 using DirectoryService.Application.Repositories;
+using DirectoryService.Domain.Entities.Ids;
 using DirectoryService.Domain.Entities.LocationEntity;
 using DirectoryService.Domain.Entities.LocationEntity.ValueObjects;
 using DirectoryService.Domain.Shared;
 using DirectoryService.Infrastructure.Database;
 using Microsoft.Extensions.Logging;
 
-namespace DirectoryService.Infrastructure.Repositories;
+namespace DirectoryService.Infrastructure.Repositories.Locations;
 
 public class LocationsRepositoryDapper(
     NpgsqlConnectionFactory connectionFactory,
     ILogger<LocationsRepositoryDapper> logger) : ILocationsRepository
 {
+    public Task<Result<IReadOnlyList<Location>, Error>> GetManyByIds(
+        IEnumerable<LocationId> locationIds, 
+        CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+
     public async Task<Result<Guid, Error>> Add(Location location, CancellationToken cancellationToken)
     {
         using var connection = await connectionFactory.CreateConnectionAsync(cancellationToken);

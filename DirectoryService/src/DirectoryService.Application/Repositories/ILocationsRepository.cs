@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using DirectoryService.Domain.Entities.Ids;
 using DirectoryService.Domain.Entities.LocationEntity;
 using DirectoryService.Domain.Entities.LocationEntity.ValueObjects;
 using DirectoryService.Domain.Shared;
@@ -7,6 +8,9 @@ namespace DirectoryService.Application.Repositories;
 
 public interface ILocationsRepository
 {
+    Task<Result<IReadOnlyList<Location>, Error>> GetManyByIds(
+        IEnumerable<LocationId> locationIds, CancellationToken cancellationToken);
+    
     Task<Result<Guid, Error>> Add(Location location, CancellationToken cancellationToken);
     
     Task<Result<Location, Error>> GetByName(LocationName locationName, CancellationToken cancellationToken);

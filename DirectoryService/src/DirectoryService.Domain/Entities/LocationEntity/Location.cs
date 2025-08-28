@@ -27,6 +27,11 @@ public class Location
         Address = address;
         TimeZone = timeZone;
     }
+
+    public void AddDepartment(DepartmentLocation departmentLocation)
+    {
+        _departments.Add(departmentLocation);
+    }
     
     public LocationId Id { get; }
     public LocationName LocationName { get; private set; }

@@ -9,7 +9,7 @@ using FluentValidation;
 using Microsoft.Extensions.Logging;
 using TimeZone = DirectoryService.Domain.Entities.LocationEntity.ValueObjects.TimeZone;
 
-namespace DirectoryService.Application.LocationFeatures.Create;
+namespace DirectoryService.Application.LocationsFeatures.Create;
 
 public class CreateLocationsHandler(
     ILocationsRepository repository,
@@ -31,11 +31,11 @@ public class CreateLocationsHandler(
         
         var locationTakesByNameResult = await repository.GetByName(locationName, cancellationToken);
         if (locationTakesByNameResult.IsSuccess)
-            return Errors.Location.AlreadyExist().ToErrors();
+            return Errors.Location.AlreadyExist("Name").ToErrors();
         
         var locationTakesByAddressResult = await repository.GetByAddress(address, cancellationToken);
         if (locationTakesByAddressResult.IsSuccess)
-            return Errors.Location.AlreadyExist().ToErrors();
+            return Errors.Location.AlreadyExist("Address").ToErrors();
         
         var location = new Location(
             locationId,
