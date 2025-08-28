@@ -26,4 +26,14 @@ public static class CustomValidator
             });
         });
     }
+    
+    public static IRuleBuilderOptions<T, TElement> WithError<T, TElement>(
+        this IRuleBuilderOptions<T, TElement> ruleBuilder, Error error)
+    {
+        ruleBuilder
+            .WithErrorCode(error.ErrorCode)
+            .WithMessage(error.ErrorMessage);
+        
+        return ruleBuilder;
+    }
 }
