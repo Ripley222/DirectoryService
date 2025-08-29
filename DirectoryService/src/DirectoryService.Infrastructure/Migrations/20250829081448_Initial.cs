@@ -73,7 +73,7 @@ namespace DirectoryService.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "department_locations",
+                name: "departments_locations",
                 columns: table => new
                 {
                     DepartmentId = table.Column<Guid>(type: "uuid", nullable: false),
@@ -83,13 +83,13 @@ namespace DirectoryService.Infrastructure.Migrations
                 {
                     table.PrimaryKey("pk_department_location", x => new { x.DepartmentId, x.LocationId });
                     table.ForeignKey(
-                        name: "FK_department_locations_departments_DepartmentId",
+                        name: "FK_departments_locations_departments_DepartmentId",
                         column: x => x.DepartmentId,
                         principalTable: "departments",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_department_locations_locations_LocationId",
+                        name: "FK_departments_locations_locations_LocationId",
                         column: x => x.LocationId,
                         principalTable: "locations",
                         principalColumn: "id",
@@ -97,7 +97,7 @@ namespace DirectoryService.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "department_positions",
+                name: "departments_positions",
                 columns: table => new
                 {
                     DepartmentId = table.Column<Guid>(type: "uuid", nullable: false),
@@ -107,13 +107,13 @@ namespace DirectoryService.Infrastructure.Migrations
                 {
                     table.PrimaryKey("pk_department_position", x => new { x.DepartmentId, x.PositionId });
                     table.ForeignKey(
-                        name: "FK_department_positions_departments_DepartmentId",
+                        name: "FK_departments_positions_departments_DepartmentId",
                         column: x => x.DepartmentId,
                         principalTable: "departments",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_department_positions_positions_PositionId",
+                        name: "FK_departments_positions_positions_PositionId",
                         column: x => x.PositionId,
                         principalTable: "positions",
                         principalColumn: "id",
@@ -121,29 +121,29 @@ namespace DirectoryService.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_department_locations_LocationId",
-                table: "department_locations",
-                column: "LocationId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_department_positions_PositionId",
-                table: "department_positions",
-                column: "PositionId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_departments_parent_id",
                 table: "departments",
                 column: "parent_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_departments_locations_LocationId",
+                table: "departments_locations",
+                column: "LocationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_departments_positions_PositionId",
+                table: "departments_positions",
+                column: "PositionId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "department_locations");
+                name: "departments_locations");
 
             migrationBuilder.DropTable(
-                name: "department_positions");
+                name: "departments_positions");
 
             migrationBuilder.DropTable(
                 name: "locations");

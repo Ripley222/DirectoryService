@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DirectoryService.Infrastructure.Migrations
 {
     [DbContext(typeof(DirectoryServiceDbContext))]
-    [Migration("20250828072735_Initial")]
+    [Migration("20250829081448_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -214,7 +214,7 @@ namespace DirectoryService.Infrastructure.Migrations
 
                     b.HasIndex("LocationId");
 
-                    b.ToTable("department_locations", (string)null);
+                    b.ToTable("departments_locations", (string)null);
                 });
 
             modelBuilder.Entity("DirectoryService.Domain.Entities.Relationships.DepartmentPosition", b =>
@@ -230,7 +230,7 @@ namespace DirectoryService.Infrastructure.Migrations
 
                     b.HasIndex("PositionId");
 
-                    b.ToTable("department_positions", (string)null);
+                    b.ToTable("departments_positions", (string)null);
                 });
 
             modelBuilder.Entity("DirectoryService.Domain.Entities.DepartmentEntity.Department", b =>
@@ -245,40 +245,32 @@ namespace DirectoryService.Infrastructure.Migrations
 
             modelBuilder.Entity("DirectoryService.Domain.Entities.Relationships.DepartmentLocation", b =>
                 {
-                    b.HasOne("DirectoryService.Domain.Entities.DepartmentEntity.Department", "Department")
+                    b.HasOne("DirectoryService.Domain.Entities.DepartmentEntity.Department", null)
                         .WithMany("Locations")
                         .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DirectoryService.Domain.Entities.LocationEntity.Location", "Location")
+                    b.HasOne("DirectoryService.Domain.Entities.LocationEntity.Location", null)
                         .WithMany("Departments")
                         .HasForeignKey("LocationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Department");
-
-                    b.Navigation("Location");
                 });
 
             modelBuilder.Entity("DirectoryService.Domain.Entities.Relationships.DepartmentPosition", b =>
                 {
-                    b.HasOne("DirectoryService.Domain.Entities.DepartmentEntity.Department", "Department")
+                    b.HasOne("DirectoryService.Domain.Entities.DepartmentEntity.Department", null)
                         .WithMany("Positions")
                         .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DirectoryService.Domain.Entities.PositionEntity.Position", "Position")
+                    b.HasOne("DirectoryService.Domain.Entities.PositionEntity.Position", null)
                         .WithMany("Departments")
                         .HasForeignKey("PositionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Department");
-
-                    b.Navigation("Position");
                 });
 
             modelBuilder.Entity("DirectoryService.Domain.Entities.DepartmentEntity.Department", b =>
