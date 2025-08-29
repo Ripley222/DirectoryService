@@ -1,4 +1,6 @@
-﻿using DirectoryService.Domain.Entities.Relationships;
+﻿using DirectoryService.Domain.Entities.DepartmentEntity;
+using DirectoryService.Domain.Entities.PositionEntity;
+using DirectoryService.Domain.Entities.Relationships;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -8,21 +10,21 @@ public class DepartmentPositionConfiguration : IEntityTypeConfiguration<Departme
 {
     public void Configure(EntityTypeBuilder<DepartmentPosition> builder)
     {
-        builder.ToTable("department_positions");
+        builder.ToTable("departments_positions");
         
         builder
             .HasKey(dl => new {dl.DepartmentId, dl.PositionId})
             .HasName("pk_department_position");
         
         builder
-            .HasOne(dl => dl.Department)
+            .HasOne<Department>()
             .WithMany(d => d.Positions)
             .HasForeignKey(d => d.DepartmentId)
             .IsRequired()
             .OnDelete(DeleteBehavior.Cascade);
         
         builder
-            .HasOne(dl => dl.Position)
+            .HasOne<Position>()
             .WithMany(p => p.Departments)
             .HasForeignKey(d => d.PositionId)
             .IsRequired()

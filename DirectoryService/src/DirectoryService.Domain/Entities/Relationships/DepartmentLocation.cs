@@ -13,18 +13,12 @@ public class DepartmentLocation
     
     public DepartmentLocation(
         DepartmentId departmentId, 
-        LocationId locationId,
-        Department department,
-        Location location)
+        LocationId locationId)
     {
         DepartmentId = departmentId;
         LocationId = locationId;
-        Department = department;
-        Location = location;
     }
     
     public DepartmentId DepartmentId { get; private set; }
     public LocationId LocationId { get; private set; }
-    public Department Department { get; private set; }
-    public Location Location { get; private set; }
 }
