@@ -21,6 +21,7 @@ public class CreatePositionsHandler(
         CreatePositionsCommand command,
         CancellationToken cancellationToken = default)
     {
+        //валидация входных параметров
         var validationResult = await validator.ValidateAsync(command, cancellationToken);
         if (validationResult.IsValid is false)
             return validationResult.GetErrors();
@@ -29,25 +30,20 @@ public class CreatePositionsHandler(
         var positionName = PositionName.Create(command.Name).Value;
         var description = command.Description;
         
+        //бизнес валдиация
+        //проверка на существование активной позиации с таким же названием
         var positionExist = await positionsRepository
-            .GetPositionsByName(positionName, cancellationToken);
+            .CheckActivePositionsByName(positionName, cancellationToken);
 
         if (positionExist.IsSuccess)
-        {
-            if (positionExist.Value.Any(position => position.IsActive()))
-            {
-                return Errors.Position.AlreadyExist("Name").ToErrors();
-            }
-        }
+            return Errors.Position.AlreadyExist("Name").ToErrors();
         
+        //проверка на существование активных департаментов
         var departmentsExist = await departmentsRepository
-            .GetManyById(command.DepartmentIds.Select(DepartmentId.Create), cancellationToken);
+            .CheckActiveDepartmentsByIds(command.DepartmentIds.Select(DepartmentId.Create), cancellationToken);
         
         if (departmentsExist.IsFailure)
             return departmentsExist.Error.ToErrors();
-
-        if (departmentsExist.Value.Any(department => !department.IsActive()))
-            return Errors.Department.NotActive().ToErrors();
 
         var positionResult = Position.Create(
             positionId,
@@ -57,15 +53,12 @@ public class CreatePositionsHandler(
         if (positionResult.IsFailure)
             return positionResult.Error.ToErrors();
 
-        foreach (var department in departmentsExist.Value)
+        //привязка позиции к департаментам
+        foreach (var departmentId in command.DepartmentIds)
         {
             var departmentPositon = new DepartmentPosition(
-                department.Id,
-                positionId,
-                department,
-                positionResult.Value);
-            
-            department.AddPosition(departmentPositon);
+                DepartmentId.Create(departmentId),
+                positionId);
             
             positionResult.Value.AddDepartment(departmentPositon);
         }
@@ -74,7 +67,7 @@ public class CreatePositionsHandler(
         if (result.IsFailure)
             return result.Error.ToErrors();
 
-        logger.LogInformation("Created Position with id {id}", positionId.Value);
+        logger.LogInformation("Created new Position with id {id}", positionId.Value);
         
         return positionId.Value;
     }

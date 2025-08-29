@@ -9,5 +9,5 @@ public interface IPositionsRepository
 {
     Task<Result<Guid, Error>> Add(Position position, CancellationToken cancellationToken);
 
-    Task<Result<IReadOnlyList<Position>, Error>> GetPositionsByName(PositionName name, CancellationToken cancellationToken);
+    Task<UnitResult<Error>> CheckActivePositionsByName(PositionName name, CancellationToken cancellationToken);
 }

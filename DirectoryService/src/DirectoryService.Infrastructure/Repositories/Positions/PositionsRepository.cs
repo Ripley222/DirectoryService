@@ -17,7 +17,7 @@ public class PositionsRepository(
     {
         try
         {
-            await dbContext.Position.AddAsync(position, cancellationToken);
+            await dbContext.Positions.AddAsync(position, cancellationToken);
 
             await dbContext.SaveChangesAsync(cancellationToken);
 
@@ -31,26 +31,15 @@ public class PositionsRepository(
         }
     }
 
-    public async Task<Result<IReadOnlyList<Position>, Error>> GetPositionsByName(
+    public async Task<UnitResult<Error>> CheckActivePositionsByName(
         PositionName name, CancellationToken cancellationToken = default)
     {
-        try
-        {
-            var positions = await dbContext.Position
-                .Where(p => p.PositionName == name)
-                .Include(p => p.Departments)
-                .ToListAsync(cancellationToken);
-
-            if (positions.Count == 0)
-                return Errors.Position.NotFound();
-
-            return positions;
-        }
-        catch (Exception ex)
-        {
-            logger.LogError(ex, "Error getting Position");
-
-            return Error.Failure("position.get", "Failed getting Position");
-        }
+        var result = await dbContext.Positions
+            .AnyAsync(p => EF.Property<bool>(p, "_isActive") 
+                           && p.PositionName == name, cancellationToken);
+        if (result)
+            return Result.Success<Error>();
+        
+        return Errors.Position.NotFound();
     }
 }
