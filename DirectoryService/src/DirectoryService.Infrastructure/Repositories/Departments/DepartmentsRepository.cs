@@ -19,9 +19,6 @@ public class DepartmentsRepository(
         try
         {
             var department = await dbContext.Departments
-                .Include(d => d.ChildDepartments)
-                .Include(d => d.Locations)
-                .Include(d => d.Positions)
                 .FirstOrDefaultAsync(d => d.Id == departmentId, cancellationToken);
 
             if (department is null)
@@ -37,25 +34,17 @@ public class DepartmentsRepository(
         }
     }
 
-    public async Task<Result<IReadOnlyList<Department>, Error>> GetManyById(IEnumerable<DepartmentId> departmentIds, CancellationToken cancellationToken)
+    public async Task<UnitResult<Error>> CheckActiveDepartmentsByIds(
+        IEnumerable<DepartmentId> departmentIds, CancellationToken cancellationToken)
     {
-        try
-        {
-            var departments = await dbContext.Departments
-                .Where(d => departmentIds.Contains(d.Id))
-                .ToListAsync(cancellationToken);
+        var result = await dbContext.Departments
+            .AnyAsync(d => EF.Property<bool>(d, "_isActive")
+                && departmentIds.Contains(d.Id), cancellationToken);
 
-            if (departments.Count == 0)
-                return Errors.Department.NotFound();
-
-            return departments;
-        }
-        catch (Exception ex)
-        {
-            logger.LogError(ex, "Error getting Department");
-
-            return Error.Failure("department.getting", "Failed getting Department");
-        }
+        if (result)
+            return Result.Success<Error>();
+        
+        return Errors.Department.NotFound();
     }
 
     public async Task<Result<Guid, Error>> Add(
@@ -77,24 +66,15 @@ public class DepartmentsRepository(
         }
     }
 
-    public async Task<Result<Department, Error>> GetByIdentifier(
+    public async Task<UnitResult<Error>> CheckByIdentifier(
         Identifier identifier, CancellationToken cancellationToken)
     {
-        try
-        {
-            var department = await dbContext.Departments
-                .FirstOrDefaultAsync(d => d.Identifier == identifier, cancellationToken);
+        var result = await dbContext.Departments
+            .AnyAsync(d => d.Identifier ==  identifier, cancellationToken);
 
-            if (department is null)
-                return Errors.Department.NotFound();
+        if (result)
+            return Result.Success<Error>();
 
-            return department;
-        }
-        catch (Exception ex)
-        {
-            logger.LogError(ex, "Error getting Department");
-
-            return Error.Failure("department.getting", "Failed getting Department");
-        }
+        return Errors.Department.NotFound();
     }
 }
