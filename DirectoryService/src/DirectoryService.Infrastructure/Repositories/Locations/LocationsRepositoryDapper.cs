@@ -21,6 +21,11 @@ public class LocationsRepositoryDapper(
         throw new NotImplementedException();
     }
 
+    public Task<UnitResult<Error>> CheckManyByIds(IEnumerable<LocationId> locationIds, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+
     public async Task<Result<Guid, Error>> Add(Location location, CancellationToken cancellationToken)
     {
         using var connection = await connectionFactory.CreateConnectionAsync(cancellationToken);
@@ -66,48 +71,13 @@ public class LocationsRepositoryDapper(
         }
     }
 
-    public async Task<Result<Location, Error>> GetByName(LocationName locationName, CancellationToken cancellationToken)
+    public Task<UnitResult<Error>> CheckByName(LocationName locationName, CancellationToken cancellationToken)
     {
-        var connection = await connectionFactory.CreateConnectionAsync(cancellationToken);
-
-        const string sql = "SELECT * FROM locations WHERE name = @Name";
-
-        var locationParamsSelect = new
-        {
-            Name = locationName.Value
-        };
-        
-        var location = await connection.QuerySingleOrDefaultAsync(sql, locationParamsSelect);
-        if (location is null)
-            return Errors.Location.NotFound();
-        
-        return location;
+        throw new NotImplementedException();
     }
 
-    public async Task<Result<Location, Error>> GetByAddress(Address address, CancellationToken cancellationToken)
+    public Task<UnitResult<Error>> CheckByAddress(Address address, CancellationToken cancellationToken)
     {
-        var connection = await connectionFactory.CreateConnectionAsync(cancellationToken);
-
-        const string sql = """
-                           SELECT * FROM locations WHERE (
-                               city = @City AND 
-                               street = @Street AND 
-                               house = @House AND 
-                               room_number = @RoomNumber)
-                           """;
-
-        var locationParamsSelect = new
-        {
-            City = address.City,
-            Street = address.Street,
-            House = address.House,
-            RoomNumber = address.RoomNumber,
-        };
-        
-        var location = await connection.QuerySingleOrDefaultAsync(sql, locationParamsSelect);
-        if (location is null)
-            return Errors.Location.NotFound();
-        
-        return location;
+        throw new NotImplementedException();
     }
 }

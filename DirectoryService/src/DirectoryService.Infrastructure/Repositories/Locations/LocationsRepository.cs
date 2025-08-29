@@ -13,26 +13,16 @@ public class LocationsRepository(
     DirectoryServiceDbContext dbContext,
     ILogger<LocationsRepository> logger) : ILocationsRepository
 {
-    public async Task<Result<IReadOnlyList<Location>, Error>> GetManyByIds(
+    public async Task<UnitResult<Error>> CheckManyByIds(
         IEnumerable<LocationId> locationIds, CancellationToken cancellationToken)
     {
-        try
-        {
-            var result = await dbContext.Location
-                .Where(l => locationIds.Contains(l.Id))
-                .ToListAsync(cancellationToken);
+        var result = await dbContext.Locations
+            .AnyAsync(l => locationIds.Contains(l.Id), cancellationToken);
 
-            if (result.Count != locationIds.Count())
-                return Errors.Location.NotFound();
+        if (result)
+            return Result.Success<Error>();
 
-            return result;
-        }
-        catch (Exception ex)
-        {
-            logger.LogError(ex, "Error getting Location");
-
-            return Error.Failure("location.get", "Failed getting Location");
-        }
+        return Errors.Location.NotFound();
     }
 
     public async Task<Result<Guid, Error>> Add(
@@ -54,47 +44,27 @@ public class LocationsRepository(
         }
     }
 
-    public async Task<Result<Location, Error>> GetByName(
+    public async Task<UnitResult<Error>> CheckByName(
         LocationName locationName, CancellationToken cancellationToken)
     {
-        try
-        {
-            var location = await dbContext.Location
-                .Include(l => l.Departments)
-                .FirstOrDefaultAsync(l => l.LocationName == locationName, cancellationToken);
+        var result = await dbContext.Locations
+            .AnyAsync(l => l.LocationName ==  locationName, cancellationToken);
 
-            if (location is null)
-                return Errors.Location.NotFound();
-
-            return location;
-        }
-        catch (Exception ex)
-        {
-            logger.LogError(ex, "Error getting Location by Name");
-
-            return Error.Failure("location.get", "Failed getting Location");
-        }
+        if (result)
+            return Result.Success<Error>();
+        
+        return Errors.Location.NotFound();
     }
 
-    public async Task<Result<Location, Error>> GetByAddress(
+    public async Task<UnitResult<Error>> CheckByAddress(
         Address address, CancellationToken cancellationToken)
     {
-        try
-        {
-            var location = await dbContext.Location
-                .Include(l => l.Departments)
-                .FirstOrDefaultAsync(l => l.Address == address, cancellationToken);
+        var result = await dbContext.Locations
+            .AnyAsync(l => l.Address ==  address, cancellationToken);
 
-            if (location is null)
-                return Errors.Location.NotFound();
-
-            return location;
-        }
-        catch (Exception ex)
-        {
-            logger.LogError(ex, "Error getting Location by Address");
-
-            return Error.Failure("location.get", "Failed getting Location");
-        }
+        if (result)
+            return Result.Success<Error>();
+        
+        return Errors.Location.NotFound();
     }
 }

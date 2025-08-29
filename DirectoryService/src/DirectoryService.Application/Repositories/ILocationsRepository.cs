@@ -8,12 +8,12 @@ namespace DirectoryService.Application.Repositories;
 
 public interface ILocationsRepository
 {
-    Task<Result<IReadOnlyList<Location>, Error>> GetManyByIds(
+    Task<UnitResult<Error>> CheckManyByIds(
         IEnumerable<LocationId> locationIds, CancellationToken cancellationToken);
     
     Task<Result<Guid, Error>> Add(Location location, CancellationToken cancellationToken);
     
-    Task<Result<Location, Error>> GetByName(LocationName locationName, CancellationToken cancellationToken);
+    Task<UnitResult<Error>> CheckByName(LocationName locationName, CancellationToken cancellationToken);
     
-    Task<Result<Location, Error>> GetByAddress(Address address, CancellationToken cancellationToken);
+    Task<UnitResult<Error>> CheckByAddress(Address address, CancellationToken cancellationToken);
 }
