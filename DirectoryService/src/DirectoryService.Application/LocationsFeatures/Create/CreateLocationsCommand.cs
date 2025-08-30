@@ -1,4 +1,4 @@
-﻿namespace DirectoryService.Application.LocationFeatures.Create;
+﻿namespace DirectoryService.Application.LocationsFeatures.Create;
 
 public record CreateLocationsCommand(
     string Name,

@@ -3,7 +3,7 @@ using DirectoryService.Domain.Entities.LocationEntity.ValueObjects;
 using FluentValidation;
 using TimeZone = DirectoryService.Domain.Entities.LocationEntity.ValueObjects.TimeZone;
 
-namespace DirectoryService.Application.LocationFeatures.Create;
+namespace DirectoryService.Application.LocationsFeatures.Create;
 
 public class CreateLocationCommandValidator : AbstractValidator<CreateLocationsCommand>
 {

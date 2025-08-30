@@ -13,18 +13,12 @@ public class DepartmentPosition
     
     public DepartmentPosition(
         DepartmentId departmentId, 
-        PositionId positionId,
-        Department department,
-        Position position)
+        PositionId positionId)
     {
         DepartmentId = departmentId;
         PositionId = positionId;
-        Department = department;
-        Position = position;
     }
     
     public DepartmentId DepartmentId { get; private set; }
     public PositionId PositionId { get; private set; }
-    public Department Department { get; private set; }
-    public Position Position { get; private set; }
 }

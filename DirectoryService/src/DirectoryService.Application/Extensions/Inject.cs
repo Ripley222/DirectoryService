@@ -1,4 +1,6 @@
-﻿using DirectoryService.Application.LocationFeatures.Create;
+﻿using DirectoryService.Application.DepartmentsFeatures.Create;
+using DirectoryService.Application.LocationsFeatures.Create;
+using DirectoryService.Application.PositionsFeatures.Create;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -9,6 +11,8 @@ public static class Inject
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
         services.AddScoped<CreateLocationsHandler>();
+        services.AddScoped<CreateDepartmentsHandler>();
+        services.AddScoped<CreatePositionsHandler>();
         
         services.AddValidatorsFromAssembly(typeof(Inject).Assembly);
         

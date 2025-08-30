@@ -13,8 +13,8 @@ public class DirectoryServiceDbContext(IConfiguration configuration) : DbContext
     private const string DATABASE = "Postgres";
     
     public DbSet<Department> Departments => Set<Department>();
-    public DbSet<Position> Position => Set<Position>();
-    public DbSet<Location> Location => Set<Location>();
+    public DbSet<Position> Positions => Set<Position>();
+    public DbSet<Location> Locations => Set<Location>();
     public DbSet<DepartmentLocation> DepartmentLocation => Set<DepartmentLocation>();
     public DbSet<DepartmentPosition> DepartmentPosition => Set<DepartmentPosition>();
     

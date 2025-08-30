@@ -9,7 +9,7 @@ using FluentValidation;
 using Microsoft.Extensions.Logging;
 using TimeZone = DirectoryService.Domain.Entities.LocationEntity.ValueObjects.TimeZone;
 
-namespace DirectoryService.Application.LocationFeatures.Create;
+namespace DirectoryService.Application.LocationsFeatures.Create;
 
 public class CreateLocationsHandler(
     ILocationsRepository repository,
@@ -20,6 +20,7 @@ public class CreateLocationsHandler(
         CreateLocationsCommand command,
         CancellationToken cancellationToken = default)
     {
+        //валидация входных параметров
         var validationResult = await validator.ValidateAsync(command, cancellationToken);
         if (validationResult.IsValid is false)
             return validationResult.GetErrors();
@@ -29,13 +30,16 @@ public class CreateLocationsHandler(
         var address = Address.Create(command.City, command.Street, command.House, command.RoomNumber).Value;
         var timeZone = TimeZone.Create(command.TimeZone).Value;
         
-        var locationTakesByNameResult = await repository.GetByName(locationName, cancellationToken);
+        //бизнес валидация
+        //проверка на существование локации с таким же названием
+        var locationTakesByNameResult = await repository.CheckByName(locationName, cancellationToken);
         if (locationTakesByNameResult.IsSuccess)
-            return Errors.Location.AlreadyExist().ToErrors();
+            return Errors.Location.AlreadyExist("Name").ToErrors();
         
-        var locationTakesByAddressResult = await repository.GetByAddress(address, cancellationToken);
+        //проверка на существование локации с таким же адресом
+        var locationTakesByAddressResult = await repository.CheckByAddress(address, cancellationToken);
         if (locationTakesByAddressResult.IsSuccess)
-            return Errors.Location.AlreadyExist().ToErrors();
+            return Errors.Location.AlreadyExist("Address").ToErrors();
         
         var location = new Location(
             locationId,
@@ -49,6 +53,6 @@ public class CreateLocationsHandler(
 
         logger.LogInformation("Created Location with id {id}", locationId.Value);
         
-        return result.Value;
+        return locationId.Value;
     }
 }

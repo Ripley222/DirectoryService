@@ -9,6 +9,9 @@ namespace DirectoryService.Domain.Entities.DepartmentEntity;
 
 public class Department
 {
+    public const int MAIN_DEPARTMENT_DEPTH = 0;
+    public const int CHILD_DEPARTMENT_DEPTH = 1;
+    
     private readonly List<Department> _childDepartments = [];
     private readonly List<DepartmentLocation> _locations = [];
     private readonly List<DepartmentPosition> _positions = [];
@@ -49,16 +52,36 @@ public class Department
     public IReadOnlyList<DepartmentLocation> Locations => _locations;
     public IReadOnlyList<DepartmentPosition> Positions => _positions;
     
-    public DateTime CreatedAt { get; } = DateTime.Now;
+    public DateTime CreatedAt { get; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; private set; }
+
+    public void AddChildDepartment(Department department)
+    {
+        _childDepartments.Add(department);
+    }
+    
+    public void AddLocation(DepartmentLocation departmentLocation)
+    {
+        _locations.Add(departmentLocation);
+    }
+    
+    public void AddPosition(DepartmentPosition departmentPosition)
+    {
+        _positions.Add(departmentPosition);
+    }
+
+    public bool IsActive()
+    {
+        return _isActive;
+    }
 
     public static Result<Department, Error> Create(
         DepartmentId id,
         DepartmentName departmentName,
         Identifier identifier, 
-        Department? parent,
         Path path,
-        short depth)
+        short depth,
+        Department? parent = null)
     {
         if (depth < LengthConstants.Length0)
             return Errors.General.ValueIsInvalid("depth");

@@ -30,9 +30,62 @@ public static class Errors
             return Error.Validation("record.not.found", $"Location not found");
         }
 
-        public static Error AlreadyExist()
+        public static Error AlreadyExist(string? invalidField = null)
         {
-            return Error.Validation("record.already.exist", "Location already exist");
+            var errorMassage = invalidField == null
+                ? "Location already exist"
+                : $"Location already exist with this property: {invalidField}";
+            
+            return Error.Validation("record.already.exist", errorMassage);
+        }
+
+        public static Error NotActive()
+        {
+            return Error.Validation("record.not.active", "Location is not active");
+        }
+    }
+    
+    public static class Department
+    {
+        public static Error NotFound()
+        {
+            return Error.Validation("record.not.found", "Department not found");
+        }
+
+        public static Error AlreadyExist(string? invalidField = null)
+        {
+            var errorMassage = invalidField == null 
+                ? "Department already exist" 
+                : $"Department already exist with this property: {invalidField}";
+            
+            return Error.Validation("record.already.exist", errorMassage);
+        }
+        
+        public static Error NotActive()
+        {
+            return Error.Validation("record.not.active", "Department is not active");
+        }
+    }
+    
+    public static class Position
+    {
+        public static Error NotFound()
+        {
+            return Error.Validation("record.not.found", $"Position not found");
+        }
+
+        public static Error AlreadyExist(string? invalidField = null)
+        {
+            var errorMassage = invalidField == null
+                ? "Position already exist"
+                : $"Position already exist with this property: {invalidField}";
+            
+            return Error.Validation("record.already.exist", errorMassage);
+        }
+        
+        public static Error NotActive()
+        {
+            return Error.Validation("record.not.active", "Position is not active");
         }
     }
 }
