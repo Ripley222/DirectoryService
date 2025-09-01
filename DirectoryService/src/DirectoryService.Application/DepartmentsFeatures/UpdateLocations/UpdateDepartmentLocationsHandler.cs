@@ -43,8 +43,11 @@ public class UpdateDepartmentLocationsHandler(
         }
 
         if (department.Value.IsActive() is false)
+        {
+            transactionScope.Rollback();
             return Errors.Department.NotActive().ToErrors();
-        
+        }
+
         //проверка на существование и активность локаций
         var activeLocationsResult = await locationsRepository.CheckActiveLocationsByIds(
             command.LocationIds.Select(LocationId.Create), cancellationToken);
