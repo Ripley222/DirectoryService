@@ -38,14 +38,16 @@ public class CreateDepartmentsHandler(
 
         if (locationsExistResult.IsFailure)
             return locationsExistResult.Error.ToErrors();
-        
+
+
         //проверка на уникальность identifier
         var departmentExistWithIdentifier = await departmentsRepository.CheckByIdentifier(
             identifier, cancellationToken);
 
         if (departmentExistWithIdentifier.IsSuccess)
             return Errors.Department.AlreadyExist("Identifier").ToErrors();
-        
+
+
         //проверка на наличие родительского департамента
         Department? department = null;
         if (command.ParentId is not null)
@@ -66,7 +68,8 @@ public class CreateDepartmentsHandler(
         var depth = department is not null
             ? (short)(department.Depth + Department.CHILD_DEPARTMENT_DEPTH)
             : (short)Department.MAIN_DEPARTMENT_DEPTH;
-
+    
+        //создание нового департамента
         var departmentResult = Department.Create(
             departmentId,
             departmentName,
@@ -74,24 +77,28 @@ public class CreateDepartmentsHandler(
             path,
             depth,
             department);
-        
+
         if (departmentResult.IsFailure)
             return departmentResult.Error.ToErrors();
 
         //привязка департамента к локациям
+        List<DepartmentLocation> departmentLocations = [];
         foreach (var locationId in command.LocationIds)
         {
             var departmentsLocations = new DepartmentLocation(
                 departmentId,
                 LocationId.Create(locationId));
             
-            departmentResult.Value.AddLocation(departmentsLocations);
+            departmentLocations.Add(departmentsLocations);
         }
         
+        departmentResult.Value.AddLocations(departmentLocations);
+        
+        //добавление нового департамента
         var result = await departmentsRepository.Add(departmentResult.Value, cancellationToken);
         if (result.IsFailure)
             return result.Error.ToErrors();
-        
+
         logger.LogInformation("Created new Department with id {id}", departmentId.Value);
         
         return departmentId.Value;
