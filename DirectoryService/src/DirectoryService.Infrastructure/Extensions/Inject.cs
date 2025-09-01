@@ -1,4 +1,6 @@
-﻿using DirectoryService.Application.Repositories;
+﻿using DirectoryService.Application.Database;
+using DirectoryService.Application.Repositories;
+using DirectoryService.Infrastructure.Database;
 using DirectoryService.Infrastructure.Repositories.Departments;
 using DirectoryService.Infrastructure.Repositories.Locations;
 using DirectoryService.Infrastructure.Repositories.Positions;
@@ -14,6 +16,8 @@ public static class Inject
         services.AddScoped<ILocationsRepository, LocationsRepository>();
         services.AddScoped<IDepartmentsRepository, DepartmentsRepository>();
         services.AddScoped<IPositionsRepository, PositionsRepository>();
+        
+        services.AddScoped<ITransactionManager, TransactionManager>();
         
         /*services.AddSingleton<NpgsqlConnectionFactory>();
         services.AddSingleton<ILocationsRepository, LocationsRepositoryDapper>();*/
