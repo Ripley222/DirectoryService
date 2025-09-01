@@ -24,6 +24,19 @@ public class LocationsRepository(
 
         return Errors.Location.NotFound();
     }
+    
+    public async Task<UnitResult<Error>> CheckActiveLocationsByIds(
+        IEnumerable<LocationId> locationIds, CancellationToken cancellationToken)
+    {
+        var result = await dbContext.Locations
+            .AnyAsync(l => locationIds.Contains(l.Id) && EF.Property<bool>(l, "_isActive"), 
+                cancellationToken);
+
+        if (result)
+            return Result.Success<Error>();
+
+        return Errors.Location.NotFound();
+    }
 
     public async Task<Result<Guid, Error>> Add(
         Location location, CancellationToken cancellationToken)

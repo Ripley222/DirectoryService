@@ -26,6 +26,11 @@ public class LocationsRepositoryDapper(
         throw new NotImplementedException();
     }
 
+    public Task<UnitResult<Error>> CheckActiveLocationsByIds(IEnumerable<LocationId> locationIds, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+
     public async Task<Result<Guid, Error>> Add(Location location, CancellationToken cancellationToken)
     {
         using var connection = await connectionFactory.CreateConnectionAsync(cancellationToken);

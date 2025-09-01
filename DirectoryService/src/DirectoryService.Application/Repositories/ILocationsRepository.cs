@@ -10,6 +10,9 @@ public interface ILocationsRepository
 {
     Task<UnitResult<Error>> CheckManyByIds(
         IEnumerable<LocationId> locationIds, CancellationToken cancellationToken);
+
+    Task<UnitResult<Error>> CheckActiveLocationsByIds(
+        IEnumerable<LocationId> locationIds, CancellationToken cancellationToken);
     
     Task<Result<Guid, Error>> Add(Location location, CancellationToken cancellationToken);
     

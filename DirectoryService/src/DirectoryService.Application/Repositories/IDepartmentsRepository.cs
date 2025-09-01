@@ -16,4 +16,6 @@ public interface IDepartmentsRepository
     Task<Result<Guid, Error>> Add(Department department, CancellationToken cancellationToken);
     
     Task<UnitResult<Error>> CheckByIdentifier(Identifier identifier, CancellationToken cancellationToken);
+    
+    Task<UnitResult<Error>> DeleteLocationsByDepartmentId(DepartmentId departmentId, CancellationToken cancellationToken);
 }
