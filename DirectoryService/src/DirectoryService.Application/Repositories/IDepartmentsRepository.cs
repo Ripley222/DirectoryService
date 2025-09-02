@@ -9,6 +9,9 @@ namespace DirectoryService.Application.Repositories;
 public interface IDepartmentsRepository
 {
     Task<Result<Department, Error>> GetById(DepartmentId departmentId, CancellationToken cancellationToken);
+
+    Task<Result<Department, Error>> GetByIdWithLocations(
+        DepartmentId departmentId, CancellationToken cancellationToken);
     
     Task<UnitResult<Error>> CheckActiveDepartmentsByIds(
         IEnumerable<DepartmentId> departmentIds, CancellationToken cancellationToken);
