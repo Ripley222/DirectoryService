@@ -99,14 +99,4 @@ public class DepartmentsRepository(
 
         return Errors.Department.NotFound();
     }
-
-    public async Task<UnitResult<Error>> DeleteLocationsByDepartmentId(DepartmentId departmentId,
-        CancellationToken cancellationToken)
-    {
-        await dbContext.DepartmentLocation
-            .Where(dl => dl.DepartmentId == departmentId)
-            .ExecuteDeleteAsync(cancellationToken);
-
-        return UnitResult.Success<Error>();
-    }
 }
