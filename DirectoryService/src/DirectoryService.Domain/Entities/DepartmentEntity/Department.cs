@@ -55,8 +55,9 @@ public class Department
     public DateTime CreatedAt { get; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; private set; }
     
-    public void AddLocations(IEnumerable<DepartmentLocation> departmentLocations)
+    public void SetLocations(IEnumerable<DepartmentLocation> departmentLocations)
     {
+        _locations.Clear();
         _locations.AddRange(departmentLocations);
     }
 
