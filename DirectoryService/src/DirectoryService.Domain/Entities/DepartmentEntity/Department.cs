@@ -54,20 +54,11 @@ public class Department
     
     public DateTime CreatedAt { get; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; private set; }
-
-    public void AddChildDepartment(Department department)
-    {
-        _childDepartments.Add(department);
-    }
     
-    public void AddLocation(DepartmentLocation departmentLocation)
+    public void SetLocations(IEnumerable<DepartmentLocation> departmentLocations)
     {
-        _locations.Add(departmentLocation);
-    }
-    
-    public void AddPosition(DepartmentPosition departmentPosition)
-    {
-        _positions.Add(departmentPosition);
+        _locations.Clear();
+        _locations.AddRange(departmentLocations);
     }
 
     public bool IsActive()

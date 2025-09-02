@@ -34,16 +34,38 @@ public class DepartmentsRepository(
         }
     }
 
+    public async Task<Result<Department, Error>> GetByIdWithLocations(
+        DepartmentId departmentId, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var department = await dbContext.Departments
+                .Include(d => d.Locations)
+                .FirstOrDefaultAsync(d => d.Id == departmentId, cancellationToken);
+
+            if (department is null)
+                return Errors.Department.NotFound();
+
+            return department;
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error getting Department");
+
+            return Error.Failure("department.getting", "Failed getting Department");
+        }
+    }
+
     public async Task<UnitResult<Error>> CheckActiveDepartmentsByIds(
         IEnumerable<DepartmentId> departmentIds, CancellationToken cancellationToken)
     {
         var result = await dbContext.Departments
             .AnyAsync(d => EF.Property<bool>(d, "_isActive")
-                && departmentIds.Contains(d.Id), cancellationToken);
+                           && departmentIds.Contains(d.Id), cancellationToken);
 
         if (result)
             return Result.Success<Error>();
-        
+
         return Errors.Department.NotFound();
     }
 
@@ -70,7 +92,7 @@ public class DepartmentsRepository(
         Identifier identifier, CancellationToken cancellationToken)
     {
         var result = await dbContext.Departments
-            .AnyAsync(d => d.Identifier ==  identifier, cancellationToken);
+            .AnyAsync(d => d.Identifier == identifier, cancellationToken);
 
         if (result)
             return Result.Success<Error>();
