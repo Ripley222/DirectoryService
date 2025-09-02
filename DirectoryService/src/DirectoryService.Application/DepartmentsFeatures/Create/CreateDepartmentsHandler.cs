@@ -92,7 +92,7 @@ public class CreateDepartmentsHandler(
             departmentLocations.Add(departmentsLocations);
         }
         
-        departmentResult.Value.AddLocations(departmentLocations);
+        departmentResult.Value.SetLocations(departmentLocations);
         
         //добавление нового департамента
         var result = await departmentsRepository.Add(departmentResult.Value, cancellationToken);

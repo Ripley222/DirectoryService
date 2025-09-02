@@ -35,7 +35,7 @@ public class UpdateDepartmentLocationsHandler(
         using var transactionScope = transactionScopeResult.Value;
 
         //получение департамента и проверка на то, что он активен
-        var department = await departmentsRepository.GetById(departmentId, cancellationToken);
+        var department = await departmentsRepository.GetByIdWithLocations(departmentId, cancellationToken);
         if (department.IsFailure)
         {
             transactionScope.Rollback();
@@ -69,10 +69,7 @@ public class UpdateDepartmentLocationsHandler(
             departmentLocations.Add(departmentLocation);
         }
         
-        department.Value.AddLocations(departmentLocations);
-        
-        //удаление прошлых локаций
-        await departmentsRepository.DeleteLocationsByDepartmentId(departmentId, cancellationToken);
+        department.Value.SetLocations(departmentLocations);
         
         //сохранение изменений
         var result = await transactionManager.SaveChangesAsync(cancellationToken);
