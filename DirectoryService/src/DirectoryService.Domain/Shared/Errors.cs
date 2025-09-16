@@ -65,6 +65,13 @@ public static class Errors
         {
             return Error.Validation("record.not.active", "Department is not active");
         }
+
+        public static Error HierarchyFailure()
+        {
+            return Error.Failure(
+                "hierarchy.department.parent", 
+                "Child department can not be parent department");
+        }
     }
     
     public static class Position

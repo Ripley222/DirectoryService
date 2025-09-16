@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using DirectoryService.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DirectoryService.Infrastructure.Migrations
 {
     [DbContext(typeof(DirectoryServiceDbContext))]
-    partial class DirectoryServiceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250903112849_AddLtreeProperty")]
+    partial class AddLtreeProperty
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,6 +57,28 @@ namespace DirectoryService.Infrastructure.Migrations
                     b.Property<bool>("_isActive")
                         .HasColumnType("boolean")
                         .HasColumnName("is_active");
+
+                    b.ComplexProperty<Dictionary<string, object>>("DepartmentName", "DirectoryService.Domain.Entities.DepartmentEntity.Department.DepartmentName#DepartmentName", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasMaxLength(150)
+                                .HasColumnType("character varying(150)")
+                                .HasColumnName("name");
+                        });
+
+                    b.ComplexProperty<Dictionary<string, object>>("Identifier", "DirectoryService.Domain.Entities.DepartmentEntity.Department.Identifier#Identifier", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasMaxLength(150)
+                                .HasColumnType("character varying(150)")
+                                .HasColumnName("identifier");
+                        });
 
                     b.HasKey("Id")
                         .HasName("pk_department");
@@ -215,50 +240,6 @@ namespace DirectoryService.Infrastructure.Migrations
                         .WithMany("ChildDepartments")
                         .HasForeignKey("ParentId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.OwnsOne("DirectoryService.Domain.Entities.DepartmentEntity.ValueObjects.DepartmentName", "DepartmentName", b1 =>
-                        {
-                            b1.Property<Guid>("DepartmentId")
-                                .HasColumnType("uuid");
-
-                            b1.Property<string>("Value")
-                                .IsRequired()
-                                .HasMaxLength(150)
-                                .HasColumnType("character varying(150)")
-                                .HasColumnName("name");
-
-                            b1.HasKey("DepartmentId");
-
-                            b1.ToTable("departments");
-
-                            b1.WithOwner()
-                                .HasForeignKey("DepartmentId");
-                        });
-
-                    b.OwnsOne("DirectoryService.Domain.Entities.DepartmentEntity.ValueObjects.Identifier", "Identifier", b1 =>
-                        {
-                            b1.Property<Guid>("DepartmentId")
-                                .HasColumnType("uuid");
-
-                            b1.Property<string>("Value")
-                                .IsRequired()
-                                .HasMaxLength(150)
-                                .HasColumnType("character varying(150)")
-                                .HasColumnName("identifier");
-
-                            b1.HasKey("DepartmentId");
-
-                            b1.ToTable("departments");
-
-                            b1.WithOwner()
-                                .HasForeignKey("DepartmentId");
-                        });
-
-                    b.Navigation("DepartmentName")
-                        .IsRequired();
-
-                    b.Navigation("Identifier")
-                        .IsRequired();
 
                     b.Navigation("Parent");
                 });

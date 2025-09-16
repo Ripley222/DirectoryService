@@ -1,5 +1,6 @@
 ﻿using DirectoryService.Application.DepartmentsFeatures.Create;
 using DirectoryService.Application.DepartmentsFeatures.UpdateLocations;
+using DirectoryService.Application.DepartmentsFeatures.UpdateParent;
 using DirectoryService.Presentation.Extensions;
 using DirectoryService.Presentation.Requests.Departments;
 using DirectoryService.Presentation.Response;
@@ -39,6 +40,26 @@ public class DepartmentsController : ControllerBase
         if (result.IsFailure)
             return result.Error.ToResponse();
 
+        var envelope = Envelope.Ok(result.Value);
+        
+        return Ok(envelope);
+    }
+
+    [HttpPut("{departmentId}/parent")]
+    public async Task<IActionResult> UpdateParent(
+        [FromRoute] Guid departmentId,
+        [FromBody] Guid? parentId,
+        [FromServices] UpdateDepartmentParentHandler handler,
+        CancellationToken cancellationToken = default)
+    {
+        var command = new UpdateDepartmentParentCommand(
+            departmentId,
+            parentId);
+        
+        var result = await handler.Handle(command, cancellationToken);
+        if (result.IsFailure)
+            return result.Error.ToResponse();
+        
         var envelope = Envelope.Ok(result.Value);
         
         return Ok(envelope);

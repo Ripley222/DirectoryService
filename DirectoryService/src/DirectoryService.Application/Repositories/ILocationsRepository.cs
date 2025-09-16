@@ -8,15 +8,18 @@ namespace DirectoryService.Application.Repositories;
 
 public interface ILocationsRepository
 {
+    Task<Result<Guid, Error>> Add(
+        Location location, CancellationToken cancellationToken);
+    
+    Task<UnitResult<Error>> CheckByName(
+        LocationName locationName, CancellationToken cancellationToken);
+    
+    Task<UnitResult<Error>> CheckByAddress(
+        Address address, CancellationToken cancellationToken);
+    
     Task<UnitResult<Error>> CheckManyByIds(
         IEnumerable<LocationId> locationIds, CancellationToken cancellationToken);
 
     Task<UnitResult<Error>> CheckActiveLocationsByIds(
         IEnumerable<LocationId> locationIds, CancellationToken cancellationToken);
-    
-    Task<Result<Guid, Error>> Add(Location location, CancellationToken cancellationToken);
-    
-    Task<UnitResult<Error>> CheckByName(LocationName locationName, CancellationToken cancellationToken);
-    
-    Task<UnitResult<Error>> CheckByAddress(Address address, CancellationToken cancellationToken);
 }
