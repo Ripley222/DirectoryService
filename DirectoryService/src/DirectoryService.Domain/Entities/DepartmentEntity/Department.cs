@@ -60,6 +60,26 @@ public class Department
         _locations.Clear();
         _locations.AddRange(departmentLocations);
     }
+    
+    public UnitResult<Error> SetParent(Department? parentDepartment)
+    {
+        ParentId = parentDepartment?.Id;
+        Parent = parentDepartment;
+        
+        var newPath = parentDepartment is null 
+            ? Path.Create(Identifier.Value) 
+            : Path.Create(parentDepartment.Path.Value + "." + Identifier.Value);
+        
+        if (newPath.IsFailure)
+            return newPath.Error;
+        
+        Path = newPath.Value;
+
+        var newDepth = parentDepartment?.Depth;
+        Depth = (short?)(newDepth + 1) ?? 0;
+        
+        return Result.Success<Error>();
+    }
 
     public bool IsActive()
     {
