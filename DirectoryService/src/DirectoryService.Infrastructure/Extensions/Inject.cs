@@ -13,14 +13,12 @@ public static class Inject
     public static IServiceCollection AddInfrastructure(this IServiceCollection services)
     {
         services.AddScoped<DirectoryServiceDbContext>();
+        
         services.AddScoped<ILocationsRepository, LocationsRepository>();
         services.AddScoped<IDepartmentsRepository, DepartmentsRepository>();
         services.AddScoped<IPositionsRepository, PositionsRepository>();
         
         services.AddScoped<ITransactionManager, TransactionManager>();
-        
-        /*services.AddSingleton<NpgsqlConnectionFactory>();
-        services.AddSingleton<ILocationsRepository, LocationsRepositoryDapper>();*/
         
         return services;
     }
