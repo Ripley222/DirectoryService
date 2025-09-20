@@ -107,7 +107,7 @@ public class DepartmentsRepository(
         Identifier identifier, CancellationToken cancellationToken)
     {
         var result = await dbContext.Departments
-            .AnyAsync(d => d.Identifier == identifier, cancellationToken);
+            .AnyAsync(d => d.Identifier.Value == identifier.Value, cancellationToken);
 
         if (result)
             return Result.Success<Error>();
