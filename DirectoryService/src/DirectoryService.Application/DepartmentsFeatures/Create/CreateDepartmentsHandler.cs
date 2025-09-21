@@ -39,14 +39,12 @@ public class CreateDepartmentsHandler(
         if (locationsExistResult.IsFailure)
             return locationsExistResult.Error.ToErrors();
 
-
         //проверка на уникальность identifier
         var departmentExistWithIdentifier = await departmentsRepository.CheckByIdentifier(
             identifier, cancellationToken);
 
         if (departmentExistWithIdentifier.IsSuccess)
             return Errors.Department.AlreadyExist("Identifier").ToErrors();
-
 
         //проверка на наличие родительского департамента
         Department? department = null;

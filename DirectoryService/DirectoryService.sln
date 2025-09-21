@@ -12,6 +12,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DirectoryService.Presentati
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DirectoryService.Contracts", "src\DirectoryService.Contracts\DirectoryService.Contracts.csproj", "{AB83AA7E-45C5-46B8-9760-B5BC8270F3DE}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{A7CDFC6E-387A-48C2-82B2-9F133E693787}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DirectoryService.IntegrationTests", "tests\DirectoryService.IntegrationTests\DirectoryService.IntegrationTests.csproj", "{F0F64F79-29E0-409A-B469-7B7A0643EB53}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,6 +42,10 @@ Global
 		{AB83AA7E-45C5-46B8-9760-B5BC8270F3DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AB83AA7E-45C5-46B8-9760-B5BC8270F3DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AB83AA7E-45C5-46B8-9760-B5BC8270F3DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0F64F79-29E0-409A-B469-7B7A0643EB53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0F64F79-29E0-409A-B469-7B7A0643EB53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0F64F79-29E0-409A-B469-7B7A0643EB53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0F64F79-29E0-409A-B469-7B7A0643EB53}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{D4F381AC-6224-4BEF-A7EF-4CFE4F48CC83} = {63DF729A-D5E4-49C8-8A1A-1C8F65F27557}
@@ -45,5 +53,6 @@ Global
 		{4904C14E-86D5-4ED7-B2DB-80E311C52AA9} = {63DF729A-D5E4-49C8-8A1A-1C8F65F27557}
 		{CD8B7946-0608-44DD-84AB-E8AD96BF12FC} = {63DF729A-D5E4-49C8-8A1A-1C8F65F27557}
 		{AB83AA7E-45C5-46B8-9760-B5BC8270F3DE} = {63DF729A-D5E4-49C8-8A1A-1C8F65F27557}
+		{F0F64F79-29E0-409A-B469-7B7A0643EB53} = {A7CDFC6E-387A-48C2-82B2-9F133E693787}
 	EndGlobalSection
 EndGlobal
