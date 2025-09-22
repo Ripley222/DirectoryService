@@ -2,6 +2,7 @@
 using DirectoryService.Application.Database;
 using DirectoryService.Application.Extensions;
 using DirectoryService.Application.Repositories;
+using DirectoryService.Contracts.Departments;
 using DirectoryService.Domain.Entities.Ids;
 using DirectoryService.Domain.Entities.Relationships;
 using DirectoryService.Domain.Shared;
@@ -13,10 +14,10 @@ public class UpdateDepartmentLocationsHandler(
     IDepartmentsRepository departmentsRepository,
     ILocationsRepository locationsRepository,
     ITransactionManager transactionManager,
-    IValidator<UpdateDepartmentLocationsCommand> validator)
+    IValidator<UpdateDepartmentLocationsRequest> validator)
 {
     public async Task<Result<Guid, ErrorList>> Handle(
-        UpdateDepartmentLocationsCommand command,
+        UpdateDepartmentLocationsRequest command,
         CancellationToken cancellationToken = default)
     {
         //валидация входных параметров

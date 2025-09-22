@@ -1,6 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using DirectoryService.Application.Extensions;
 using DirectoryService.Application.Repositories;
+using DirectoryService.Contracts.Positions;
 using DirectoryService.Domain.Entities.Ids;
 using DirectoryService.Domain.Entities.PositionEntity;
 using DirectoryService.Domain.Entities.PositionEntity.ValueObjects;
@@ -14,11 +15,11 @@ namespace DirectoryService.Application.PositionsFeatures.Create;
 public class CreatePositionsHandler(
     IPositionsRepository positionsRepository,
     IDepartmentsRepository departmentsRepository,
-    IValidator<CreatePositionsCommand> validator,
+    IValidator<CreatePositionsRequest> validator,
     ILogger<CreatePositionsHandler> logger)
 {
     public async Task<Result<Guid, ErrorList>> Handle(
-        CreatePositionsCommand command,
+        CreatePositionsRequest command,
         CancellationToken cancellationToken = default)
     {
         //валидация входных параметров

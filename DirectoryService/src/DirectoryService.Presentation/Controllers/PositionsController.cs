@@ -1,6 +1,6 @@
 ﻿using DirectoryService.Application.PositionsFeatures.Create;
+using DirectoryService.Contracts.Positions;
 using DirectoryService.Presentation.Extensions;
-using DirectoryService.Presentation.Requests.Positions;
 using DirectoryService.Presentation.Response;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,7 +16,7 @@ public class PositionsController : ControllerBase
         [FromServices] CreatePositionsHandler handler,
         CancellationToken cancellationToken = default)
     {
-        var result = await handler.Handle(request.ToCommand(), cancellationToken);
+        var result = await handler.Handle(request, cancellationToken);
 
         if (result.IsFailure)
             return result.Error.ToResponse();

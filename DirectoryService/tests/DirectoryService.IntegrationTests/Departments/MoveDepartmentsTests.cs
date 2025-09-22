@@ -1,5 +1,6 @@
 ﻿using DirectoryService.Application.DepartmentsFeatures.Create;
 using DirectoryService.Application.DepartmentsFeatures.UpdateParent;
+using DirectoryService.Contracts.Departments;
 using DirectoryService.Domain.Entities.Ids;
 using DirectoryService.IntegrationTests.Infrastructure;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +19,7 @@ public class MoveDepartmentsTests(DirectoryTestWebFactory factory) : ExecuteDepa
 
         var rootDepartment = await ExecuteCreateHandler(sut =>
         {
-            var command = new CreateDepartmentsCommand(
+            var command = new CreateDepartmentsRequest(
                 "Main department",
                 "main",
                 null,
@@ -29,7 +30,7 @@ public class MoveDepartmentsTests(DirectoryTestWebFactory factory) : ExecuteDepa
         
         var childDepartmentResult = await ExecuteCreateHandler(sut =>
         {
-            var command = new CreateDepartmentsCommand(
+            var command = new CreateDepartmentsRequest(
                 "Child department",
                 "child",
                 rootDepartment.Value,
@@ -40,7 +41,7 @@ public class MoveDepartmentsTests(DirectoryTestWebFactory factory) : ExecuteDepa
         
         var newRootDepartmentResult = await ExecuteCreateHandler(sut =>
         {
-            var command = new CreateDepartmentsCommand(
+            var command = new CreateDepartmentsRequest(
                 "Dev main department",
                 "dev",
                 null,
@@ -52,7 +53,7 @@ public class MoveDepartmentsTests(DirectoryTestWebFactory factory) : ExecuteDepa
         // act
         var updatedResult = await ExecuteUpdateParentHandler(sut =>
         {
-            var command = new UpdateDepartmentParentCommand(
+            var command = new UpdateDepartmentParentRequest(
                 childDepartmentResult.Value,
                 newRootDepartmentResult.Value);
 
@@ -88,7 +89,7 @@ public class MoveDepartmentsTests(DirectoryTestWebFactory factory) : ExecuteDepa
 
         var rootDepartmentResult = await ExecuteCreateHandler(sut =>
         {
-            var command = new CreateDepartmentsCommand(
+            var command = new CreateDepartmentsRequest(
                 "dev department",
                 "dev",
                 null,
@@ -99,7 +100,7 @@ public class MoveDepartmentsTests(DirectoryTestWebFactory factory) : ExecuteDepa
         
         var firstSubChildrenDepartmentResult = await ExecuteCreateHandler(sut =>
         {
-            var command = new CreateDepartmentsCommand(
+            var command = new CreateDepartmentsRequest(
                 "First sub children department",
                 "first",
                 rootDepartmentResult.Value,
@@ -110,7 +111,7 @@ public class MoveDepartmentsTests(DirectoryTestWebFactory factory) : ExecuteDepa
         
         var secondSubChildrenDepartmentResult = await ExecuteCreateHandler(sut =>
         {
-            var command = new CreateDepartmentsCommand(
+            var command = new CreateDepartmentsRequest(
                 "Second sub children department",
                 "second",
                 rootDepartmentResult.Value,
@@ -121,7 +122,7 @@ public class MoveDepartmentsTests(DirectoryTestWebFactory factory) : ExecuteDepa
         
         var newRootDepartmentResult = await ExecuteCreateHandler(sut =>
         {
-            var command = new CreateDepartmentsCommand(
+            var command = new CreateDepartmentsRequest(
                 "Main department",
                 "main",
                 null,
@@ -133,7 +134,7 @@ public class MoveDepartmentsTests(DirectoryTestWebFactory factory) : ExecuteDepa
         // act
         var updatedResult = await ExecuteUpdateParentHandler(sut =>
         {
-            var command = new UpdateDepartmentParentCommand(
+            var command = new UpdateDepartmentParentRequest(
                 rootDepartmentResult.Value,
                 newRootDepartmentResult.Value);
 
@@ -181,7 +182,7 @@ public class MoveDepartmentsTests(DirectoryTestWebFactory factory) : ExecuteDepa
 
         var rootDepartmentResult = await ExecuteCreateHandler(sut =>
         {
-            var command = new CreateDepartmentsCommand(
+            var command = new CreateDepartmentsRequest(
                 "Main department",
                 "main",
                 null,
@@ -192,7 +193,7 @@ public class MoveDepartmentsTests(DirectoryTestWebFactory factory) : ExecuteDepa
         
         var childDepartmentResult = await ExecuteCreateHandler(sut =>
         {
-            var command = new CreateDepartmentsCommand(
+            var command = new CreateDepartmentsRequest(
                 "Child department",
                 "child",
                 rootDepartmentResult.Value,
@@ -203,7 +204,7 @@ public class MoveDepartmentsTests(DirectoryTestWebFactory factory) : ExecuteDepa
         
         var subChildDepartmentResult = await ExecuteCreateHandler(sut =>
         {
-            var command = new CreateDepartmentsCommand(
+            var command = new CreateDepartmentsRequest(
                 "Subchild department",
                 "subchild",
                 childDepartmentResult.Value,
@@ -215,7 +216,7 @@ public class MoveDepartmentsTests(DirectoryTestWebFactory factory) : ExecuteDepa
         // act
         var updatedResult = await ExecuteUpdateParentHandler(sut =>
         {
-            var command = new UpdateDepartmentParentCommand(
+            var command = new UpdateDepartmentParentRequest(
                 childDepartmentResult.Value,
                 subChildDepartmentResult.Value);
 

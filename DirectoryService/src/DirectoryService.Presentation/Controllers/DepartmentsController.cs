@@ -1,8 +1,8 @@
 ﻿using DirectoryService.Application.DepartmentsFeatures.Create;
 using DirectoryService.Application.DepartmentsFeatures.UpdateLocations;
 using DirectoryService.Application.DepartmentsFeatures.UpdateParent;
+using DirectoryService.Contracts.Departments;
 using DirectoryService.Presentation.Extensions;
-using DirectoryService.Presentation.Requests.Departments;
 using DirectoryService.Presentation.Response;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,11 +14,11 @@ public class DepartmentsController : ControllerBase
 {
     [HttpPost]
     public async Task<IActionResult> Create(
-        [FromBody] AddDepartmentsRequest request,
+        [FromBody] CreateDepartmentsRequest request,
         [FromServices] CreateDepartmentsHandler handler,
         CancellationToken cancellationToken = default)
     {
-        var result = await handler.Handle(request.ToCommand(), cancellationToken);
+        var result = await handler.Handle(request, cancellationToken);
         
         if (result.IsFailure)
             return result.Error.ToResponse();
@@ -31,11 +31,13 @@ public class DepartmentsController : ControllerBase
     [HttpPut("{departmentId}/locations")]
     public async Task<IActionResult> Update(
         [FromRoute] Guid departmentId,
-        [FromBody] UpdateDepartmentLocationsRequest request,
+        [FromBody] IEnumerable<Guid> locationIds,
         [FromServices] UpdateDepartmentLocationsHandler handler,
         CancellationToken cancellationToken = default)
     {
-        var result = await handler.Handle(request.ToCommand(departmentId), cancellationToken);
+        var result = await handler.Handle(
+            new UpdateDepartmentLocationsRequest(departmentId, locationIds), 
+            cancellationToken);
         
         if (result.IsFailure)
             return result.Error.ToResponse();
@@ -52,7 +54,7 @@ public class DepartmentsController : ControllerBase
         [FromServices] UpdateDepartmentParentHandler handler,
         CancellationToken cancellationToken = default)
     {
-        var command = new UpdateDepartmentParentCommand(
+        var command = new UpdateDepartmentParentRequest(
             departmentId,
             parentId);
         

@@ -1,6 +1,6 @@
-﻿namespace DirectoryService.Application.LocationsFeatures.Create;
+﻿namespace DirectoryService.Contracts.Locations;
 
-public record CreateLocationsCommand(
+public record CreateLocationsRequest(
     string Name,
     string City,
     string Street,

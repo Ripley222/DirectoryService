@@ -1,11 +1,12 @@
 ﻿using DirectoryService.Application.Validation;
+using DirectoryService.Contracts.Locations;
 using DirectoryService.Domain.Entities.LocationEntity.ValueObjects;
 using FluentValidation;
 using TimeZone = DirectoryService.Domain.Entities.LocationEntity.ValueObjects.TimeZone;
 
 namespace DirectoryService.Application.LocationsFeatures.Create;
 
-public class CreateLocationCommandValidator : AbstractValidator<CreateLocationsCommand>
+public class CreateLocationCommandValidator : AbstractValidator<CreateLocationsRequest>
 {
     public CreateLocationCommandValidator()
     {
