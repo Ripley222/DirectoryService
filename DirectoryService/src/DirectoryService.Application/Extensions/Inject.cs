@@ -2,6 +2,7 @@
 using DirectoryService.Application.DepartmentsFeatures.UpdateLocations;
 using DirectoryService.Application.DepartmentsFeatures.UpdateParent;
 using DirectoryService.Application.LocationsFeatures.Create;
+using DirectoryService.Application.LocationsFeatures.Get;
 using DirectoryService.Application.PositionsFeatures.Create;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,6 +18,7 @@ public static class Inject
         services.AddScoped<CreatePositionsHandler>();
         services.AddScoped<UpdateDepartmentLocationsHandler>();
         services.AddScoped<UpdateDepartmentParentHandler>();
+        services.AddScoped<GetLocationsHandler>();
         
         services.AddValidatorsFromAssembly(typeof(Inject).Assembly);
         
