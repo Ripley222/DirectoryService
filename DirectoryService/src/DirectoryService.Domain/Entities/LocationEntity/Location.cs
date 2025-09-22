@@ -33,10 +33,10 @@ public class Location
         _departments.Add(departmentLocation);
     }
     
-    public LocationId Id { get; }
-    public LocationName LocationName { get; private set; }
-    public Address Address { get; private set; }
-    public TimeZone TimeZone { get; private set; }
+    public LocationId Id { get; } = null!;
+    public LocationName LocationName { get; private set; } = null!;
+    public Address Address { get; private set; } = null!;
+    public TimeZone TimeZone { get; private set; } = null!;
     
     public IReadOnlyList<DepartmentLocation> Departments => _departments;
     

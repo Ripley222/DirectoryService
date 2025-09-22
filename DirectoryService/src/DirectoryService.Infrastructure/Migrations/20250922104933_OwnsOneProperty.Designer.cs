@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DirectoryService.Infrastructure.Migrations
 {
     [DbContext(typeof(DirectoryServiceDbContext))]
-    [Migration("20250915133726_OwnsOneProperty")]
+    [Migration("20250922104933_OwnsOneProperty")]
     partial class OwnsOneProperty
     {
         /// <inheritdoc />
