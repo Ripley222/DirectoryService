@@ -19,12 +19,7 @@ public class GetLocationsHandler(IReadDbContext readDbContext)
 
         if (query.DepartmentsIds is not null)
         {
-            List<DepartmentId> departmentsIds = [];
-            foreach (var id in query.DepartmentsIds)
-            {
-                var departmentId = DepartmentId.Create(id);
-                departmentsIds.Add(departmentId);
-            }
+            var departmentsIds = query.DepartmentsIds.Select(DepartmentId.Create);
             
             locationsQuery = locationsQuery
                 .Where(l => l.Departments
