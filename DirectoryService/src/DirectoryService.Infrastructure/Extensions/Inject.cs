@@ -13,6 +13,7 @@ public static class Inject
     public static IServiceCollection AddInfrastructure(this IServiceCollection services)
     {
         services.AddScoped<DirectoryServiceDbContext>();
+        services.AddScoped<IReadDbContext, DirectoryServiceDbContext>();
         
         services.AddScoped<ILocationsRepository, LocationsRepository>();
         services.AddScoped<IDepartmentsRepository, DepartmentsRepository>();

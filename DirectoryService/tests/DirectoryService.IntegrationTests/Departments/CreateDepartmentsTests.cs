@@ -1,4 +1,4 @@
-﻿using DirectoryService.Application.DepartmentsFeatures.Create;
+﻿using DirectoryService.Contracts.Departments;
 using DirectoryService.Domain.Entities.Ids;
 using DirectoryService.IntegrationTests.Infrastructure;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +18,7 @@ public class CreateDepartmentsTests(DirectoryTestWebFactory factory) : ExecuteDe
         // act
         var result = await ExecuteCreateHandler(sut=>
         {
-            var command = new CreateDepartmentsCommand(
+            var command = new CreateDepartmentsRequest(
                 "Department",
                 "Test",
                 null,
@@ -52,7 +52,7 @@ public class CreateDepartmentsTests(DirectoryTestWebFactory factory) : ExecuteDe
         // act
         var result = await ExecuteCreateHandler(sut =>
         {
-            var command = new CreateDepartmentsCommand(
+            var command = new CreateDepartmentsRequest(
                 "Main department",
                 "main",
                 DepartmentId.New().Value,

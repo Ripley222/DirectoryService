@@ -229,7 +229,7 @@ namespace DirectoryService.Infrastructure.Migrations
 
                             b1.HasKey("DepartmentId");
 
-                            b1.ToTable("departments", (string)null);
+                            b1.ToTable("departments");
 
                             b1.WithOwner()
                                 .HasForeignKey("DepartmentId");
@@ -248,7 +248,7 @@ namespace DirectoryService.Infrastructure.Migrations
 
                             b1.HasKey("DepartmentId");
 
-                            b1.ToTable("departments", (string)null);
+                            b1.ToTable("departments");
 
                             b1.WithOwner()
                                 .HasForeignKey("DepartmentId");

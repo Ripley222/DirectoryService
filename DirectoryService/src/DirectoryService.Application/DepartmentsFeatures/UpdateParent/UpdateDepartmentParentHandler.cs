@@ -2,6 +2,7 @@
 using DirectoryService.Application.Database;
 using DirectoryService.Application.Extensions;
 using DirectoryService.Application.Repositories;
+using DirectoryService.Contracts.Departments;
 using DirectoryService.Domain.Entities.DepartmentEntity;
 using DirectoryService.Domain.Entities.Ids;
 using DirectoryService.Domain.Shared;
@@ -13,11 +14,11 @@ namespace DirectoryService.Application.DepartmentsFeatures.UpdateParent;
 public class UpdateDepartmentParentHandler(
     IDepartmentsRepository repository,
     ITransactionManager transactionManager,
-    IValidator<UpdateDepartmentParentCommand> validator,
+    IValidator<UpdateDepartmentParentRequest> validator,
     ILogger<UpdateDepartmentParentHandler> logger)
 {
     public async Task<Result<Guid, ErrorList>> Handle(
-        UpdateDepartmentParentCommand command,
+        UpdateDepartmentParentRequest command,
         CancellationToken cancellationToken)
     {
         //валидация входных параметров

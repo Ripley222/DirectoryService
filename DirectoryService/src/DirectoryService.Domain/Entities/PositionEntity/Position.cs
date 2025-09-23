@@ -27,8 +27,8 @@ public class Position
         Description = description;
     }
     
-    public PositionId Id { get; }
-    public PositionName PositionName { get; private set; }
+    public PositionId Id { get; } = null!;
+    public PositionName PositionName { get; private set; } = null!;
     public string? Description { get; private set; }
     
     public IReadOnlyList<DepartmentPosition> Departments => _departments;

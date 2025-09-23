@@ -1,5 +1,6 @@
 ﻿using DirectoryService.Application.DepartmentsFeatures.Create;
 using DirectoryService.Application.DepartmentsFeatures.UpdateLocations;
+using DirectoryService.Contracts.Departments;
 using DirectoryService.Domain.Entities.Ids;
 using DirectoryService.IntegrationTests.Infrastructure;
 using Microsoft.EntityFrameworkCore;
@@ -19,7 +20,7 @@ public class UpdateDepartmentsLocationsTests(DirectoryTestWebFactory factory) : 
 
         var createResult = await ExecuteCreateHandler(sut =>
         {
-            var command = new CreateDepartmentsCommand(
+            var command = new CreateDepartmentsRequest(
                 "Department",
                 "Test",
                 null,
@@ -31,7 +32,7 @@ public class UpdateDepartmentsLocationsTests(DirectoryTestWebFactory factory) : 
         // act
         var updateResult = await ExecuteUpdateHandler(sut =>
         {
-            var command = new UpdateDepartmentLocationsCommand(
+            var command = new UpdateDepartmentLocationsRequest(
                 createResult.Value,
                 [newLocationId.Value]);
             
@@ -62,7 +63,7 @@ public class UpdateDepartmentsLocationsTests(DirectoryTestWebFactory factory) : 
 
         var createResult = await ExecuteCreateHandler(sut =>
         {
-            var command = new CreateDepartmentsCommand(
+            var command = new CreateDepartmentsRequest(
                 "Department",
                 "Test",
                 null,
@@ -74,7 +75,7 @@ public class UpdateDepartmentsLocationsTests(DirectoryTestWebFactory factory) : 
         // act
         var updateResult = await ExecuteUpdateHandler(sut =>
         {
-            var command = new UpdateDepartmentLocationsCommand(
+            var command = new UpdateDepartmentLocationsRequest(
                 createResult.Value,
                 [newLocationId.Value]);
             

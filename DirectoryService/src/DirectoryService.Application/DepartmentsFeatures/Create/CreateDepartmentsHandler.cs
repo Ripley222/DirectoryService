@@ -1,6 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using DirectoryService.Application.Extensions;
 using DirectoryService.Application.Repositories;
+using DirectoryService.Contracts.Departments;
 using DirectoryService.Domain.Entities.DepartmentEntity;
 using DirectoryService.Domain.Entities.DepartmentEntity.ValueObjects;
 using DirectoryService.Domain.Entities.Ids;
@@ -15,11 +16,11 @@ namespace DirectoryService.Application.DepartmentsFeatures.Create;
 public class CreateDepartmentsHandler(
     IDepartmentsRepository departmentsRepository,
     ILocationsRepository locationsRepository,
-    IValidator<CreateDepartmentsCommand> validator,
+    IValidator<CreateDepartmentsRequest> validator,
     ILogger<CreateDepartmentsHandler> logger)
 {
     public async Task<Result<Guid, ErrorList>> Handle(
-        CreateDepartmentsCommand command,
+        CreateDepartmentsRequest command,
         CancellationToken cancellationToken = default)
     {
         //валидация входных параметров

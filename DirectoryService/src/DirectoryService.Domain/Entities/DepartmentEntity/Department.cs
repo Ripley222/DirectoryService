@@ -40,12 +40,12 @@ public class Department
         Depth = depth;
     }
     
-    public DepartmentId Id { get; }
-    public DepartmentName DepartmentName { get; private set; }
-    public Identifier Identifier { get; private set; }
+    public DepartmentId Id { get; } = null!;
+    public DepartmentName DepartmentName { get; private set; } = null!;
+    public Identifier Identifier { get; private set; } = null!;
     public DepartmentId? ParentId  { get; private set; }
     public Department? Parent { get; private set; }
-    public Path Path { get; private set; }
+    public Path Path { get; private set; } = null!;
     public short Depth { get; private set; }
     
     public IReadOnlyList<Department> ChildDepartments => _childDepartments;

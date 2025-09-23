@@ -19,6 +19,6 @@ public class DepartmentPosition
         PositionId = positionId;
     }
     
-    public DepartmentId DepartmentId { get; private set; }
-    public PositionId PositionId { get; private set; }
+    public DepartmentId DepartmentId { get; private set; } = null!;
+    public PositionId PositionId { get; private set; } = null!;
 }

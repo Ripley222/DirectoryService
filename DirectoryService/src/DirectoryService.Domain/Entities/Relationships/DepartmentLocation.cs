@@ -19,6 +19,6 @@ public class DepartmentLocation
         LocationId = locationId;
     }
     
-    public DepartmentId DepartmentId { get; private set; }
-    public LocationId LocationId { get; private set; }
+    public DepartmentId DepartmentId { get; private set; } = null!;
+    public LocationId LocationId { get; private set; } = null!;
 }
