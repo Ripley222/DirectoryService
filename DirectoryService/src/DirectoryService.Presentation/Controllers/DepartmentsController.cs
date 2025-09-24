@@ -69,11 +69,11 @@ public class DepartmentsController : ControllerBase
     }
 
     [HttpGet("top-positions")]
-    public async Task<IActionResult> GetTheHighestPositions(
-        [FromServices] GetDepartmentsHandler handler,
+    public async Task<IActionResult> GetTopDepartments(
+        [FromServices] GetToDepartmentsByPositionsHandler byPositionsHandler,
         CancellationToken cancellationToken = default)
     {
-        var result = await handler.Handle(cancellationToken);
+        var result = await byPositionsHandler.Handle(cancellationToken);
         if (result.IsFailure)
             return result.Error.ToResponse();
         

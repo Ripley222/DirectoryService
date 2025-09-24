@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DirectoryService.Application.DepartmentsFeatures.Get;
 
-public class GetDepartmentsHandler(
+public class GetToDepartmentsByPositionsHandler(
     IReadDbContext readDbContext)
 {
     private const int TAKE_NUMBER_OF_DEPARTMENTS = 5;
