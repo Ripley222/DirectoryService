@@ -1,4 +1,5 @@
 ﻿using DirectoryService.Application.DepartmentsFeatures.Create;
+using DirectoryService.Application.DepartmentsFeatures.Get;
 using DirectoryService.Application.DepartmentsFeatures.UpdateLocations;
 using DirectoryService.Application.DepartmentsFeatures.UpdateParent;
 using DirectoryService.Contracts.Departments;
@@ -64,6 +65,19 @@ public class DepartmentsController : ControllerBase
         
         var envelope = Envelope.Ok(result.Value);
         
+        return Ok(envelope);
+    }
+
+    [HttpGet("top-positions")]
+    public async Task<IActionResult> GetTheHighestPositions(
+        [FromServices] GetDepartmentsHandler handler,
+        CancellationToken cancellationToken = default)
+    {
+        var result = await handler.Handle(cancellationToken);
+        if (result.IsFailure)
+            return result.Error.ToResponse();
+        
+        var envelope = Envelope.Ok(result.Value);
         return Ok(envelope);
     }
 }

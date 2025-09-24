@@ -34,4 +34,5 @@ public class DirectoryServiceDbContext(IConfiguration configuration) : DbContext
         LoggerFactory.Create(builder => { builder.AddConsole(); });
 
     public IQueryable<Location> LocationsRead => Set<Location>().AsQueryable().AsNoTracking();
+    public IQueryable<Department> DepartmentsRead => Set<Department>().AsQueryable().AsNoTracking();
 }

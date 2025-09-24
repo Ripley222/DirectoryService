@@ -1,4 +1,5 @@
 ﻿using DirectoryService.Application.DepartmentsFeatures.Create;
+using DirectoryService.Application.DepartmentsFeatures.Get;
 using DirectoryService.Application.DepartmentsFeatures.UpdateLocations;
 using DirectoryService.Application.DepartmentsFeatures.UpdateParent;
 using DirectoryService.Application.LocationsFeatures.Create;
@@ -18,7 +19,9 @@ public static class Inject
         services.AddScoped<CreatePositionsHandler>();
         services.AddScoped<UpdateDepartmentLocationsHandler>();
         services.AddScoped<UpdateDepartmentParentHandler>();
+        
         services.AddScoped<GetLocationsHandler>();
+        services.AddScoped<GetDepartmentsHandler>();
         
         services.AddValidatorsFromAssembly(typeof(Inject).Assembly);
         
