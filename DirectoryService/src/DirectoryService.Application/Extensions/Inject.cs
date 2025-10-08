@@ -1,5 +1,7 @@
 ﻿using DirectoryService.Application.DepartmentsFeatures.Create;
-using DirectoryService.Application.DepartmentsFeatures.Get;
+using DirectoryService.Application.DepartmentsFeatures.GetDescendants;
+using DirectoryService.Application.DepartmentsFeatures.GetRootsWithNChildren;
+using DirectoryService.Application.DepartmentsFeatures.GetTopByPosition;
 using DirectoryService.Application.DepartmentsFeatures.UpdateLocations;
 using DirectoryService.Application.DepartmentsFeatures.UpdateParent;
 using DirectoryService.Application.LocationsFeatures.Create;
@@ -17,11 +19,14 @@ public static class Inject
         services.AddScoped<CreateLocationsHandler>();
         services.AddScoped<CreateDepartmentsHandler>();
         services.AddScoped<CreatePositionsHandler>();
+        
         services.AddScoped<UpdateDepartmentLocationsHandler>();
         services.AddScoped<UpdateDepartmentParentHandler>();
         
         services.AddScoped<GetLocationsHandler>();
-        services.AddScoped<GetToDepartmentsByPositionsHandler>();
+        services.AddScoped<GetTopDepartmentsByPositionsHandler>();
+        services.AddScoped<GetRootsWithNChildrenDepartmentsHandler>();
+        services.AddScoped<GetDescendantsDepartmentsLazyWithPaginationHandler>();
         
         services.AddValidatorsFromAssembly(typeof(Inject).Assembly);
         
