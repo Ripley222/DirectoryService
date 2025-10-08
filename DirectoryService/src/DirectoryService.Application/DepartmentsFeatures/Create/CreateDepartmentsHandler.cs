@@ -2,6 +2,8 @@
 using DirectoryService.Application.Extensions;
 using DirectoryService.Application.Repositories;
 using DirectoryService.Contracts.Departments;
+using DirectoryService.Contracts.Departments.Commands;
+using DirectoryService.Contracts.Departments.Requests;
 using DirectoryService.Domain.Entities.DepartmentEntity;
 using DirectoryService.Domain.Entities.DepartmentEntity.ValueObjects;
 using DirectoryService.Domain.Entities.Ids;
@@ -16,11 +18,11 @@ namespace DirectoryService.Application.DepartmentsFeatures.Create;
 public class CreateDepartmentsHandler(
     IDepartmentsRepository departmentsRepository,
     ILocationsRepository locationsRepository,
-    IValidator<CreateDepartmentsRequest> validator,
+    IValidator<CreateDepartmentsCommand> validator,
     ILogger<CreateDepartmentsHandler> logger)
 {
     public async Task<Result<Guid, ErrorList>> Handle(
-        CreateDepartmentsRequest command,
+        CreateDepartmentsCommand command,
         CancellationToken cancellationToken = default)
     {
         //валидация входных параметров
@@ -29,13 +31,13 @@ public class CreateDepartmentsHandler(
             return validationResult.GetErrors();
         
         var departmentId = DepartmentId.New();
-        var departmentName = DepartmentName.Create(command.Name).Value;
-        var identifier = Identifier.Create(command.Identifier).Value;
+        var departmentName = DepartmentName.Create(command.Request.Name).Value;
+        var identifier = Identifier.Create(command.Request.Identifier).Value;
         
         //бизнес валидация
         //проверка на существование локаций
         var locationsExistResult = await locationsRepository.CheckManyByIds(
-            command.LocationIds.Select(LocationId.Create), cancellationToken);
+            command.Request.LocationIds.Select(LocationId.Create), cancellationToken);
 
         if (locationsExistResult.IsFailure)
             return locationsExistResult.Error.ToErrors();
@@ -49,10 +51,10 @@ public class CreateDepartmentsHandler(
 
         //проверка на наличие родительского департамента
         Department? department = null;
-        if (command.ParentId is not null)
+        if (command.Request.ParentId is not null)
         {
             var parentDepartmentResult = await departmentsRepository.GetById(
-                DepartmentId.Create((Guid)command.ParentId), cancellationToken);
+                DepartmentId.Create((Guid)command.Request.ParentId), cancellationToken);
             
             if (parentDepartmentResult.IsFailure)
                 return parentDepartmentResult.Error.ToErrors();
@@ -62,7 +64,7 @@ public class CreateDepartmentsHandler(
         
         var path = department is not null
             ? Path.Create(department.Path.Value + "." + identifier.Value).Value
-            : Path.Create(command.Identifier).Value;
+            : Path.Create(command.Request.Identifier).Value;
 
         var depth = department is not null
             ? (short)(department.Depth + Department.CHILD_DEPARTMENT_DEPTH)
@@ -82,7 +84,7 @@ public class CreateDepartmentsHandler(
 
         //привязка департамента к локациям
         List<DepartmentLocation> departmentLocations = [];
-        foreach (var locationId in command.LocationIds)
+        foreach (var locationId in command.Request.LocationIds)
         {
             var departmentsLocations = new DepartmentLocation(
                 departmentId,

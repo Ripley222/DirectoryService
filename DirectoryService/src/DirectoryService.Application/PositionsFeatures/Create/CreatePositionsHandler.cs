@@ -1,7 +1,8 @@
 ﻿using CSharpFunctionalExtensions;
 using DirectoryService.Application.Extensions;
 using DirectoryService.Application.Repositories;
-using DirectoryService.Contracts.Positions;
+using DirectoryService.Contracts.Positions.Commands;
+using DirectoryService.Contracts.Positions.Requests;
 using DirectoryService.Domain.Entities.Ids;
 using DirectoryService.Domain.Entities.PositionEntity;
 using DirectoryService.Domain.Entities.PositionEntity.ValueObjects;
@@ -15,11 +16,11 @@ namespace DirectoryService.Application.PositionsFeatures.Create;
 public class CreatePositionsHandler(
     IPositionsRepository positionsRepository,
     IDepartmentsRepository departmentsRepository,
-    IValidator<CreatePositionsRequest> validator,
+    IValidator<CreatePositionsCommand> validator,
     ILogger<CreatePositionsHandler> logger)
 {
     public async Task<Result<Guid, ErrorList>> Handle(
-        CreatePositionsRequest command,
+        CreatePositionsCommand command,
         CancellationToken cancellationToken = default)
     {
         //валидация входных параметров
@@ -28,8 +29,8 @@ public class CreatePositionsHandler(
             return validationResult.GetErrors();
 
         var positionId = PositionId.New();
-        var positionName = PositionName.Create(command.Name).Value;
-        var description = command.Description;
+        var positionName = PositionName.Create(command.Request.Name).Value;
+        var description = command.Request.Description;
         
         //бизнес валдиация
         //проверка на существование активной позиации с таким же названием
@@ -41,7 +42,7 @@ public class CreatePositionsHandler(
         
         //проверка на существование активных департаментов
         var departmentsExist = await departmentsRepository
-            .CheckActiveDepartmentsByIds(command.DepartmentIds.Select(DepartmentId.Create), cancellationToken);
+            .CheckActiveDepartmentsByIds(command.Request.DepartmentIds.Select(DepartmentId.Create), cancellationToken);
         
         if (departmentsExist.IsFailure)
             return departmentsExist.Error.ToErrors();
@@ -55,7 +56,7 @@ public class CreatePositionsHandler(
             return positionResult.Error.ToErrors();
 
         //привязка позиции к департаментам
-        foreach (var departmentId in command.DepartmentIds)
+        foreach (var departmentId in command.Request.DepartmentIds)
         {
             var departmentPositon = new DepartmentPosition(
                 DepartmentId.Create(departmentId),
