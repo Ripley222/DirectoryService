@@ -1,6 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using DirectoryService.Application.Extensions;
-using DirectoryService.Application.Repositories;
+using DirectoryService.Application.Queries;
 using DirectoryService.Contracts.Departments.DTOs;
 using DirectoryService.Contracts.Departments.Queries;
 using DirectoryService.Domain.Entities.Ids;
@@ -10,7 +10,7 @@ using FluentValidation;
 namespace DirectoryService.Application.DepartmentsFeatures.GetDescendants;
 
 public class GetDescendantsDepartmentsLazyWithPaginationHandler(
-    IDepartmentsRepository departmentsRepository,
+    IDepartmentsQueries departmentsQueries,
     IValidator<GetDescendantDepartmentsWithPaginationQuery> validator)
 {
     public async Task<Result<IReadOnlyList<DescendantsDepartmentDto>, ErrorList>> Handle(
@@ -23,12 +23,12 @@ public class GetDescendantsDepartmentsLazyWithPaginationHandler(
         
         var parentId = DepartmentId.Create(query.DepartmentId);
         
-        var departments = await departmentsRepository.GetDescendantsDepartments(
+        var departments = await departmentsQueries.GetDescendantsDepartmentsWithPagination(
             parentId,
             query.Page,
             query.Size,
             cancellationToken);
 
-        return departments;
+        return Result.Success<IReadOnlyList<DescendantsDepartmentDto>, ErrorList>(departments);
     }
 }

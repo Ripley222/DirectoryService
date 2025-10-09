@@ -20,8 +20,4 @@ public interface IDepartmentsRepository
     Task<UnitResult<Error>> IsDescendants(DepartmentId rootDepartmentId, DepartmentId candidateChildDepartmentId);
     Task<UnitResult<Error>> LockDescendants(Path oldPath);
     Task<UnitResult<Error>> UpdateDescendantDepartments(Department department, Path oldPath);
-    Task<List<DepartmentWithChildrenDto>> GetRootsWithNChildren(
-        int page, int size, int prefetch, CancellationToken cancellationToken);
-    Task<List<DescendantsDepartmentDto>> GetDescendantsDepartments(
-        DepartmentId departmentId, int page, int size, CancellationToken cancellationToken);
 }

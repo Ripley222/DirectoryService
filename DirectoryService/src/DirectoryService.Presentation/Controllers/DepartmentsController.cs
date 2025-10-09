@@ -55,8 +55,11 @@ public class DepartmentsController : ControllerBase
         var result = await handler.Handle(
             new GetDescendantDepartmentsWithPaginationQuery(parentId, request.Page, request.Size),
             cancellationToken);
+
+        if (result.IsFailure)
+            return result.Error.ToResponse();
         
-        var envelope = Envelope.Ok(result);
+        var envelope = Envelope.Ok(result.Value);
         return Ok(envelope);
     }
 
