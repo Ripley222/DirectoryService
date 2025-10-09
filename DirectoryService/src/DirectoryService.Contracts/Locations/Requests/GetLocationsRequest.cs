@@ -1,4 +1,4 @@
-﻿namespace DirectoryService.Contracts.Locations;
+﻿namespace DirectoryService.Contracts.Locations.Requests;
 
 public record GetLocationsRequest(
     IEnumerable<Guid>? DepartmentsIds,

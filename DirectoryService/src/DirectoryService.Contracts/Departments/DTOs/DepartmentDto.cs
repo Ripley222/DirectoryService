@@ -1,12 +1,13 @@
-﻿namespace DirectoryService.Contracts.Departments;
+﻿namespace DirectoryService.Contracts.Departments.DTOs;
 
 public record DepartmentDto(
     Guid DepartmentId,
+    Guid? ParentId,
     string Name,
     string Identifier,
-    Guid? ParentId,
     string Path,
     short Depth,
     DateTime CreatedAt,
+    DateTime UpdatedAt,
     bool IsActive,
     int PositionCount);

@@ -1,7 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using DirectoryService.Application.Extensions;
 using DirectoryService.Application.Repositories;
-using DirectoryService.Contracts.Locations;
+using DirectoryService.Contracts.Locations.Commands;
 using DirectoryService.Domain.Entities.Ids;
 using DirectoryService.Domain.Entities.LocationEntity;
 using DirectoryService.Domain.Entities.LocationEntity.ValueObjects;
@@ -14,22 +14,23 @@ namespace DirectoryService.Application.LocationsFeatures.Create;
 
 public class CreateLocationsHandler(
     ILocationsRepository repository,
-    IValidator<CreateLocationsRequest> validator,
+    IValidator<CreateLocationsCommand> validator,
     ILogger<CreateLocationsHandler> logger)
 {
     public async Task<Result<Guid, ErrorList>> Handle(
-        CreateLocationsRequest request,
+        CreateLocationsCommand command,
         CancellationToken cancellationToken = default)
     {
         //валидация входных параметров
-        var validationResult = await validator.ValidateAsync(request, cancellationToken);
+        var validationResult = await validator.ValidateAsync(command, cancellationToken);
         if (validationResult.IsValid is false)
             return validationResult.GetErrors();
         
         var locationId = LocationId.New();
-        var locationName = LocationName.Create(request.Name).Value;
-        var address = Address.Create(request.City, request.Street, request.House, request.RoomNumber).Value;
-        var timeZone = TimeZone.Create(request.TimeZone).Value;
+        var locationName = LocationName.Create(command.Request.Name).Value;
+        var timeZone = TimeZone.Create(command.Request.TimeZone).Value;
+        var address = Address.Create(
+            command.Request.City, command.Request.Street, command.Request.House, command.Request.RoomNumber).Value;
         
         //бизнес валидация
         //проверка на существование локации с таким же названием

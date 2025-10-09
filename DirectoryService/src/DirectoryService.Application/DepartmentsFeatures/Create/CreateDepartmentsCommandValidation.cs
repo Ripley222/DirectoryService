@@ -1,26 +1,26 @@
 ﻿using DirectoryService.Application.Validation;
-using DirectoryService.Contracts.Departments;
+using DirectoryService.Contracts.Departments.Commands;
 using DirectoryService.Domain.Entities.DepartmentEntity.ValueObjects;
 using DirectoryService.Domain.Shared;
 using FluentValidation;
 
 namespace DirectoryService.Application.DepartmentsFeatures.Create;
 
-public class CreateDepartmentsCommandValidator : AbstractValidator<CreateDepartmentsRequest>
+public class CreateDepartmentsCommandValidation : AbstractValidator<CreateDepartmentsCommand>
 {
-    public CreateDepartmentsCommandValidator()
+    public CreateDepartmentsCommandValidation()
     {
-        RuleFor(c => c.Name)
+        RuleFor(c => c.Request.Name)
             .MustBeValueObject(DepartmentName.Create);
 
-        RuleFor(c => c.Identifier)
+        RuleFor(c => c.Request.Identifier)
             .MustBeValueObject(Identifier.Create);
 
-        RuleFor(c => c.ParentId)
+        RuleFor(c => c.Request.ParentId)
             .Must(p => p == null || p.Value != Guid.Empty)
             .WithError(Errors.General.ValueIsInvalid("ParentId"));
 
-        RuleFor(c => c.LocationIds)
+        RuleFor(c => c.Request.LocationIds)
             .Must(i =>
             {
                 //проверка на наличие дубликатов при помощи HashSet

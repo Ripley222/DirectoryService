@@ -33,7 +33,7 @@ public class DepartmentsRepository(
             return Error.Failure("department.create", "Failed to add Department");
         }
     }
-    
+
     public async Task<Result<Department, Error>> GetById(
         DepartmentId departmentId, CancellationToken cancellationToken)
     {
@@ -76,7 +76,7 @@ public class DepartmentsRepository(
             return Error.Failure("department.getting", "Failed getting Department");
         }
     }
-    
+
     public async Task<Result<Department, Error>> GetByIdWithLock(
         DepartmentId departmentId, CancellationToken cancellationToken)
     {
@@ -120,7 +120,7 @@ public class DepartmentsRepository(
         DepartmentId candidateChildDepartmentId)
     {
         var result = await dbContext.Departments
-            .AnyAsync(d => 
+            .AnyAsync(d =>
                 d.Id == rootDepartmentId &&
                 d.ChildDepartments.Any(cd => cd.Id == candidateChildDepartmentId));
 
@@ -134,8 +134,8 @@ public class DepartmentsRepository(
         Path path)
     {
         var connection = dbContext.Database.GetDbConnection();
-        
-        const string dapperSql =
+
+        const string sql =
             """
             SELECT *
             FROM departments
@@ -143,11 +143,11 @@ public class DepartmentsRepository(
             FOR UPDATE
             """;
 
-        await connection.ExecuteAsync(dapperSql, new
+        await connection.ExecuteAsync(sql, new
         {
             path = path.Value,
         });
-        
+
         return UnitResult.Success<Error>();
     }
 
@@ -156,8 +156,8 @@ public class DepartmentsRepository(
         Path oldPath)
     {
         var connection = dbContext.Database.GetDbConnection();
-        
-        const string dapperSql =
+
+        const string sql =
             """
             UPDATE departments
             SET depth = @departmentDepth + (depth - nlevel(@oldPath::ltree) + 1),
@@ -165,14 +165,14 @@ public class DepartmentsRepository(
             WHERE path <@ @oldPath::ltree
             AND path != @oldPath::ltree
             """;
-        
-        await connection.ExecuteAsync(dapperSql, new
+
+        await connection.ExecuteAsync(sql, new
         {
             departmentDepth = department.Depth,
             departmentPath = department.Path.Value,
             oldPath = oldPath.Value
         });
-        
+
         return UnitResult.Success<Error>();
     }
 }

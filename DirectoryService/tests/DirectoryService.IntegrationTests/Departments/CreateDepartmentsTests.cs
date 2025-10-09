@@ -1,4 +1,6 @@
 ﻿using DirectoryService.Contracts.Departments;
+using DirectoryService.Contracts.Departments.Commands;
+using DirectoryService.Contracts.Departments.Requests;
 using DirectoryService.Domain.Entities.Ids;
 using DirectoryService.IntegrationTests.Infrastructure;
 using Microsoft.EntityFrameworkCore;
@@ -18,13 +20,13 @@ public class CreateDepartmentsTests(DirectoryTestWebFactory factory) : ExecuteDe
         // act
         var result = await ExecuteCreateHandler(sut=>
         {
-            var command = new CreateDepartmentsRequest(
+            var request = new CreateDepartmentsRequest(
                 "Department",
                 "Test",
                 null,
                 [locationId.Value]);
             
-            return sut.Handle(command, cancellationToken);
+            return sut.Handle(new CreateDepartmentsCommand(request), cancellationToken);
         });
         
         // assert
@@ -52,13 +54,13 @@ public class CreateDepartmentsTests(DirectoryTestWebFactory factory) : ExecuteDe
         // act
         var result = await ExecuteCreateHandler(sut =>
         {
-            var command = new CreateDepartmentsRequest(
+            var request = new CreateDepartmentsRequest(
                 "Main department",
                 "main",
                 DepartmentId.New().Value,
                 [locationId.Value]);
             
-            return sut.Handle(command, cancellationToken);
+            return sut.Handle(new CreateDepartmentsCommand(request), cancellationToken);
         });
         
         // assert

@@ -1,22 +1,22 @@
 ﻿using DirectoryService.Application.Validation;
-using DirectoryService.Contracts.Locations;
+using DirectoryService.Contracts.Locations.Commands;
 using DirectoryService.Domain.Entities.LocationEntity.ValueObjects;
 using FluentValidation;
 using TimeZone = DirectoryService.Domain.Entities.LocationEntity.ValueObjects.TimeZone;
 
 namespace DirectoryService.Application.LocationsFeatures.Create;
 
-public class CreateLocationCommandValidator : AbstractValidator<CreateLocationsRequest>
+public class CreateLocationCommandValidation : AbstractValidator<CreateLocationsCommand>
 {
-    public CreateLocationCommandValidator()
+    public CreateLocationCommandValidation()
     {
-        RuleFor(c => c.Name)
+        RuleFor(c => c.Request.Name)
             .MustBeValueObject(LocationName.Create);
         
-        RuleFor(c => new { c.City, c.Street, c.House, c.RoomNumber })
+        RuleFor(c => new { c.Request.City, c.Request.Street, c.Request.House, c.Request.RoomNumber })
             .MustBeValueObject(f => Address.Create(f.City, f.Street, f.House, f.RoomNumber));
 
-        RuleFor(c => c.TimeZone)
+        RuleFor(c => c.Request.TimeZone)
             .MustBeValueObject(TimeZone.Create);
     }
 }

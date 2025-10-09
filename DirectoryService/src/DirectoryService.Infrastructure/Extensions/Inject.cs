@@ -1,6 +1,8 @@
 ﻿using DirectoryService.Application.Database;
+using DirectoryService.Application.Queries;
 using DirectoryService.Application.Repositories;
 using DirectoryService.Infrastructure.Database;
+using DirectoryService.Infrastructure.Queries;
 using DirectoryService.Infrastructure.Repositories.Departments;
 using DirectoryService.Infrastructure.Repositories.Locations;
 using DirectoryService.Infrastructure.Repositories.Positions;
@@ -18,6 +20,8 @@ public static class Inject
         services.AddScoped<ILocationsRepository, LocationsRepository>();
         services.AddScoped<IDepartmentsRepository, DepartmentsRepository>();
         services.AddScoped<IPositionsRepository, PositionsRepository>();
+        
+        services.AddScoped<IDepartmentsQueries, DepartmentsQueries>();
         
         services.AddScoped<ITransactionManager, TransactionManager>();
         
