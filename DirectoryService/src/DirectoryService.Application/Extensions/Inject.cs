@@ -2,6 +2,7 @@
 using DirectoryService.Application.DepartmentsFeatures.GetDescendants;
 using DirectoryService.Application.DepartmentsFeatures.GetRootsWithNChildren;
 using DirectoryService.Application.DepartmentsFeatures.GetTopByPosition;
+using DirectoryService.Application.DepartmentsFeatures.SoftDelete;
 using DirectoryService.Application.DepartmentsFeatures.UpdateLocations;
 using DirectoryService.Application.DepartmentsFeatures.UpdateParent;
 using DirectoryService.Application.LocationsFeatures.Create;
@@ -22,6 +23,8 @@ public static class Inject
         
         services.AddScoped<UpdateDepartmentLocationsHandler>();
         services.AddScoped<UpdateDepartmentParentHandler>();
+        
+        services.AddScoped<SoftDeleteDepartmentsHandler>();
         
         services.AddScoped<GetLocationsHandler>();
         services.AddScoped<GetTopDepartmentsByPositionsHandler>();
