@@ -17,11 +17,19 @@ public class DepartmentPositionConfiguration : IEntityTypeConfiguration<Departme
             .HasName("pk_department_position");
         
         builder
+            .Property(d => d.DepartmentId)
+            .HasColumnName("department_id");
+        
+        builder
             .HasOne<Department>()
             .WithMany(d => d.Positions)
             .HasForeignKey(d => d.DepartmentId)
             .IsRequired()
             .OnDelete(DeleteBehavior.Cascade);
+        
+        builder
+            .Property(d => d.PositionId)
+            .HasColumnName("position_id");
         
         builder
             .HasOne<Position>()

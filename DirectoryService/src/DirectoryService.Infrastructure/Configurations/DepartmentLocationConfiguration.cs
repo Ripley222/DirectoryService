@@ -15,6 +15,10 @@ public class DepartmentLocationConfiguration : IEntityTypeConfiguration<Departme
         builder
             .HasKey(dl => new {dl.DepartmentId, dl.LocationId})
             .HasName("pk_department_location");
+
+        builder
+            .Property(d => d.DepartmentId)
+            .HasColumnName("department_id");
         
         builder
             .HasOne<Department>()
@@ -22,6 +26,10 @@ public class DepartmentLocationConfiguration : IEntityTypeConfiguration<Departme
             .HasForeignKey(d => d.DepartmentId)
             .IsRequired()
             .OnDelete(DeleteBehavior.Cascade);
+        
+        builder
+            .Property(d => d.LocationId)
+            .HasColumnName("location_id");
         
         builder
             .HasOne<Location>()
