@@ -18,6 +18,7 @@ public interface IDepartmentsRepository
     Task<UnitResult<Error>> CheckActiveDepartmentsByIds(IEnumerable<DepartmentId> departmentIds, CancellationToken cancellationToken);
     Task<UnitResult<Error>> CheckByIdentifier(Identifier identifier, CancellationToken cancellationToken);
     Task<UnitResult<Error>> IsDescendants(DepartmentId rootDepartmentId, DepartmentId candidateChildDepartmentId);
-    Task<UnitResult<Error>> LockDescendants(Path oldPath);
+    Task<UnitResult<Error>> LockDescendants(Path parentPath);
     Task<UnitResult<Error>> UpdateDescendantDepartments(Department department, Path oldPath);
+    Task<UnitResult<Error>>UpdateRelationships(DepartmentId departmentId);
 }

@@ -8,6 +8,8 @@ namespace DirectoryService.Domain.Entities.LocationEntity;
 public class Location
 {
     private readonly List<DepartmentLocation> _departments = [];
+    
+    private bool _isActive = true;
 
     //ef core ctor
     private Location()
@@ -33,4 +35,5 @@ public class Location
     public IReadOnlyList<DepartmentLocation> Departments => _departments;
     public DateTime CreatedAt { get; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; private set; }
+    public DateTime DeletedAt { get; private set; }
 }

@@ -35,6 +35,7 @@ public class Position
     
     public DateTime CreatedAt { get; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; private set; }
+    public DateTime DeletedAt { get; private set; }
 
     public bool IsActive()
     {

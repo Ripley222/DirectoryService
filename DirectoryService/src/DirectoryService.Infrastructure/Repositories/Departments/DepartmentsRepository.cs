@@ -131,7 +131,7 @@ public class DepartmentsRepository(
     }
 
     public async Task<UnitResult<Error>> LockDescendants(
-        Path path)
+        Path parentPath)
     {
         var connection = dbContext.Database.GetDbConnection();
 
@@ -145,7 +145,7 @@ public class DepartmentsRepository(
 
         await connection.ExecuteAsync(sql, new
         {
-            path = path.Value,
+            path = parentPath.Value,
         });
 
         return UnitResult.Success<Error>();
@@ -171,6 +171,55 @@ public class DepartmentsRepository(
             departmentDepth = department.Depth,
             departmentPath = department.Path.Value,
             oldPath = oldPath.Value
+        });
+
+        return UnitResult.Success<Error>();
+    }
+
+    public async Task<UnitResult<Error>> UpdateRelationships(DepartmentId departmentId)
+    {
+        var connection = dbContext.Database.GetDbConnection();
+
+        const string sql =
+            """
+            WITH dep_loc AS (SELECT departments_locations.location_id
+                             FROM departments_locations
+                             WHERE department_id = @department_id),
+                 active_loc AS (SELECT DISTINCT dp.location_id
+                                FROM departments_locations AS dp
+                                         JOIN departments d
+                                              ON d.id = dp.department_id
+                                                  AND d.is_active = TRUE
+                                                  AND d.id != @department_id)
+            UPDATE locations l
+            SET is_active  = FALSE,
+                deleted_at = NOW(),
+                updated_at = NOW()
+            WHERE l.is_active = TRUE
+              AND l.id IN (SELECT location_id FROM dep_loc)
+              AND l.id NOT IN (SELECT location_id FROM active_loc);
+            ----------------------------------------------------------------------------
+            WITH dep_pos AS (SELECT position_id
+                             FROM departments_positions
+                             WHERE department_id = @department_id),
+                 active_pos AS (SELECT DISTINCT dp.position_id
+                                FROM departments_positions AS dp
+                                         JOIN departments d
+                                              ON d.id = dp.department_id
+                                                  AND d.is_active = TRUE
+                                                  AND d.id != @department_id)
+            UPDATE positions p
+            SET is_active  = FALSE,
+                deleted_at = NOW(),
+                updated_at = NOW()
+            WHERE p.is_active = TRUE
+              AND p.id IN (SELECT position_id FROM dep_pos)
+              AND p.id NOT IN (SELECT position_id FROM active_pos);
+            """;
+
+        await connection.ExecuteAsync(sql, new
+        {
+            department_id = departmentId.Value,
         });
 
         return UnitResult.Success<Error>();

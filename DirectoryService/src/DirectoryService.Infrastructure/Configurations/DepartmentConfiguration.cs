@@ -73,6 +73,10 @@ public class DepartmentConfiguration : IEntityTypeConfiguration<Department>
             .IsRequired()
             .HasColumnName("updated_at");
         
+        builder.Property(d => d.DeletedAt)
+            .IsRequired()
+            .HasColumnName("deleted_at");
+        
         builder.Property<bool>("_isActive")
             .UsePropertyAccessMode(PropertyAccessMode.Field)
             .HasColumnName("is_active");

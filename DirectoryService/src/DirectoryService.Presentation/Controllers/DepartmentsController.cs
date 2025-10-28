@@ -2,6 +2,7 @@
 using DirectoryService.Application.DepartmentsFeatures.GetDescendants;
 using DirectoryService.Application.DepartmentsFeatures.GetRootsWithNChildren;
 using DirectoryService.Application.DepartmentsFeatures.GetTopByPosition;
+using DirectoryService.Application.DepartmentsFeatures.SoftDelete;
 using DirectoryService.Application.DepartmentsFeatures.UpdateLocations;
 using DirectoryService.Application.DepartmentsFeatures.UpdateParent;
 using DirectoryService.Contracts.Departments.Commands;
@@ -113,6 +114,24 @@ public class DepartmentsController : ControllerBase
 
         var envelope = Envelope.Ok(result.Value);
 
+        return Ok(envelope);
+    }
+
+    [HttpDelete("{departmentId:guid}")]
+    public async Task<IActionResult> SoftDelete(
+        [FromRoute] Guid departmentId,
+        [FromServices] SoftDeleteDepartmentsHandler handler,
+        CancellationToken cancellationToken = default)
+    {
+        var result = await handler.Handle(
+            new DeleteDepartmentsCommand(departmentId),
+            cancellationToken);
+        
+        if (result.IsFailure)
+            return result.Error.ToResponse();
+        
+        var envelope = Envelope.Ok(result.Value);
+        
         return Ok(envelope);
     }
 }

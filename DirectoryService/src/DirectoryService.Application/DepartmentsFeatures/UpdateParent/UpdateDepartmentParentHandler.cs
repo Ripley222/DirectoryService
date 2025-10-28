@@ -83,7 +83,10 @@ public class UpdateDepartmentParentHandler(
         //применение изменений в БД
         var updateDepartmentResult = await transactionManager.SaveChangesAsync(cancellationToken);
         if (updateDepartmentResult.IsFailure)
+        {
+            transaction.Rollback();
             return updateDepartmentResult.Error.ToErrors();
+        }
 
         //применение пассивной блокировки к дочерним подразделениям
         var lockDescendantsResult = await repository.LockDescendants(departmentResult.Value.Path);
