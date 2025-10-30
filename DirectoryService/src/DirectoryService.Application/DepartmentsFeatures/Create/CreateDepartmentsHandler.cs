@@ -36,7 +36,7 @@ public class CreateDepartmentsHandler(
         
         //бизнес валидация
         //проверка на существование локаций
-        var locationsExistResult = await locationsRepository.CheckManyByIds(
+        var locationsExistResult = await locationsRepository.CheckActiveLocationsByIds(
             command.Request.LocationIds.Select(LocationId.Create), cancellationToken);
 
         if (locationsExistResult.IsFailure)

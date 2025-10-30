@@ -61,7 +61,10 @@ public class SoftDeleteDepartmentsHandler(
             return updateDepartmentResult.Error.ToErrors();
         }
 
-        var lockDescendantsResult = await departmentsRepository.LockDescendants(departmentsResult.Value.Path);
+        var lockDescendantsResult = await departmentsRepository.LockDescendants(
+            departmentsResult.Value.Path,
+            cancellationToken);
+        
         if (lockDescendantsResult.IsFailure)
         {
             transaction.Rollback();
@@ -69,7 +72,9 @@ public class SoftDeleteDepartmentsHandler(
         }
 
         var updateDescendantsResult = await departmentsRepository.UpdateDescendantDepartments(
-            departmentsResult.Value, oldPath);
+            departmentsResult.Value,
+            oldPath,
+            cancellationToken);
 
         if (updateDescendantsResult.IsFailure)
         {
@@ -77,7 +82,10 @@ public class SoftDeleteDepartmentsHandler(
             return updateDescendantsResult.Error.ToErrors();
         }
         
-        var updateRelationshipsResult = await departmentsRepository.UpdateRelationships(departmentId);
+        var updateRelationshipsResult = await departmentsRepository.UpdateRelationships(
+            departmentId,
+            cancellationToken);
+        
         if (updateRelationshipsResult.IsFailure)
         {
             transaction.Rollback();

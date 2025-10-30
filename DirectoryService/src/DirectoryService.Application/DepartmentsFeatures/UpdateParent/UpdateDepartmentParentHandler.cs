@@ -51,7 +51,8 @@ public class UpdateDepartmentParentHandler(
             //проверка на то, что родительский департмент не является дочерним 
             var isDescendantsResult = await repository.IsDescendants(
                 departmentId, 
-                parentDepartmentId);
+                parentDepartmentId,
+                cancellationToken);
 
             if (isDescendantsResult.IsFailure)
             {
@@ -89,7 +90,7 @@ public class UpdateDepartmentParentHandler(
         }
 
         //применение пассивной блокировки к дочерним подразделениям
-        var lockDescendantsResult = await repository.LockDescendants(departmentResult.Value.Path);
+        var lockDescendantsResult = await repository.LockDescendants(departmentResult.Value.Path, cancellationToken);
         if (lockDescendantsResult.IsFailure)
         {
             transaction.Rollback();
@@ -99,7 +100,8 @@ public class UpdateDepartmentParentHandler(
         //изменение дочерних департментов
         var updateDescendantDepartments = await repository.UpdateDescendantDepartments(
             departmentResult.Value,
-            oldPath);
+            oldPath,
+            cancellationToken);
         
         if (updateDescendantDepartments.IsFailure)
             return updateDescendantDepartments.Error.ToErrors();
