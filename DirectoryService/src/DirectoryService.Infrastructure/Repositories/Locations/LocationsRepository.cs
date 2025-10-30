@@ -13,18 +13,6 @@ public class LocationsRepository(
     DirectoryServiceDbContext dbContext,
     ILogger<LocationsRepository> logger) : ILocationsRepository
 {
-    public async Task<UnitResult<Error>> CheckManyByIds(
-        IEnumerable<LocationId> locationIds, CancellationToken cancellationToken)
-    {
-        var result = await dbContext.Locations
-            .AnyAsync(l => locationIds.Contains(l.Id), cancellationToken);
-
-        if (result)
-            return Result.Success<Error>();
-
-        return Errors.Location.NotFound();
-    }
-    
     public async Task<UnitResult<Error>> CheckActiveLocationsByIds(
         IEnumerable<LocationId> locationIds, CancellationToken cancellationToken)
     {

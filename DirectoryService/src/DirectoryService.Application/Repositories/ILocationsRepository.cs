@@ -16,9 +16,6 @@ public interface ILocationsRepository
     
     Task<UnitResult<Error>> CheckByAddress(
         Address address, CancellationToken cancellationToken);
-    
-    Task<UnitResult<Error>> CheckManyByIds(
-        IEnumerable<LocationId> locationIds, CancellationToken cancellationToken);
 
     Task<UnitResult<Error>> CheckActiveLocationsByIds(
         IEnumerable<LocationId> locationIds, CancellationToken cancellationToken);
