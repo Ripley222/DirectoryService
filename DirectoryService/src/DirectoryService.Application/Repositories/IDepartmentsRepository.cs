@@ -1,6 +1,4 @@
 ﻿using CSharpFunctionalExtensions;
-using DirectoryService.Contracts.Departments;
-using DirectoryService.Contracts.Departments.DTOs;
 using DirectoryService.Domain.Entities.DepartmentEntity;
 using DirectoryService.Domain.Entities.DepartmentEntity.ValueObjects;
 using DirectoryService.Domain.Entities.Ids;
@@ -17,8 +15,9 @@ public interface IDepartmentsRepository
     Task<Result<Department, Error>> GetByIdWithLock(DepartmentId departmentId, CancellationToken cancellationToken);
     Task<UnitResult<Error>> CheckActiveDepartmentsByIds(IEnumerable<DepartmentId> departmentIds, CancellationToken cancellationToken);
     Task<UnitResult<Error>> CheckByIdentifier(Identifier identifier, CancellationToken cancellationToken);
-    Task<UnitResult<Error>> IsDescendants(DepartmentId rootDepartmentId, DepartmentId candidateChildDepartmentId);
-    Task<UnitResult<Error>> LockDescendants(Path parentPath);
-    Task<UnitResult<Error>> UpdateDescendantDepartments(Department department, Path oldPath);
-    Task<UnitResult<Error>>UpdateRelationships(DepartmentId departmentId);
+    Task<UnitResult<Error>> IsDescendants(DepartmentId rootDepartmentId, DepartmentId candidateChildDepartmentId, CancellationToken cancellationToken);
+    Task<UnitResult<Error>> LockDescendants(Path parentPath, CancellationToken cancellationToken);
+    Task<UnitResult<Error>> UpdateDescendantDepartments(Department department, Path oldPath, CancellationToken cancellationToken);
+    Task<UnitResult<Error>>UpdateRelationships(DepartmentId departmentId, CancellationToken cancellationToken);
+    Task RemoveDeactivatedDepartments(CancellationToken cancellationToken);
 }

@@ -117,12 +117,14 @@ public class DepartmentsRepository(
 
     public async Task<UnitResult<Error>> IsDescendants(
         DepartmentId rootDepartmentId,
-        DepartmentId candidateChildDepartmentId)
+        DepartmentId candidateChildDepartmentId,
+        CancellationToken cancellationToken)
     {
         var result = await dbContext.Departments
             .AnyAsync(d =>
                 d.Id == rootDepartmentId &&
-                d.ChildDepartments.Any(cd => cd.Id == candidateChildDepartmentId));
+                d.ChildDepartments.Any(cd => cd.Id == candidateChildDepartmentId), 
+                cancellationToken);
 
         if (result)
             return Errors.Department.HierarchyFailure();
@@ -131,7 +133,8 @@ public class DepartmentsRepository(
     }
 
     public async Task<UnitResult<Error>> LockDescendants(
-        Path parentPath)
+        Path parentPath,
+        CancellationToken cancellationToken)
     {
         var connection = dbContext.Database.GetDbConnection();
 
@@ -153,7 +156,8 @@ public class DepartmentsRepository(
 
     public async Task<UnitResult<Error>> UpdateDescendantDepartments(
         Department department,
-        Path oldPath)
+        Path oldPath,
+        CancellationToken cancellationToken)
     {
         var connection = dbContext.Database.GetDbConnection();
 
@@ -176,7 +180,9 @@ public class DepartmentsRepository(
         return UnitResult.Success<Error>();
     }
 
-    public async Task<UnitResult<Error>> UpdateRelationships(DepartmentId departmentId)
+    public async Task<UnitResult<Error>> UpdateRelationships(
+        DepartmentId departmentId,
+        CancellationToken cancellationToken)
     {
         var connection = dbContext.Database.GetDbConnection();
 
@@ -223,5 +229,49 @@ public class DepartmentsRepository(
         });
 
         return UnitResult.Success<Error>();
+    }
+
+    public async Task RemoveDeactivatedDepartments(CancellationToken cancellationToken)
+    {
+        var connection = dbContext.Database.GetDbConnection();
+
+        const string sql =
+            """
+            WITH deleted_department AS (SELECT d.id,
+                                              d.path,
+                                              d.depth
+                                       FROM departments d
+                                       WHERE d.is_active = FALSE
+                                         AND NOW() - d.deleted_at >= INTERVAL '1 month'),
+                 active_parent_departments AS (select dd.path      AS deleted_path,
+                                                      parent.id    AS parent_id,
+                                                      parent.path  AS parent_path,
+                                                      parent.depth AS parent_depth
+                                               FROM deleted_department dd
+                                                        LEFT JOIN LATERAL (
+                                                   SELECT d.id,
+                                                          d.path,
+                                                          d.depth
+                                                   FROM departments d
+                                                   WHERE is_active = TRUE
+                                                     AND d.path @> dd.path
+                                                   ORDER BY d.path :: ltree desc
+                                                   LIMIT 1
+                                                   ) AS parent ON TRUE),
+                 update_departments AS (UPDATE departments d
+                     SET parent_id = apd.parent_id,
+                         path = coalesce(apd.parent_path, '' :: ltree) || subpath(d.path, nlevel(dd.path)),
+                         depth = coalesce(apd.parent_depth, -1) + 1,
+                         updated_at = NOW()
+                     FROM deleted_department dd
+                         JOIN active_parent_departments apd ON apd.deleted_path = dd.path
+                     WHERE d.is_active = true
+                         AND d.path <@ dd.path)
+            DELETE
+            FROM departments
+            WHERE id IN (SELECT id FROM deleted_department);
+            """;
+
+        await connection.ExecuteAsync(sql);
     }
 }
