@@ -18,8 +18,8 @@ namespace DirectoryService.Presentation.Controllers;
 [Route("api/departments")]
 public class DepartmentsController : ControllerBase
 {
-    [HttpGet("top-positions")]
-    public async Task<IActionResult> GetTopDepartments(
+    [HttpGet("departments/top")]
+    public async Task<IActionResult> TopDepartments(
         [FromServices] GetTopDepartmentsByPositionsHandler handler,
         CancellationToken cancellationToken = default)
     {
@@ -30,7 +30,7 @@ public class DepartmentsController : ControllerBase
     }
 
     [HttpGet("roots")]
-    public async Task<IActionResult> GetRoots(
+    public async Task<IActionResult> Roots(
         [FromQuery] GetNChildDepartmentsRequest request,
         [FromServices] GetRootsWithNChildrenDepartmentsHandler handler,
         CancellationToken cancellationToken = default)
@@ -47,7 +47,7 @@ public class DepartmentsController : ControllerBase
     }
 
     [HttpGet("{parentId:guid}/children")]
-    public async Task<IActionResult> GetDescendants(
+    public async Task<IActionResult> Descendants(
         [FromRoute] Guid parentId,
         [FromQuery] GetDepartmentsWithPaginationRequest request,
         [FromServices] GetDescendantsDepartmentsLazyWithPaginationHandler handler,
@@ -65,7 +65,7 @@ public class DepartmentsController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(
+    public async Task<IActionResult> Department(
         [FromBody] CreateDepartmentsRequest request,
         [FromServices] CreateDepartmentsHandler handler,
         CancellationToken cancellationToken = default)
@@ -80,7 +80,7 @@ public class DepartmentsController : ControllerBase
     }
 
     [HttpPut("{departmentId:guid}/locations")]
-    public async Task<IActionResult> Update(
+    public async Task<IActionResult> Department(
         [FromRoute] Guid departmentId,
         [FromBody] IEnumerable<Guid> locationIds,
         [FromServices] UpdateDepartmentLocationsHandler handler,
@@ -99,7 +99,7 @@ public class DepartmentsController : ControllerBase
     }
 
     [HttpPut("{departmentId:guid}/parent")]
-    public async Task<IActionResult> UpdateParent(
+    public async Task<IActionResult> Parent(
         [FromRoute] Guid departmentId,
         [FromBody] Guid? parentId,
         [FromServices] UpdateDepartmentParentHandler handler,
