@@ -6,7 +6,7 @@ namespace DirectoryService.IntegrationTests.Infrastructure;
 public class DirectoryBaseTests(DirectoryTestWebFactory factory) : IClassFixture<DirectoryTestWebFactory>, IAsyncLifetime
 {
     private readonly Func<Task> _resetDatabase = factory.ResetDatabaseAsync;
-    protected IServiceProvider Services { get; set; } = factory.Services;
+    protected IServiceProvider Services { get; } = factory.Services;
     
     protected async Task<T> ExecuteInDb<T>(Func<DirectoryServiceDbContext, Task<T>> action)
     {
