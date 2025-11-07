@@ -13,18 +13,19 @@ using Testcontainers.PostgreSql;
 
 namespace DirectoryService.IntegrationTests.Infrastructure;
 
-public abstract class DirectoryTestWebFactory : WebApplicationFactory<Program>, IAsyncLifetime
+public class DirectoryTestWebFactory : WebApplicationFactory<Program>, IAsyncLifetime
 {
     private readonly PostgreSqlContainer _dbContainer = new PostgreSqlBuilder()
         .WithImage("postgres")
-        .WithDatabase("directory_service")
+        .WithHostname("postgres")
+        .WithDatabase("directory_service_tests_db")
         .WithUsername("postgres")
         .WithPassword("postgres")
         .Build();
 
     private Respawner _respawner = null!;
     private DbConnection  _dbConnection = null!;
-
+    
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.ConfigureTestServices(services =>

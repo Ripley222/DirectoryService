@@ -38,11 +38,6 @@ public static class Errors
             
             return Error.Validation("record.already.exist", errorMassage);
         }
-
-        public static Error NotActive()
-        {
-            return Error.Validation("record.not.active", "Location is not active");
-        }
     }
     
     public static class Department
@@ -88,11 +83,6 @@ public static class Errors
                 : $"Position already exist with this property: {invalidField}";
             
             return Error.Validation("record.already.exist", errorMassage);
-        }
-        
-        public static Error NotActive()
-        {
-            return Error.Validation("record.not.active", "Position is not active");
         }
     }
 }
