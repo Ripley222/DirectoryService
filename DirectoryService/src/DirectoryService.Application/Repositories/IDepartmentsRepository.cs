@@ -19,5 +19,5 @@ public interface IDepartmentsRepository
     Task<UnitResult<Error>> LockDescendants(Path parentPath, CancellationToken cancellationToken);
     Task<UnitResult<Error>> UpdateDescendantDepartments(Department department, Path oldPath, CancellationToken cancellationToken);
     Task<UnitResult<Error>>UpdateRelationships(DepartmentId departmentId, CancellationToken cancellationToken);
-    Task RemoveDeactivatedDepartments(CancellationToken cancellationToken);
+    Task<int> RemoveDeactivatedDepartments(CancellationToken cancellationToken);
 }

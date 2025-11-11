@@ -1,4 +1,5 @@
-﻿using DirectoryService.Application.Repositories;
+﻿using DirectoryService.Application.DistributedCaching;
+using DirectoryService.Application.Repositories;
 using DirectoryService.Infrastructure.Options;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -35,7 +36,13 @@ public class DepartmentsCleanerBackgroundService(
         await using var scope = serviceScopeFactory.CreateAsyncScope();
 
         var departmentRepository = scope.ServiceProvider.GetRequiredService<IDepartmentsRepository>();
-
-        await departmentRepository.RemoveDeactivatedDepartments(cancellationToken);
+        
+        var result = await departmentRepository.RemoveDeactivatedDepartments(cancellationToken);
+        if (result > 0)
+        {
+            //инвалидация кэша
+            var cacheService = scope.ServiceProvider.GetRequiredService<ICacheService>();
+            await cacheService.RemoveByPrefixAsync(CacheConstants.CACHING_DEPARTMENTS_KEY, cancellationToken);
+        }
     }
 }

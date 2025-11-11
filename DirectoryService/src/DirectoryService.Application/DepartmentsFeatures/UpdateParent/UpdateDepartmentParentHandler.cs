@@ -1,5 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using DirectoryService.Application.Database;
+using DirectoryService.Application.DistributedCaching;
 using DirectoryService.Application.Extensions;
 using DirectoryService.Application.Repositories;
 using DirectoryService.Contracts.Departments.Commands;
@@ -14,6 +15,7 @@ namespace DirectoryService.Application.DepartmentsFeatures.UpdateParent;
 public class UpdateDepartmentParentHandler(
     IDepartmentsRepository repository,
     ITransactionManager transactionManager,
+    ICacheService cacheService,
     IValidator<UpdateDepartmentParentCommand> validator,
     ILogger<UpdateDepartmentParentHandler> logger)
 {
@@ -109,6 +111,10 @@ public class UpdateDepartmentParentHandler(
         var commitResult = transaction.Commit();
         if (commitResult.IsFailure)
             return commitResult.Error.ToErrors();
+        
+        //инвалдиация кэша
+        var key = CacheConstants.CACHING_DEPARTMENTS_KEY;
+        await cacheService.RemoveByPrefixAsync(key, cancellationToken);
         
         logger.LogInformation("Updated parent department for department with id {departmentId}", command.DepartmentId);
 

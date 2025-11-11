@@ -1,23 +1,53 @@
-﻿using DirectoryService.Application.Database;
+﻿using CSharpFunctionalExtensions;
+using DirectoryService.Application.Database;
+using DirectoryService.Application.DistributedCaching;
 using DirectoryService.Contracts.Departments.DTOs;
+using DirectoryService.Domain.Shared;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Options;
 
 namespace DirectoryService.Application.DepartmentsFeatures.GetTopByPosition;
 
 public class GetTopDepartmentsByPositionsHandler(
-    IReadDbContext readDbContext)
+    IReadDbContext readDbContext,
+    ICacheService cacheService,
+    ICacheOptions cacheOptions)
 {
-    private const int TAKE_NUMBER_OF_DEPARTMENTS = 5;
-    
-    public async Task<IReadOnlyList<DepartmentDto>> Handle(CancellationToken cancellationToken = default)
+    private readonly DistributedCacheEntryOptions _entryOptions = new()
     {
-        var departmentsQuery = readDbContext.DepartmentsRead;
-        
-        departmentsQuery = departmentsQuery.OrderByDescending(d => d.Positions.Count);
+        SlidingExpiration = TimeSpan.FromMinutes(cacheOptions.TimeToClearInMinutes)
+    };
 
-        departmentsQuery = departmentsQuery.Take(TAKE_NUMBER_OF_DEPARTMENTS);
+    private const int TAKE_NUMBER_OF_DEPARTMENTS = 5;
 
-        var departments = await departmentsQuery
+    public async Task<Result<IEnumerable<DepartmentDto>, ErrorList>> Handle(
+        CancellationToken cancellationToken = default)
+    {
+        var filters = $"filters={nameof(TAKE_NUMBER_OF_DEPARTMENTS)}={TAKE_NUMBER_OF_DEPARTMENTS}&OrderBy=Desc";
+
+        var key = CacheConstants.CACHING_DEPARTMENTS_KEY + filters;
+
+        var departments = await cacheService.GetOrSetAsync(
+            key,
+            _entryOptions,
+            async () => await GetDepartmentsByFilters(cancellationToken),
+            cancellationToken);
+
+        if (departments is null)
+            return Errors.Department.NotFound().ToErrors();
+
+        return Result.Success<IEnumerable<DepartmentDto>, ErrorList>(departments);
+    }
+
+    private async Task<IEnumerable<DepartmentDto>> GetDepartmentsByFilters(
+        CancellationToken cancellationToken = default)
+    {
+        var departmentsQuery = readDbContext.DepartmentsRead
+            .OrderByDescending(d => d.Positions.Count)
+            .Take(TAKE_NUMBER_OF_DEPARTMENTS);
+
+        return await departmentsQuery
             .Select(d => new DepartmentDto(
                 d.Id.Value,
                 d.ParentId == null ? null : d.ParentId.Value,
@@ -30,7 +60,5 @@ public class GetTopDepartmentsByPositionsHandler(
                 d.IsActive(),
                 d.Positions.Count))
             .ToListAsync(cancellationToken);
-
-        return departments;
     }
 }

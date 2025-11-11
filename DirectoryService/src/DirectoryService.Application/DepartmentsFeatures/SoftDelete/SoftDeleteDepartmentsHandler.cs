@@ -1,5 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using DirectoryService.Application.Database;
+using DirectoryService.Application.DistributedCaching;
 using DirectoryService.Application.Extensions;
 using DirectoryService.Application.Repositories;
 using DirectoryService.Contracts.Departments.Commands;
@@ -13,6 +14,7 @@ namespace DirectoryService.Application.DepartmentsFeatures.SoftDelete;
 public class SoftDeleteDepartmentsHandler(
     IDepartmentsRepository departmentsRepository,
     ITransactionManager transactionManager,
+    ICacheService cacheService,
     IValidator<DeleteDepartmentsCommand> validator,
     ILogger<SoftDeleteDepartmentsHandler> logger)
 {
@@ -95,6 +97,10 @@ public class SoftDeleteDepartmentsHandler(
         var commitResult = transaction.Commit();
         if (commitResult.IsFailure)
             return commitResult.Error.ToErrors();
+        
+        //инвалидация кэша
+        var key = CacheConstants.CACHING_DEPARTMENTS_KEY;
+        await cacheService.RemoveByPrefixAsync(key, cancellationToken);
         
         logger.LogInformation("Soft deleted departments with id {departmentId}", departmentId.Value);
         

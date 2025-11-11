@@ -24,8 +24,10 @@ public class DepartmentsController : ControllerBase
         CancellationToken cancellationToken = default)
     {
         var result = await handler.Handle(cancellationToken);
+        if (result.IsFailure)
+            return result.Error.ToResponse();
 
-        var envelope = Envelope.Ok(result);
+        var envelope = Envelope.Ok(result.Value);
         return Ok(envelope);
     }
 
@@ -37,12 +39,15 @@ public class DepartmentsController : ControllerBase
     {
         var result = await handler.Handle(
             new GetNChildDepartmentsQuery(
-                request.GetDepartmentsWithPagination.Page,
-                request.GetDepartmentsWithPagination.Size,
+                request.Page,
+                request.Size,
                 request.Prefetch), 
             cancellationToken);
+
+        if (result.IsFailure)
+            return result.Error.ToResponse();
         
-        var envelope = Envelope.Ok(result);
+        var envelope = Envelope.Ok(result.Value);
         return Ok(envelope);
     }
 
