@@ -1,8 +1,10 @@
 ﻿using DirectoryService.Application.Database;
+using DirectoryService.Application.DistributedCaching;
 using DirectoryService.Application.Queries;
 using DirectoryService.Application.Repositories;
 using DirectoryService.Infrastructure.BackgroundServices;
 using DirectoryService.Infrastructure.Database;
+using DirectoryService.Infrastructure.DistributedCaching;
 using DirectoryService.Infrastructure.Options;
 using DirectoryService.Infrastructure.Queries;
 using DirectoryService.Infrastructure.Repositories.Departments;
@@ -29,11 +31,17 @@ public static class Inject
         services.AddScoped<IDepartmentsQueries, DepartmentsQueries>();
         
         services.AddScoped<ITransactionManager, TransactionManager>();
+        
+        services.AddScoped<ICacheService, CacheService>();
+        services.AddSingleton<ICacheOptions, CacheOptionsAdapter>();
 
         services.AddHostedService<DepartmentsCleanerBackgroundService>();
 
         services.Configure<DepartmentsCleanerOptions>(
             configuration.GetSection(DepartmentsCleanerOptions.SectionName));
+        
+        services.Configure<CacheOptions>(
+            configuration.GetSection(CacheOptions.SECTION_NAME));
         
         return services;
     }
