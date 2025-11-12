@@ -1,5 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using DirectoryService.Application.Database;
+using DirectoryService.Application.DistributedCaching;
 using DirectoryService.Application.Extensions;
 using DirectoryService.Application.Repositories;
 using DirectoryService.Contracts.Departments.Commands;
@@ -14,6 +15,7 @@ public class UpdateDepartmentLocationsHandler(
     IDepartmentsRepository departmentsRepository,
     ILocationsRepository locationsRepository,
     ITransactionManager transactionManager,
+    ICacheService cacheService,
     IValidator<UpdateDepartmentLocationsCommand> validator)
 {
     public async Task<Result<Guid, ErrorList>> Handle(
@@ -84,7 +86,11 @@ public class UpdateDepartmentLocationsHandler(
         var commitResult = transactionScope.Commit();
         if (commitResult.IsFailure)
             return commitResult.Error.ToErrors();
-
+        
+        //инвалидация кэша
+        var key = CacheConstants.CACHING_DEPARTMENTS_KEY;
+        await cacheService.RemoveByPrefixAsync(key, cancellationToken);
+        
         return departmentId.Value;
     }
 }

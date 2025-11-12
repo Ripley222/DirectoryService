@@ -10,7 +10,7 @@ RUN dotnet restore src/DirectoryService.Presentation/DirectoryService.Presentati
 
 COPY . .
 
-RUN dotnet publish src/DirectoryService.Presentation/DirectoryService.Presentation.csproj -c Release -o /app/publish
+RUN dotnet publish src/DirectoryService.Presentation/DirectoryService.Presentation.csproj -c Realese -o /app/publish
 
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS runtime
 WORKDIR /app

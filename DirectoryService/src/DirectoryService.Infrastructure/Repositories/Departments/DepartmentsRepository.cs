@@ -231,7 +231,7 @@ public class DepartmentsRepository(
         return UnitResult.Success<Error>();
     }
 
-    public async Task RemoveDeactivatedDepartments(CancellationToken cancellationToken)
+    public async Task<int> RemoveDeactivatedDepartments(CancellationToken cancellationToken)
     {
         var connection = dbContext.Database.GetDbConnection();
 
@@ -272,6 +272,8 @@ public class DepartmentsRepository(
             WHERE id IN (SELECT id FROM deleted_department);
             """;
 
-        await connection.ExecuteAsync(sql);
+        var affectedRowsCount = await connection.ExecuteAsync(sql);
+
+        return affectedRowsCount;
     }
 }

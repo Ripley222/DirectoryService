@@ -20,12 +20,8 @@ Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Override("Microsoft.AspNetCore.Routing", LogEventLevel.Warning)
     .CreateLogger();
 
-builder.Services.AddControllers();  
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-builder.Services.AddSerilog();
-
 builder.Services
+    .AddPresentation(builder.Configuration)
     .AddInfrastructure(builder.Configuration)
     .AddApplication();
 
