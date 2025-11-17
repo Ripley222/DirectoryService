@@ -3,6 +3,7 @@ using DirectoryService.Domain.Entities.Ids;
 using DirectoryService.Domain.Entities.PositionEntity.ValueObjects;
 using DirectoryService.Domain.Entities.Relationships;
 using DirectoryService.Domain.Shared;
+using Shared.SharedKernel.Errors;
 
 namespace DirectoryService.Domain.Entities.PositionEntity;
 

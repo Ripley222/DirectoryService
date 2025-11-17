@@ -1,13 +1,12 @@
 ﻿using System.Linq.Expressions;
 using CSharpFunctionalExtensions;
 using DirectoryService.Application.Database;
-using DirectoryService.Contracts.Locations.Commands;
 using DirectoryService.Contracts.Locations.DTOs;
 using DirectoryService.Contracts.Locations.Queries;
 using DirectoryService.Domain.Entities.Ids;
 using DirectoryService.Domain.Entities.LocationEntity;
-using DirectoryService.Domain.Shared;
 using Microsoft.EntityFrameworkCore;
+using Shared.SharedKernel.Errors;
 
 namespace DirectoryService.Application.LocationsFeatures.Get;
 

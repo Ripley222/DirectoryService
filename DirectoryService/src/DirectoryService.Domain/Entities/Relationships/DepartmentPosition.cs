@@ -1,6 +1,4 @@
-﻿using DirectoryService.Domain.Entities.DepartmentEntity;
-using DirectoryService.Domain.Entities.Ids;
-using DirectoryService.Domain.Entities.PositionEntity;
+﻿using DirectoryService.Domain.Entities.Ids;
 
 namespace DirectoryService.Domain.Entities.Relationships;
 

@@ -3,6 +3,7 @@ using DirectoryService.Contracts.Positions.Commands;
 using DirectoryService.Domain.Entities.PositionEntity.ValueObjects;
 using DirectoryService.Domain.Shared;
 using FluentValidation;
+using Shared.SharedKernel.Errors;
 
 namespace DirectoryService.Application.PositionsFeatures.Create;
 

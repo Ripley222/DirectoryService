@@ -1,13 +1,14 @@
 ﻿using CSharpFunctionalExtensions;
-using DirectoryService.Application.Database;
 using DirectoryService.Application.DistributedCaching;
 using DirectoryService.Application.Extensions;
 using DirectoryService.Application.Repositories;
 using DirectoryService.Contracts.Departments.Commands;
 using DirectoryService.Domain.Entities.Ids;
 using DirectoryService.Domain.Entities.Relationships;
-using DirectoryService.Domain.Shared;
 using FluentValidation;
+using Shared.Core.Abstractions.Caching;
+using Shared.Core.Abstractions.Database;
+using Shared.SharedKernel.Errors;
 
 namespace DirectoryService.Application.DepartmentsFeatures.UpdateLocations;
 

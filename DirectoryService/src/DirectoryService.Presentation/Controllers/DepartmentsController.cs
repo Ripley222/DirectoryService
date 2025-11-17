@@ -8,9 +8,9 @@ using DirectoryService.Application.DepartmentsFeatures.UpdateParent;
 using DirectoryService.Contracts.Departments.Commands;
 using DirectoryService.Contracts.Departments.Queries;
 using DirectoryService.Contracts.Departments.Requests;
-using DirectoryService.Presentation.Extensions;
-using DirectoryService.Presentation.Response;
 using Microsoft.AspNetCore.Mvc;
+using Shared.Framework.Extensions;
+using Shared.SharedKernel;
 
 namespace DirectoryService.Presentation.Controllers;
 

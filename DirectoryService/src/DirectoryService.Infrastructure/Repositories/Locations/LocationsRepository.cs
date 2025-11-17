@@ -3,9 +3,9 @@ using DirectoryService.Application.Repositories;
 using DirectoryService.Domain.Entities.Ids;
 using DirectoryService.Domain.Entities.LocationEntity;
 using DirectoryService.Domain.Entities.LocationEntity.ValueObjects;
-using DirectoryService.Domain.Shared;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Shared.SharedKernel.Errors;
 
 namespace DirectoryService.Infrastructure.Repositories.Locations;
 

@@ -12,6 +12,8 @@ using DirectoryService.Infrastructure.Repositories.Locations;
 using DirectoryService.Infrastructure.Repositories.Positions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Shared.Core.Abstractions.Caching;
+using Shared.Core.Abstractions.Database;
 
 namespace DirectoryService.Infrastructure.Extensions;
 

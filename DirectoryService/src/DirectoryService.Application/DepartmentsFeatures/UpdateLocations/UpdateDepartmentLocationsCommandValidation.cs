@@ -1,9 +1,7 @@
 ﻿using DirectoryService.Application.Validation;
-using DirectoryService.Contracts.Departments;
 using DirectoryService.Contracts.Departments.Commands;
-using DirectoryService.Contracts.Departments.Requests;
-using DirectoryService.Domain.Shared;
 using FluentValidation;
+using Shared.SharedKernel.Errors;
 
 namespace DirectoryService.Application.DepartmentsFeatures.UpdateLocations;
 

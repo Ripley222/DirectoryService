@@ -49,6 +49,14 @@ CodeCoverage/
 *.DotSettings.user
 *.rej
 
+.vs/
+*.user
+*.suo
+*.db
+*.vscode/
+*.cache
+*.bin
+
 # MSTest test Results
 [Tt]est[Rr]esult*/
 [Bb]uild[Ll]og.*

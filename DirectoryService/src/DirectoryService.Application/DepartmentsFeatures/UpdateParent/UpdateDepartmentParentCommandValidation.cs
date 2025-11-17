@@ -1,7 +1,7 @@
 ﻿using DirectoryService.Application.Validation;
 using DirectoryService.Contracts.Departments.Commands;
-using DirectoryService.Domain.Shared;
 using FluentValidation;
+using Shared.SharedKernel.Errors;
 
 namespace DirectoryService.Application.DepartmentsFeatures.UpdateParent;
 

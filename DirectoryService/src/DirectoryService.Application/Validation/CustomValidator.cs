@@ -1,7 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
-using DirectoryService.Domain.Shared;
 using FluentValidation;
 using FluentValidation.Results;
+using Shared.SharedKernel.Errors;
 
 namespace DirectoryService.Application.Validation;
 

@@ -1,7 +1,4 @@
-﻿using DirectoryService.Application.DepartmentsFeatures.Create;
-using DirectoryService.Application.DepartmentsFeatures.UpdateLocations;
-using DirectoryService.Contracts.Departments;
-using DirectoryService.Contracts.Departments.Commands;
+﻿using DirectoryService.Contracts.Departments.Commands;
 using DirectoryService.Contracts.Departments.Requests;
 using DirectoryService.Domain.Entities.Ids;
 using DirectoryService.IntegrationTests.Infrastructure;

@@ -3,6 +3,7 @@ using DirectoryService.Infrastructure.Extensions;
 using DirectoryService.Presentation.Extensions;
 using Serilog;
 using Serilog.Events;
+using Shared.Framework.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,7 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using DirectoryService.Domain.Entities.PositionEntity;
 using DirectoryService.Domain.Entities.PositionEntity.ValueObjects;
-using DirectoryService.Domain.Shared;
+using Shared.SharedKernel.Errors;
 
 namespace DirectoryService.Application.Repositories;
 
