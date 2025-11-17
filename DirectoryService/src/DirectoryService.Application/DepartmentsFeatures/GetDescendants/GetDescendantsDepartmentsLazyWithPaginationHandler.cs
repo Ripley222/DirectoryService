@@ -5,9 +5,10 @@ using DirectoryService.Application.Queries;
 using DirectoryService.Contracts.Departments.DTOs;
 using DirectoryService.Contracts.Departments.Queries;
 using DirectoryService.Domain.Entities.Ids;
-using DirectoryService.Domain.Shared;
 using FluentValidation;
 using Microsoft.Extensions.Caching.Distributed;
+using Shared.Core.Abstractions.Caching;
+using Shared.SharedKernel.Errors;
 
 namespace DirectoryService.Application.DepartmentsFeatures.GetDescendants;
 

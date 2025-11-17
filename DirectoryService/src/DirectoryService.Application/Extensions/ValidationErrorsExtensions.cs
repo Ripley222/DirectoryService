@@ -1,5 +1,5 @@
-﻿using DirectoryService.Domain.Shared;
-using FluentValidation.Results;
+﻿using FluentValidation.Results;
+using Shared.SharedKernel.Errors;
 
 namespace DirectoryService.Application.Extensions;
 

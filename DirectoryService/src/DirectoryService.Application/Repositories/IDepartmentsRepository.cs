@@ -2,7 +2,7 @@
 using DirectoryService.Domain.Entities.DepartmentEntity;
 using DirectoryService.Domain.Entities.DepartmentEntity.ValueObjects;
 using DirectoryService.Domain.Entities.Ids;
-using DirectoryService.Domain.Shared;
+using Shared.SharedKernel.Errors;
 using Path = DirectoryService.Domain.Entities.DepartmentEntity.ValueObjects.Path;
 
 namespace DirectoryService.Application.Repositories;

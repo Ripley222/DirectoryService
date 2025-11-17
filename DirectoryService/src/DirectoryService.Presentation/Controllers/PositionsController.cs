@@ -1,10 +1,9 @@
 ﻿using DirectoryService.Application.PositionsFeatures.Create;
-using DirectoryService.Contracts.Positions;
 using DirectoryService.Contracts.Positions.Commands;
 using DirectoryService.Contracts.Positions.Requests;
-using DirectoryService.Presentation.Extensions;
-using DirectoryService.Presentation.Response;
 using Microsoft.AspNetCore.Mvc;
+using Shared.Framework.Extensions;
+using Shared.SharedKernel;
 
 namespace DirectoryService.Presentation.Controllers;
 

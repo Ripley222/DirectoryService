@@ -2,9 +2,9 @@
 using DirectoryService.Application.Repositories;
 using DirectoryService.Domain.Entities.PositionEntity;
 using DirectoryService.Domain.Entities.PositionEntity.ValueObjects;
-using DirectoryService.Domain.Shared;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Shared.SharedKernel.Errors;
 
 namespace DirectoryService.Infrastructure.Repositories.Positions;
 

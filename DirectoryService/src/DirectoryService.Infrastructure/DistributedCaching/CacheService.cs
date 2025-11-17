@@ -1,7 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using System.Text.Json;
-using DirectoryService.Application.DistributedCaching;
 using Microsoft.Extensions.Caching.Distributed;
+using Shared.Core.Abstractions.Caching;
 
 namespace DirectoryService.Infrastructure.DistributedCaching;
 

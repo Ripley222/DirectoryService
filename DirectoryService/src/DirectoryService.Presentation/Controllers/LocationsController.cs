@@ -1,12 +1,11 @@
 ﻿using DirectoryService.Application.LocationsFeatures.Create;
 using DirectoryService.Application.LocationsFeatures.Get;
-using DirectoryService.Contracts.Locations;
 using DirectoryService.Contracts.Locations.Commands;
 using DirectoryService.Contracts.Locations.Queries;
 using DirectoryService.Contracts.Locations.Requests;
-using DirectoryService.Presentation.Extensions;
-using DirectoryService.Presentation.Response;
 using Microsoft.AspNetCore.Mvc;
+using Shared.Framework.Extensions;
+using Shared.SharedKernel;
 
 namespace DirectoryService.Presentation.Controllers;
 

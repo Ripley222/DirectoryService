@@ -24,8 +24,8 @@ public class DirectoryTestWebFactory : WebApplicationFactory<Program>, IAsyncLif
         .Build();
 
     private Respawner _respawner = null!;
-    private DbConnection  _dbConnection = null!;
-    
+    private DbConnection _dbConnection = null!;
+
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.ConfigureTestServices(services =>
@@ -38,7 +38,7 @@ public class DirectoryTestWebFactory : WebApplicationFactory<Program>, IAsyncLif
                 {
                     ["ConnectionStrings:Postgres"] = _dbContainer.GetConnectionString()
                 });
-            
+
             services.AddScoped<DirectoryServiceDbContext>(_ =>
                 new DirectoryServiceDbContext(configurationBuilder.Build()));
         });
@@ -47,13 +47,13 @@ public class DirectoryTestWebFactory : WebApplicationFactory<Program>, IAsyncLif
     public async Task InitializeAsync()
     {
         await _dbContainer.StartAsync();
-        
+
         await using var scope = Services.CreateAsyncScope();
         var dbContext = scope.ServiceProvider.GetRequiredService<DirectoryServiceDbContext>();
 
         await dbContext.Database.EnsureDeletedAsync();
         await dbContext.Database.EnsureCreatedAsync();
-        
+
         _dbConnection = new NpgsqlConnection(_dbContainer.GetConnectionString());
         await _dbConnection.OpenAsync();
 
@@ -64,7 +64,7 @@ public class DirectoryTestWebFactory : WebApplicationFactory<Program>, IAsyncLif
     {
         await _dbContainer.StopAsync();
         await _dbContainer.DisposeAsync();
-        
+
         await _dbConnection.CloseAsync();
         await _dbConnection.DisposeAsync();
     }

@@ -5,9 +5,9 @@ using DirectoryService.Contracts.Locations.Commands;
 using DirectoryService.Domain.Entities.Ids;
 using DirectoryService.Domain.Entities.LocationEntity;
 using DirectoryService.Domain.Entities.LocationEntity.ValueObjects;
-using DirectoryService.Domain.Shared;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
+using Shared.SharedKernel.Errors;
 using TimeZone = DirectoryService.Domain.Entities.LocationEntity.ValueObjects.TimeZone;
 
 namespace DirectoryService.Application.LocationsFeatures.Create;

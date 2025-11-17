@@ -2,14 +2,13 @@
 using DirectoryService.Application.Extensions;
 using DirectoryService.Application.Repositories;
 using DirectoryService.Contracts.Positions.Commands;
-using DirectoryService.Contracts.Positions.Requests;
 using DirectoryService.Domain.Entities.Ids;
 using DirectoryService.Domain.Entities.PositionEntity;
 using DirectoryService.Domain.Entities.PositionEntity.ValueObjects;
 using DirectoryService.Domain.Entities.Relationships;
-using DirectoryService.Domain.Shared;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
+using Shared.SharedKernel.Errors;
 
 namespace DirectoryService.Application.PositionsFeatures.Create;
 
