@@ -4,6 +4,7 @@ using DirectoryService.Domain.Entities.PositionEntity.ValueObjects;
 using DirectoryService.Domain.Entities.Relationships;
 using DirectoryService.Domain.Shared;
 using Shared.SharedKernel.Errors;
+using Errors = Shared.SharedKernel.Errors.Errors;
 
 namespace DirectoryService.Domain.Entities.PositionEntity;
 

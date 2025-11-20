@@ -3,9 +3,11 @@ using DirectoryService.Application.DistributedCaching;
 using DirectoryService.Application.Queries;
 using DirectoryService.Contracts.Departments.DTOs;
 using DirectoryService.Contracts.Departments.Queries;
+using DirectoryService.Domain.Shared;
 using Microsoft.Extensions.Caching.Distributed;
 using Shared.Core.Abstractions.Caching;
 using Shared.SharedKernel.Errors;
+using Errors = DirectoryService.Domain.Shared.Errors;
 
 namespace DirectoryService.Application.DepartmentsFeatures.GetRootsWithNChildren;
 

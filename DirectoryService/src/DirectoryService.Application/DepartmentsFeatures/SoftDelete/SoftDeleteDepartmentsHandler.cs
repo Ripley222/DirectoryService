@@ -4,11 +4,13 @@ using DirectoryService.Application.Extensions;
 using DirectoryService.Application.Repositories;
 using DirectoryService.Contracts.Departments.Commands;
 using DirectoryService.Domain.Entities.Ids;
+using DirectoryService.Domain.Shared;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 using Shared.Core.Abstractions.Caching;
 using Shared.Core.Abstractions.Database;
 using Shared.SharedKernel.Errors;
+using Errors = DirectoryService.Domain.Shared.Errors;
 
 namespace DirectoryService.Application.DepartmentsFeatures.SoftDelete;
 

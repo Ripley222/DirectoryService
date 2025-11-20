@@ -4,6 +4,7 @@ using DirectoryService.Domain.Entities.PositionEntity.ValueObjects;
 using DirectoryService.Domain.Shared;
 using FluentValidation;
 using Shared.SharedKernel.Errors;
+using Errors = Shared.SharedKernel.Errors.Errors;
 
 namespace DirectoryService.Application.PositionsFeatures.Create;
 

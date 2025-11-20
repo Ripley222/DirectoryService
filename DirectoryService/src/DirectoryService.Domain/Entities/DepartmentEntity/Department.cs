@@ -4,6 +4,7 @@ using DirectoryService.Domain.Entities.Ids;
 using DirectoryService.Domain.Entities.Relationships;
 using DirectoryService.Domain.Shared;
 using Shared.SharedKernel.Errors;
+using Errors = Shared.SharedKernel.Errors.Errors;
 using Path = DirectoryService.Domain.Entities.DepartmentEntity.ValueObjects.Path;
 
 namespace DirectoryService.Domain.Entities.DepartmentEntity;
