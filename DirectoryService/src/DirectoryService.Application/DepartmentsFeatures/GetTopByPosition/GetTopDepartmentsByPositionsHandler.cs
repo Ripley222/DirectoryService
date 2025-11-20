@@ -2,10 +2,12 @@
 using DirectoryService.Application.Database;
 using DirectoryService.Application.DistributedCaching;
 using DirectoryService.Contracts.Departments.DTOs;
+using DirectoryService.Domain.Shared;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
 using Shared.Core.Abstractions.Caching;
 using Shared.SharedKernel.Errors;
+using Errors = DirectoryService.Domain.Shared.Errors;
 
 namespace DirectoryService.Application.DepartmentsFeatures.GetTopByPosition;
 

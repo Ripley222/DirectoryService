@@ -4,9 +4,11 @@ using DirectoryService.Application.Repositories;
 using DirectoryService.Domain.Entities.DepartmentEntity;
 using DirectoryService.Domain.Entities.DepartmentEntity.ValueObjects;
 using DirectoryService.Domain.Entities.Ids;
+using DirectoryService.Domain.Shared;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Shared.SharedKernel.Errors;
+using Errors = DirectoryService.Domain.Shared.Errors;
 using Path = DirectoryService.Domain.Entities.DepartmentEntity.ValueObjects.Path;
 
 namespace DirectoryService.Infrastructure.Repositories.Departments;
