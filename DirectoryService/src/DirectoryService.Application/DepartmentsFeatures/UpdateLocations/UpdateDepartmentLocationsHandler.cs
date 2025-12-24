@@ -5,10 +5,12 @@ using DirectoryService.Application.Repositories;
 using DirectoryService.Contracts.Departments.Commands;
 using DirectoryService.Domain.Entities.Ids;
 using DirectoryService.Domain.Entities.Relationships;
+using DirectoryService.Domain.Shared;
 using FluentValidation;
 using Shared.Core.Abstractions.Caching;
 using Shared.Core.Abstractions.Database;
 using Shared.SharedKernel.Errors;
+using Errors = DirectoryService.Domain.Shared.Errors;
 
 namespace DirectoryService.Application.DepartmentsFeatures.UpdateLocations;
 
