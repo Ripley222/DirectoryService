@@ -5,4 +5,5 @@ public record LocationDto(
     string LocationName,
     string LocationAddress,
     string LocationTimeZone,
-    DateTime DateCreated);
+    DateTime DateCreated,
+    bool IsActive);

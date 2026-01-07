@@ -17,7 +17,7 @@ using Shared.Core.Abstractions.Database;
 
 namespace DirectoryService.Infrastructure.Extensions;
 
-public static class Inject
+public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(
         this IServiceCollection services,

@@ -55,9 +55,10 @@ public class GetLocationsHandler(IReadDbContext readDbContext)
             .Select(l => new LocationDto(
                 l.Id.Value,
                 l.LocationName.Value,
-                $"{l.Address.City} {l.Address.Street} {l.Address.House} {l.Address.RoomNumber}",
+                $"{l.Address.City}, {l.Address.Street}, {l.Address.House}, {l.Address.RoomNumber}",
                 l.TimeZone.Value,
-                l.CreatedAt))
+                l.CreatedAt,
+                EF.Property<bool>(l, "_isActive")))
             .ToListAsync(cancellationToken);
 
         return new GetLocationsDto(locations);

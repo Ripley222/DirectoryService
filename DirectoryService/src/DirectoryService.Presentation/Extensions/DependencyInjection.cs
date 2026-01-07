@@ -1,12 +1,14 @@
 ﻿using Serilog;
+using Shared.Framework.Extensions;
 
 namespace DirectoryService.Presentation.Extensions;
 
-public static class Inject
+public static class DependencyInjection
 {
     public static IServiceCollection AddPresentation(
         this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddCors();
         services.AddControllers();  
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
@@ -14,6 +16,24 @@ public static class Inject
         services.AddDistributedCache(configuration);
 
         return services;
+    }
+
+    public static IApplicationBuilder AddConfiguration(this WebApplication app)
+    {
+        app.UseExceptionMiddleware();
+
+        var corsOrigins = app.Configuration.GetSection("CorsURLS").Get<string[]>()
+            ?? throw new ArgumentNullException(null, "Cors URLs not found.");
+        
+        app.UseCors(policyBuilder =>
+        {
+            policyBuilder.WithOrigins(corsOrigins)
+                .AllowCredentials()
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+        
+        return app;
     }
 
     private static IServiceCollection AddDistributedCache(
