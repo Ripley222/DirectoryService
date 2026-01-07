@@ -1,21 +1,25 @@
-FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
-WORKDIR /src
-
-COPY src/DirectoryService.Domain/*.csproj src/DirectoryService.Domain/
-COPY src/DirectoryService.Application/*.csproj src/DirectoryService.Application/
-COPY src/DirectoryService.Infrastructure/*.csproj src/DirectoryService.Infrastructure/
-COPY src/DirectoryService.Presentation/*.csproj src/DirectoryService.Presentation/
-
-RUN dotnet restore src/DirectoryService.Presentation/DirectoryService.Presentation.csproj
-
-COPY . .
-
-RUN dotnet publish src/DirectoryService.Presentation/DirectoryService.Presentation.csproj -c Realese -o /app/publish
-
-FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS runtime
+﻿FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
 WORKDIR /app
+EXPOSE 9001
 
-ENV ASPNETCORE_URLS=http://+:8080
-COPY --from=build /app/publish .
-EXPOSE 8080
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
+ARG BUILD_CONFIGURATION=Release
+WORKDIR /src
+COPY ["src/DirectoryService.Presentation/DirectoryService.Presentation.csproj", "src/DirectoryService.Presentation/"]
+COPY ["src/DirectoryService.Application/DirectoryService.Application.csproj", "src/DirectoryService.Application/"]
+COPY ["src/DirectoryService.Contracts/DirectoryService.Contracts.csproj", "src/DirectoryService.Contracts/"]
+COPY ["src/DirectoryService.Domain/DirectoryService.Domain.csproj", "src/DirectoryService.Domain/"]
+COPY ["src/DirectoryService.Infrastructure/DirectoryService.Infrastructure.csproj", "src/DirectoryService.Infrastructure/"]
+RUN dotnet restore "src/DirectoryService.Presentation/DirectoryService.Presentation.csproj"
+COPY . .
+WORKDIR "/src/DirectoryService.Presentation"
+RUN dotnet build "./DirectoryService.Presentation.csproj" -c $BUILD_CONFIGURATION -o /app/build
+
+FROM build AS publish
+ARG BUILD_CONFIGURATION=Release
+RUN dotnet publish "./DirectoryService.Presentation.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "DirectoryService.Presentation.dll"]
