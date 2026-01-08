@@ -28,7 +28,7 @@ builder.Services
 
 var app = builder.Build();
 
-app.UseExceptionMiddleware();
+app.AddConfiguration();
 
 if (app.Environment.IsDevelopment())
 {

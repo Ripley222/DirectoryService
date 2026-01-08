@@ -13,7 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace DirectoryService.Application.Extensions;
 
-public static class Inject
+public static class DependencyInjection
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
@@ -31,7 +31,7 @@ public static class Inject
         services.AddScoped<GetRootsWithNChildrenDepartmentsHandler>();
         services.AddScoped<GetDescendantsDepartmentsLazyWithPaginationHandler>();
         
-        services.AddValidatorsFromAssembly(typeof(Inject).Assembly);
+        services.AddValidatorsFromAssembly(typeof(DependencyInjection).Assembly);
         
         return services;
     }
