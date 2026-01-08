@@ -22,7 +22,7 @@ public static class DependencyInjection
     {
         app.UseExceptionMiddleware();
 
-        var corsOrigins = app.Configuration.GetSection("CorsURLS").Get<string[]>()
+        var corsOrigins = app.Configuration.GetSection("CORSUrls").Get<string[]>()
             ?? throw new ArgumentNullException(null, "Cors URLs not found.");
         
         app.UseCors(policyBuilder =>
