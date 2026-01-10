@@ -15,7 +15,7 @@
 
 ## Архитектура
 
-Проект построен с использованием принципов **DDD (Domain-Driven Design)**:
+Проект построен с использованием Clear Architecture и принципов **DDD (Domain-Driven Design)**:
 
 - Четкое разделение слоев (Domain, Application, Infrastructure, API)
 - Доменные модели и бизнес-правила изолированы от инфраструктуры
