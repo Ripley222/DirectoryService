@@ -35,6 +35,7 @@
 
 ### Frontend
 - **React**
+- **Node.js**
 - **TypeScript**
 - **Axios**
 - **TanStack Query (React Query)**
