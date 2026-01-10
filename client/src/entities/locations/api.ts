@@ -47,7 +47,9 @@ export type ErrorType =
 export const locationsApi = {
     getLocations: async (request: GetLocationsRequest): Promise<LocationEntity[]> => {
         const response = await apiClient
-            .get<Envelope<{ locations: LocationEntity[] }>>("locations", {
+            .get<Envelope<{ locations: LocationEntity[] }>>(
+            "locations",
+            {
                 params: request
             });
 

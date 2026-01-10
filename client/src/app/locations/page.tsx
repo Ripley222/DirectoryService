@@ -1,31 +1,26 @@
 "use client"
 
 import Link from "next/link";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {locationsApi} from "@/entities/locations/api";
-import {LocationEntity} from "@/entities/locations/types";
+import {useQuery} from "@tanstack/react-query";
 
 const PAGE_SIZE = 20;
 
 export default function LocationsPage() {
-    const [page, setPage] = useState(1)
-    const [locations, setLocations] = useState<LocationEntity[] | null>(null);
+    const [page, setPage] = useState(1);
 
-    const [error, setError] = useState<string | null>(null);
+    const {data: locations, isPending, error} = useQuery({
+        queryFn: () => locationsApi.getLocations({page: page, pageSize: PAGE_SIZE}),
+        queryKey: ["locations"]
+    });
 
-    useEffect(() => {
-        locationsApi
-            .getLocations({page, pageSize: PAGE_SIZE})
-            .then((data) => setLocations(data))
-            .catch((error) => setError(error.message));
-    }, [page]);
-
-    if (error) {
-        return <div>Ошибка: {error}</div>;
+    if (isPending) {
+        return <div>Loading...</div>;
     }
 
-    if (!locations) {
-        return <div>Loading...</div>;
+    if (error) {
+        return <div>Ошибка: {error.message}</div>;
     }
 
     return (
