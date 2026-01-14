@@ -32,6 +32,7 @@
 - **ltree** (для хранения и обработки иерархий)
 - **FluentValidation**
 - **DDD**
+- **Redis**
 
 ### Frontend
 - **React**
