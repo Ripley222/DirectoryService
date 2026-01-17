@@ -1,14 +1,13 @@
 ﻿using CSharpFunctionalExtensions;
-using DirectoryService.Application.Extensions;
 using DirectoryService.Application.Repositories;
 using DirectoryService.Contracts.Positions.Commands;
 using DirectoryService.Domain.Entities.Ids;
 using DirectoryService.Domain.Entities.PositionEntity;
 using DirectoryService.Domain.Entities.PositionEntity.ValueObjects;
 using DirectoryService.Domain.Entities.Relationships;
-using DirectoryService.Domain.Shared;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
+using Shared.Core.Validation;
 using Shared.SharedKernel.Errors;
 using Errors = DirectoryService.Domain.Shared.Errors;
 

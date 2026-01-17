@@ -2,7 +2,6 @@
 using DirectoryService.Application.Database;
 using DirectoryService.Application.DistributedCaching;
 using DirectoryService.Contracts.Departments.DTOs;
-using DirectoryService.Domain.Shared;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
 using Shared.Core.Abstractions.Caching;
@@ -42,8 +41,7 @@ public class GetTopDepartmentsByPositionsHandler(
         return Result.Success<IEnumerable<DepartmentDto>, ErrorList>(departments);
     }
 
-    private async Task<IEnumerable<DepartmentDto>> GetDepartmentsByFilters(
-        CancellationToken cancellationToken = default)
+    private async Task<IEnumerable<DepartmentDto>> GetDepartmentsByFilters(CancellationToken cancellationToken)
     {
         var departmentsQuery = readDbContext.DepartmentsRead
             .OrderByDescending(d => d.Positions.Count)

@@ -5,17 +5,25 @@ using DirectoryService.Contracts.Locations.DTOs;
 using DirectoryService.Contracts.Locations.Queries;
 using DirectoryService.Domain.Entities.Ids;
 using DirectoryService.Domain.Entities.LocationEntity;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using Shared.Core.Validation;
 using Shared.SharedKernel.Errors;
 
 namespace DirectoryService.Application.LocationsFeatures.Get;
 
-public class GetLocationsHandler(IReadDbContext readDbContext)
+public class GetLocationsHandler(
+    IReadDbContext readDbContext,
+    IValidator<GetLocationsQuery> validator)
 {
     public async Task<Result<GetLocationsDto?, ErrorList>> Handle(
         GetLocationsQuery query,
         CancellationToken cancellationToken)
     {
+        var validationResult = await validator.ValidateAsync(query, cancellationToken);
+        if (validationResult.IsValid is false)
+            return validationResult.GetErrors();
+        
         var locationsQuery = readDbContext.LocationsRead;
 
         if (query.Request.DepartmentsIds is not null)

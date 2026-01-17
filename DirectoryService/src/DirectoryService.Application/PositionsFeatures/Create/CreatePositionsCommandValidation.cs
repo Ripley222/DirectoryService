@@ -1,9 +1,8 @@
-﻿using DirectoryService.Application.Validation;
-using DirectoryService.Contracts.Positions.Commands;
+﻿using DirectoryService.Contracts.Positions.Commands;
 using DirectoryService.Domain.Entities.PositionEntity.ValueObjects;
 using DirectoryService.Domain.Shared;
 using FluentValidation;
-using Shared.SharedKernel.Errors;
+using Shared.Core.Validation;
 using Errors = Shared.SharedKernel.Errors.Errors;
 
 namespace DirectoryService.Application.PositionsFeatures.Create;

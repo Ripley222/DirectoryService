@@ -1,6 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
 using DirectoryService.Application.DistributedCaching;
-using DirectoryService.Application.Extensions;
 using DirectoryService.Application.Queries;
 using DirectoryService.Contracts.Departments.DTOs;
 using DirectoryService.Contracts.Departments.Queries;
@@ -8,6 +7,7 @@ using DirectoryService.Domain.Entities.Ids;
 using FluentValidation;
 using Microsoft.Extensions.Caching.Distributed;
 using Shared.Core.Abstractions.Caching;
+using Shared.Core.Validation;
 using Shared.SharedKernel.Errors;
 
 namespace DirectoryService.Application.DepartmentsFeatures.GetDescendants;

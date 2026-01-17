@@ -1,16 +1,15 @@
 ﻿using CSharpFunctionalExtensions;
 using DirectoryService.Application.DistributedCaching;
-using DirectoryService.Application.Extensions;
 using DirectoryService.Application.Repositories;
 using DirectoryService.Contracts.Departments.Commands;
 using DirectoryService.Domain.Entities.DepartmentEntity;
 using DirectoryService.Domain.Entities.DepartmentEntity.ValueObjects;
 using DirectoryService.Domain.Entities.Ids;
 using DirectoryService.Domain.Entities.Relationships;
-using DirectoryService.Domain.Shared;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 using Shared.Core.Abstractions.Caching;
+using Shared.Core.Validation;
 using Shared.SharedKernel.Errors;
 using Errors = DirectoryService.Domain.Shared.Errors;
 using Path = DirectoryService.Domain.Entities.DepartmentEntity.ValueObjects.Path;

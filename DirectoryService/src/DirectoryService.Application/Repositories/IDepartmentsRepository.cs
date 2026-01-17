@@ -10,14 +10,24 @@ namespace DirectoryService.Application.Repositories;
 public interface IDepartmentsRepository
 {
     Task<Result<Guid, Error>> Add(Department department, CancellationToken cancellationToken);
+    
     Task<Result<Department, Error>> GetById(DepartmentId departmentId, CancellationToken cancellationToken);
+    
     Task<Result<Department, Error>> GetByIdWithLocations(DepartmentId departmentId, CancellationToken cancellationToken);
+    
     Task<Result<Department, Error>> GetByIdWithLock(DepartmentId departmentId, CancellationToken cancellationToken);
+    
     Task<UnitResult<Error>> CheckActiveDepartmentsByIds(IEnumerable<DepartmentId> departmentIds, CancellationToken cancellationToken);
+    
     Task<UnitResult<Error>> CheckByIdentifier(Identifier identifier, CancellationToken cancellationToken);
+    
     Task<UnitResult<Error>> IsDescendants(DepartmentId rootDepartmentId, DepartmentId candidateChildDepartmentId, CancellationToken cancellationToken);
+    
     Task<UnitResult<Error>> LockDescendants(Path parentPath, CancellationToken cancellationToken);
+    
     Task<UnitResult<Error>> UpdateDescendantDepartments(Department department, Path oldPath, CancellationToken cancellationToken);
+    
     Task<UnitResult<Error>>UpdateRelationships(DepartmentId departmentId, CancellationToken cancellationToken);
+    
     Task<int> RemoveDeactivatedDepartments(CancellationToken cancellationToken);
 }
