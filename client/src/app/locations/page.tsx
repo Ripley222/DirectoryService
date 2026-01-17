@@ -2,25 +2,24 @@
 
 import Link from "next/link";
 import {useState} from "react";
-import {locationsApi} from "@/entities/locations/api";
-import {useQuery} from "@tanstack/react-query";
-
-const PAGE_SIZE = 20;
+import {useLocations} from "@/features/locations/model/use-locations";
+import {Spinner} from "@/components/ui/spinner";
 
 export default function LocationsPage() {
     const [page, setPage] = useState(1);
 
-    const {data: locations, isPending, error} = useQuery({
-        queryFn: () => locationsApi.getLocations({page: page, pageSize: PAGE_SIZE}),
-        queryKey: ["locations"]
-    });
+    const {locations, isPending, isError, error} = useLocations(page);
 
     if (isPending) {
-        return <div>Loading...</div>;
+        return <Spinner/>;
     }
 
-    if (error) {
-        return <div>Ошибка: {error.message}</div>;
+    console.log(error)
+    console.log(locations)
+    console.log(isError)
+
+    if (isError) {
+        return <div>Ошибка: {error ? error.message : "Неизвестная ошибка"}</div>;
     }
 
     return (
