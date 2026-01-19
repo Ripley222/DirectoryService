@@ -3,6 +3,7 @@
 import Link from "next/link";
 import {QueryClientProvider} from "@tanstack/react-query";
 import {queryClient} from "@/shared/api/query-client";
+import React from "react";
 
 export default function Layout({children}: { children: React.ReactNode }) {
     return (

@@ -1,5 +1,6 @@
 import {LocationEntity} from "@/entities/locations/types";
 import {apiClient} from "@/shared/api/axios-instance";
+import {ApiError} from "@/shared/api/errors";
 
 export type CreateLocationRequest = {
     name: string;
@@ -27,31 +28,14 @@ export type Envelope<T = unknown> = {
     timeGenerated: string;
 }
 
-export type ApiError = {
-    messages: ErrorMassage[];
-    type: ErrorType;
-}
-
-export type ErrorMassage = {
-    code: string;
-    message: string;
-    invalidField?: string | null;
-}
-
-export type ErrorType =
-    | "validation"
-    | "not_found"
-    | "failure"
-    | "conflict";
-
 export const locationsApi = {
     getLocations: async (request: GetLocationsRequest): Promise<LocationEntity[]> => {
         const response = await apiClient
             .get<Envelope<{ locations: LocationEntity[] }>>(
-            "locations",
-            {
-                params: request
-            });
+                "locations",
+                {
+                    params: request
+                });
 
         return response.data.result?.locations || [];
     },

@@ -1,7 +1,7 @@
-﻿using DirectoryService.Application.Validation;
-using DirectoryService.Contracts.Locations.Commands;
+﻿using DirectoryService.Contracts.Locations.Commands;
 using DirectoryService.Domain.Entities.LocationEntity.ValueObjects;
 using FluentValidation;
+using Shared.Core.Validation;
 using TimeZone = DirectoryService.Domain.Entities.LocationEntity.ValueObjects.TimeZone;
 
 namespace DirectoryService.Application.LocationsFeatures.Create;

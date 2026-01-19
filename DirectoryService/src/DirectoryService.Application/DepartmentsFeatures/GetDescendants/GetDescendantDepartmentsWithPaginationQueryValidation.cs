@@ -1,6 +1,6 @@
-﻿using DirectoryService.Application.Validation;
-using DirectoryService.Contracts.Departments.Queries;
+﻿using DirectoryService.Contracts.Departments.Queries;
 using FluentValidation;
+using Shared.Core.Validation;
 using Shared.SharedKernel.Errors;
 
 namespace DirectoryService.Application.DepartmentsFeatures.GetDescendants;

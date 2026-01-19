@@ -1,6 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
 using DirectoryService.Application.DistributedCaching;
-using DirectoryService.Application.Extensions;
 using DirectoryService.Application.Repositories;
 using DirectoryService.Contracts.Departments.Commands;
 using DirectoryService.Domain.Entities.DepartmentEntity;
@@ -9,6 +8,7 @@ using FluentValidation;
 using Microsoft.Extensions.Logging;
 using Shared.Core.Abstractions.Caching;
 using Shared.Core.Abstractions.Database;
+using Shared.Core.Validation;
 using Shared.SharedKernel.Errors;
 
 namespace DirectoryService.Application.DepartmentsFeatures.UpdateParent;
