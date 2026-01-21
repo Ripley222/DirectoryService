@@ -13,7 +13,7 @@ public class CacheService(IDistributedCache cache) : ICacheService
         string key,
         DistributedCacheEntryOptions options,
         Func<Task<T>> factory,
-        CancellationToken cancellationToken = default) where T : class
+        CancellationToken cancellationToken) where T : class
     {
         var cachedValue = await GetAsync<T>(key, cancellationToken);
         if (cachedValue is null)
@@ -27,7 +27,7 @@ public class CacheService(IDistributedCache cache) : ICacheService
         return cachedValue;
     }
 
-    public async Task<T?> GetAsync<T>(string key, CancellationToken cancellationToken = default) where T : class
+    public async Task<T?> GetAsync<T>(string key, CancellationToken cancellationToken) where T : class
     {
         var cachedValue = await cache.GetStringAsync(key, cancellationToken);
         
@@ -40,7 +40,7 @@ public class CacheService(IDistributedCache cache) : ICacheService
         string key, 
         T value,
         DistributedCacheEntryOptions options, 
-        CancellationToken cancellationToken = default) where T : class
+        CancellationToken cancellationToken) where T : class
     {
         var serializedValue = JsonSerializer.Serialize(value);
         
@@ -49,14 +49,14 @@ public class CacheService(IDistributedCache cache) : ICacheService
         _cacheKeys.TryAdd(key, true);
     }
 
-    public async Task RemoveAsync(string key, CancellationToken cancellationToken = default)
+    public async Task RemoveAsync(string key, CancellationToken cancellationToken)
     {
         await cache.RemoveAsync(key, cancellationToken);
         
         _cacheKeys.TryRemove(key, out _);
     }
 
-    public Task RemoveByPrefixAsync(string prefixKey, CancellationToken cancellationToken = default)
+    public Task RemoveByPrefixAsync(string prefixKey, CancellationToken cancellationToken)
     {
         var tasks = _cacheKeys
             .Keys

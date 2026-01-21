@@ -23,7 +23,7 @@ public class GetRootsWithNChildrenDepartmentsHandler(
     
     public async Task<Result<IEnumerable<DepartmentWithChildrenDto>, ErrorList>> Handle(
         GetNChildDepartmentsQuery query,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken)
     {
         var filters = $"{nameof(query.Page)}={query.Page}&{nameof(query.Size)}={query.Size}&{nameof(query.Prefetch)}={query.Prefetch}";
         

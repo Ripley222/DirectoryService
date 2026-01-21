@@ -9,10 +9,10 @@ namespace DirectoryService.Infrastructure.Queries;
 public class DepartmentsQueries(DirectoryServiceDbContext dbContext) : IDepartmentsQueries
 {
     public async Task<IReadOnlyList<DepartmentWithChildrenDto>> GetRootsWithNChildrenWithPagination(
-        int page, 
+        int page,
         int size,
-        int prefetch, 
-        CancellationToken cancellationToken = default)
+        int prefetch,
+        CancellationToken cancellationToken)
     {
         var connection = dbContext.Database.GetDbConnection();
 
@@ -57,17 +57,19 @@ public class DepartmentsQueries(DirectoryServiceDbContext dbContext) : IDepartme
                                          LIMIT @child_limit) c
             """;
 
-        var departmentsRaws = (await connection.QueryAsync<DepartmentWithChildrenDto>(sql, new
-        {
-            offset = (page - 1) * size,
-            root_limit = size,
-            child_limit = prefetch
-        })).ToList();
+        var departmentsRaws = (
+            await connection.QueryAsync<DepartmentWithChildrenDto>(
+                sql,
+                new
+                {
+                    offset = (page - 1) * size,
+                    root_limit = size,
+                    child_limit = prefetch
+                })).ToList();
 
         var departmentsDictionary = departmentsRaws.ToDictionary(d => d.Id);
-        
+
         var departmentsRoots = new List<DepartmentWithChildrenDto>();
-        
         foreach (var row in departmentsRaws)
         {
             if (row.ParentId.HasValue && departmentsDictionary.TryGetValue(row.ParentId.Value, out var parent))
@@ -87,7 +89,7 @@ public class DepartmentsQueries(DirectoryServiceDbContext dbContext) : IDepartme
         DepartmentId departmentId,
         int page,
         int size,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken)
     {
         var connection = dbContext.Database.GetDbConnection();
 
@@ -108,13 +110,15 @@ public class DepartmentsQueries(DirectoryServiceDbContext dbContext) : IDepartme
             OFFSET @offset LIMIT @limit
             """;
 
-        var departmentsRaws = (await connection.QueryAsync<DescendantsDepartmentDto>(sql, new
-        {
-            offset = (page - 1) * size,
-            parent_id = departmentId.Value,
-            limit = size
-        })).ToList();
-        
+        var departmentsRaws = (await connection.QueryAsync<DescendantsDepartmentDto>(
+            sql,
+            new
+            {
+                offset = (page - 1) * size,
+                parent_id = departmentId.Value,
+                limit = size
+            })).ToList();
+
         return departmentsRaws;
     }
 }

@@ -1,7 +1,10 @@
-﻿namespace DirectoryService.Infrastructure.Options;
+﻿using DirectoryService.Application.DistributedCaching;
 
-public class CacheOptions() 
+namespace DirectoryService.Infrastructure.Options;
+
+public class CacheOptions : ICacheOptions
 {
     public const string SECTION_NAME = "CachingData";
+    
     public int TimeToClearInMinutes { get; init; }
 }

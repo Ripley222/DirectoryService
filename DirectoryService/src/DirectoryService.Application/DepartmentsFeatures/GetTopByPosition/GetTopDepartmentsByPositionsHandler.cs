@@ -22,8 +22,7 @@ public class GetTopDepartmentsByPositionsHandler(
 
     private const int TAKE_NUMBER_OF_DEPARTMENTS = 5;
 
-    public async Task<Result<IEnumerable<DepartmentDto>, ErrorList>> Handle(
-        CancellationToken cancellationToken = default)
+    public async Task<Result<IEnumerable<DepartmentDto>, ErrorList>> Handle(CancellationToken cancellationToken)
     {
         var filters = $"filters={nameof(TAKE_NUMBER_OF_DEPARTMENTS)}={TAKE_NUMBER_OF_DEPARTMENTS}&OrderBy=Desc";
 

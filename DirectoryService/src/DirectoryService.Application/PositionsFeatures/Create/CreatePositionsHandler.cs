@@ -21,7 +21,7 @@ public class CreatePositionsHandler(
 {
     public async Task<Result<Guid, ErrorList>> Handle(
         CreatePositionsCommand command,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken)
     {
         //валидация входных параметров
         var validationResult = await validator.ValidateAsync(command, cancellationToken);

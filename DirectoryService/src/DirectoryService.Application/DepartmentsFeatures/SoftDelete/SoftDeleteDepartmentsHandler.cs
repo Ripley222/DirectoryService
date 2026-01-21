@@ -21,8 +21,8 @@ public class SoftDeleteDepartmentsHandler(
     ILogger<SoftDeleteDepartmentsHandler> logger)
 {
     public async Task<Result<Guid, ErrorList>> Handle(
-        DeleteDepartmentsCommand command,
-        CancellationToken cancellationToken = default)
+        DeleteDepartmentsCommand command, 
+        CancellationToken cancellationToken)
     {
         var validationResult = await validator.ValidateAsync(command, cancellationToken);
         if (validationResult.IsValid is false)
