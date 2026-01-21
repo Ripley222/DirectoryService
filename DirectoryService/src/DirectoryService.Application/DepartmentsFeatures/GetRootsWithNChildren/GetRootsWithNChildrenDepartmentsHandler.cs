@@ -43,7 +43,7 @@ public class GetRootsWithNChildrenDepartmentsHandler(
 
     private async Task<IEnumerable<DepartmentWithChildrenDto>> GetDepartmentsByFilters(
         GetNChildDepartmentsQuery query,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken)
     {
         var departments = await departmentsQueries
             .GetRootsWithNChildrenWithPagination(
