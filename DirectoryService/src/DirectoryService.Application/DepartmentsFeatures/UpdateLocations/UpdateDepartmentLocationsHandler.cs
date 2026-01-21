@@ -22,7 +22,7 @@ public class UpdateDepartmentLocationsHandler(
 {
     public async Task<Result<Guid, ErrorList>> Handle(
         UpdateDepartmentLocationsCommand command,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken)
     {
         //валидация входных параметров
         var validationResult = await validator.ValidateAsync(command, cancellationToken);

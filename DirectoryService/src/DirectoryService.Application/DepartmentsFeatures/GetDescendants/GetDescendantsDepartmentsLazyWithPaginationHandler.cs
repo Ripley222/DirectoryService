@@ -25,7 +25,7 @@ public class GetDescendantsDepartmentsLazyWithPaginationHandler(
     
     public async Task<Result<IEnumerable<DescendantsDepartmentDto>, ErrorList>> Handle(
         GetDescendantDepartmentsWithPaginationQuery query,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken)
     {
         var validationResult = await validator.ValidateAsync(query, cancellationToken);
         if (validationResult.IsValid is false)

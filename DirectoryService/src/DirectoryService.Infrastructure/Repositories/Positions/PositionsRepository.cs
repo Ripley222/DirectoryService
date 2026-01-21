@@ -2,7 +2,6 @@
 using DirectoryService.Application.Repositories;
 using DirectoryService.Domain.Entities.PositionEntity;
 using DirectoryService.Domain.Entities.PositionEntity.ValueObjects;
-using DirectoryService.Domain.Shared;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Shared.SharedKernel.Errors;
@@ -15,7 +14,7 @@ public class PositionsRepository(
     ILogger<PositionsRepository> logger) : IPositionsRepository
 {
     public async Task<Result<Guid, Error>> Add(
-        Position position, CancellationToken cancellationToken = default)
+        Position position, CancellationToken cancellationToken)
     {
         try
         {
@@ -34,7 +33,7 @@ public class PositionsRepository(
     }
 
     public async Task<UnitResult<Error>> CheckActivePositionsByName(
-        PositionName name, CancellationToken cancellationToken = default)
+        PositionName name, CancellationToken cancellationToken)
     {
         var result = await dbContext.Positions
             .AnyAsync(p => EF.Property<bool>(p, "_isActive") 

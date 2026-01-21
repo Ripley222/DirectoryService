@@ -20,7 +20,7 @@ public class CreateLocationsHandler(
 {
     public async Task<Result<Guid, ErrorList>> Handle(
         CreateLocationsCommand command,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken)
     {
         //валидация входных параметров
         var validationResult = await validator.ValidateAsync(command, cancellationToken);

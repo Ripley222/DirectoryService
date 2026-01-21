@@ -12,6 +12,7 @@ using DirectoryService.Infrastructure.Repositories.Locations;
 using DirectoryService.Infrastructure.Repositories.Positions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Shared.Core.Abstractions.Caching;
 using Shared.Core.Abstractions.Database;
 
@@ -35,15 +36,17 @@ public static class DependencyInjection
         services.AddScoped<ITransactionManager, TransactionManager>();
         
         services.AddScoped<ICacheService, CacheService>();
-        services.AddSingleton<ICacheOptions, CacheOptionsAdapter>();
 
-        services.AddHostedService<DepartmentsCleanerBackgroundService>();
-
-        services.Configure<DepartmentsCleanerOptions>(
-            configuration.GetSection(DepartmentsCleanerOptions.SectionName));
+        services.Configure<DepartmentsCleanerOptions>(configuration.GetSection(DepartmentsCleanerOptions.SectionName));
         
-        services.Configure<CacheOptions>(
-            configuration.GetSection(CacheOptions.SECTION_NAME));
+        services.Configure<CacheOptions>(configuration.GetSection(CacheOptions.SECTION_NAME));
+        services.AddSingleton<ICacheOptions, CacheOptions>(sp =>
+        {
+            var cacheOptions = sp.GetRequiredService<IOptions<CacheOptions>>();
+            return cacheOptions.Value;
+        });
+        
+        services.AddHostedService<DepartmentsCleanerBackgroundService>();
         
         return services;
     }
