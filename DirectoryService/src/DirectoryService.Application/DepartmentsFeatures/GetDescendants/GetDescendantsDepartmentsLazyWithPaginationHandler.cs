@@ -46,7 +46,7 @@ public class GetDescendantsDepartmentsLazyWithPaginationHandler(
 
     private async Task<IEnumerable<DescendantsDepartmentDto>> GetDepartmentsByFilters(
         GetDescendantDepartmentsWithPaginationQuery query,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken)
     {
         var parentId = DepartmentId.Create(query.DepartmentId);
         
